@@ -1,0 +1,184 @@
+.profile {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    border: 1px solid #D5D5D7; 
+
+    margin-top: 66px;
+}
+
+.profileInfoLogout {
+    width: 100%;
+    height: auto;
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    padding-top: 28px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.logoutBtn {
+    display: flex;
+    width: 70px;
+    height: 23px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    border: 1px solid #ACABB0;
+    background: #FFF;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    font-size: 1em;
+
+}
+
+.profileInfo{
+    color: #492228;
+    font-family: NanumSquare;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 12px; /* 48% */
+    letter-spacing: -0.6px;
+}
+
+
+
+.photoArti{
+    display: flex;
+    width: 100%;
+    height: 150px;
+    margin-top: 10px;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+
+.photo {
+    position: absolute;
+    width: 127px;
+    height: 127px;
+    flex-shrink: 0;
+    border-radius: 76.5px;
+    
+}
+.photoAlt{
+    position: absolute;
+    width: 20.093px;
+    height: 20.093px;
+    flex-shrink: 0;
+    left: 60%;
+    top: 75%;
+    z-index: 1;
+    background-color: #D5D5D7;
+    border-radius: 20%;
+
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 20px;
+
+}
+
+.nicknameArti {
+    display: flex;
+    border-radius: 10px;
+    border: 1px solid #ACABB0;
+    background: #FFF;
+    width: 350px;
+    height: 32px;
+
+    justify-content: space-between;
+}
+.nickDiv {
+    width: 310px;
+    display: flex;
+}
+.nickText {
+    margin-left: 15px;
+    width: 275px;
+}
+.nicknameIcon{
+    margin-left: 8px;
+    width: 27.588px;
+    height: 28px;
+    flex-shrink: 0;
+}
+.nicknameArtiIcon{
+    width: 18.276px;
+    height: 18.25px;
+    flex-shrink: 0;
+    margin-top: 6px;
+    margin-right: 10px;
+}
+.emailArti{
+    display: flex;
+    border-radius: 10px;
+    border: 1px solid #ACABB0;
+    background: #FFF;
+    width: 350px;
+    height: 32px;
+    margin-top: 15px;
+
+}
+.emailText{
+    margin-left: 17px;
+    width: 275px;
+}
+
+.ulList{
+    margin-top: 70px;
+}
+
+.flexLine {
+    width: 100%;
+    height: 40px;
+    flex-shrink: 0;
+    border: 1px solid #D5D5D7;
+    background: #FFF;
+    justify-content: space-between;
+    display:flex;
+    align-items: center;
+
+
+}
+.imgTitleBox {
+    display: flex;
+    align-items: center;
+    width: 100px;
+    white-space: nowrap;
+    margin-left: 15px;
+
+
+}
+
+
+.img {
+    width: 16px;
+    height: 16.5px;
+    flex-shrink: 0;
+}
+
+.imgV {
+    width: 16px;
+    height: 16.5px;
+    flex-shrink: 0;
+    margin-right: 20px;
+}
+
+.text {
+    color: #492228;
+    font-family: NanumSquare;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 12px; /* 54.545% */
+    letter-spacing: -0.6px;
+    margin-left: 15px;
+
+}
