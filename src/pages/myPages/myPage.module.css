@@ -1,11 +1,11 @@
 .profile {
     display: block;
     width: 100%;
-    height: 100%;
     background-color: white;
-    border: 1px solid #D5D5D7; 
-
-    margin-top: 66px;
+    border-top: 1px solid #D5D5D7;
+    border-bottom: 1px solid #D5D5D7; 
+    height: 340px;
+    margin-top: 25px;
 }
 
 .profileInfoLogout {
@@ -43,8 +43,6 @@
     line-height: 12px; /* 48% */
     letter-spacing: -0.6px;
 }
-
-
 
 .photoArti{
     display: flex;
@@ -110,11 +108,11 @@
     flex-shrink: 0;
 }
 .nicknameArtiIcon{
-    width: 18.276px;
-    height: 18.25px;
+    width: 15.276px;
+    height: 15.25px;
     flex-shrink: 0;
-    margin-top: 6px;
-    margin-right: 10px;
+    margin-top: 7px;
+    margin-right: 15px;
 }
 .emailArti{
     display: flex;
@@ -132,7 +130,8 @@
 }
 
 .ulList{
-    margin-top: 70px;
+    width: 100%;
+    margin-top: 30px;
 }
 
 .flexLine {
@@ -152,7 +151,7 @@
     align-items: center;
     width: 100px;
     white-space: nowrap;
-    margin-left: 15px;
+    margin-left: 40px;
 
 
 }
@@ -162,13 +161,14 @@
     width: 16px;
     height: 16.5px;
     flex-shrink: 0;
+
 }
 
 .imgV {
     width: 16px;
     height: 16.5px;
     flex-shrink: 0;
-    margin-right: 20px;
+    margin-right: 40px;
 }
 
 .text {

@@ -1,37 +1,56 @@
 import style from "./navBar.module.css"
-import ReviewData from '../../asset/img/img_review.png';
-import CafeData from '../../asset/img/img_cafe.png';
-import Home from '../../asset/img/img_home.png';
-import Bookmark from '../../asset/img/img_bookmark.png';
-import MyPage from '../../asset/img/img_mypage.png';
+import { useNavigate } from "react-router-dom";
+import { ReactComponent as Home } from "../../asset/icon/icon_home.svg"
+import { ReactComponent as CafeData } from "../../asset/icon/icon_cafe.svg"
+import { ReactComponent as Bookmark } from "../../asset/icon/icon_bookmark.svg"
+import { ReactComponent as MyPage } from "../../asset/icon/icon_myPage.svg"
 
-export default function(){
+
+
+const navList = [
+    {id:1, src: Home, title:"홈", url:"/"},
+    {id:2, src: CafeData, title:"카페둘러보기", url:"/CafeList"},
+    {id:3, src: Bookmark, title:"북마크", url:"/Bookmark"},
+    {id:4, src: MyPage, title:"마이페이지", url:"/MyPage"}
+]
+
+function NavBar({selectedId, setSelectedId}){
     return (
         <>
             <nav className={style.wrapper}>
-                {navList.map((data)=>(<NavList key={data.id} props={data}/>))}
+                {navList.map((data)=>(
+                    <NavList
+                        key={data.id}
+                        props={data}
+                        setSelectedId={setSelectedId}
+                        isSelected = {selectedId === data.id}
+                    />
+                ))}
             </nav>
         </>
     )
 }
+export default NavBar;
 
-const navList = [
-    {id:1, src: ReviewData, title:"리뷰작성"}, 
-    {id:2, src: CafeData, title:"카페둘러보기"}, 
-    {id:3, src: Home, title:"홈"}, 
-    {id:4, src: Bookmark, title:"북마크"}, 
-    {id:5, src: MyPage, title:"마이페이지"}
+function NavList({props, setSelectedId, isSelected}){
+    const navigate = useNavigate();
 
-]
-
-function NavList({props}){
-    console.log(props.src)
+    const color = isSelected ? "#492228" : "#ACABB0";
+    const func = () => {
+        setSelectedId(props.id);
+        if(props.id === 2){
+            navigate(props.url, {state: {type: 5}});
+        } else {
+            navigate(props.url);
+        }
+    }
+    
     return (
         <>
-            <a className={style.navA}>
-            <img src={props.src} className={style.img}></img>
-            <span className={style.text}>{props.title}</span>
-            </a>
+            <div className={style.navA} onClick={func}>
+                <props.src className={style.img} fill={color}/>
+                <span className={style.text} style={{color: color}}>{props.title}</span>
+            </div>
         </>
     )
 }
