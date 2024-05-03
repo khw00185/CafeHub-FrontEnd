@@ -4,6 +4,7 @@
     height: 100%;
     width: 100%;
     filter: blur(1.5px);
+    -webkit-user-drag: none;
 }
 .ulContainer{
     flex-direction: column;
@@ -15,6 +16,7 @@
  
 }
 .flexLine {
+    cursor: pointer;
     position: relative;
     height: 24%;
     width: 100%;

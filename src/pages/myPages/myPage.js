@@ -24,7 +24,7 @@ function MyPage(){
                             <span className={style.profileInfo}>프로필 정보</span>
                             <button type="button" className={style.logoutBtn}>
                                 <span>로그아웃</span>
-                                <img src={Login}></img>
+                                <img src={Login} className={style.logout}></img>
                             </button>
                         </article>
 

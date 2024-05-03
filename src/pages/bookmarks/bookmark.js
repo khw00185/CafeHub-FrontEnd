@@ -8,6 +8,7 @@ import { ReactComponent as Icon_bookmark } from "../../asset/icon/icon_bookmark.
 import { ReactComponent as Icon_like } from "../../asset/icon/icon_like.svg"
 import { ReactComponent as Icon_notLike } from "../../asset/icon/icon_notLike.svg"
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 function Bookmark(){
@@ -60,8 +61,13 @@ function BookmarkList({props}){
             </div>
         )
     }
-    return (
-        <li className={style.flexLine}>
+    const navigate = useNavigate();
+
+    const func = () => {
+        navigate('/CafeDetail')
+    }
+    return (  
+        <div className={style.flexLine} onClick={func}>
             <img className={style.cafeImg} src={props.cafePhotoUrl}></img>
             <div className={style.CafeTextContainer}>
                 <div>
@@ -76,6 +82,6 @@ function BookmarkList({props}){
                     {likeColor()}
                 </div>
             </div>
-        </li>
+        </div>
     )
 }

@@ -9,6 +9,9 @@ import Title from "./pages/fixed/title";
 import { useState } from 'react';
 import CafeDetail from './pages/cafeDetails/cafeDetail';
 import WriteReview from './pages/WriteReviews/writeReview';
+import Menu from './pages/menus/menu';
+import Review from './pages/reviews/review';
+import Comment from './pages/comments/comment';
 
 
 
@@ -26,7 +29,13 @@ function App() {
             <Route path='/Bookmark' element={<Bookmark/>} />
             <Route path='/CafeList' element={<CafeList/>}/>
             <Route path='/CafeDetail' element={<CafeDetail/>}/>
+            <Route path='/Menu' element={<Menu/>}/>
+            <Route path='/Review' element={<Review/>}/>
             <Route path='/WriteReview' element={<WriteReview/>}/>
+            <Route path='/Comment' element={<Comment/>}/>
+
+
+
           </Routes>
           <NavBar selectedId={selectedId} setSelectedId={setSelectedId}/>
       </BrowserRouter>

@@ -41,7 +41,6 @@ function Imglist({props}){
     }
     
     return (
-        
         <li className={style.flexLine} onClick={handleClickCafeTheme}>
         <img src={props.src} className={style.img}></img>
         <p><span className={style.text}>{props.title}</span>

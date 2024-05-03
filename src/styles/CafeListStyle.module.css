@@ -39,6 +39,7 @@
     height: 91px;
 }
 .flexLine {
+    cursor: pointer;
     display: flex;
     width: 480px;
     height: 105px;
@@ -51,6 +52,7 @@
 }
 
 .cafeImg{
+    -webkit-user-drag: none;
     width: 70px;
     height: 70px;
     border-radius: 20px;
@@ -93,6 +95,7 @@
     margin-left: -2px;
 }
 .img_star{
+    -webkit-user-drag: none;
     width: 17px;
     height: 17px;
 }
