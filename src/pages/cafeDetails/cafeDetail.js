@@ -140,7 +140,7 @@ function BestReviewList(props){
     
     const changeReviewLikeColor = () => {
         setReviewLike(!reviewLike);
-        setReviewLikeCnt(reviewLike ? reviewLikeCnt-1 : reviewLikeCnt+1) //이거 왜 반대로 해야 원하는 동작이 이루어지지..?
+        setReviewLikeCnt(!reviewLike ? reviewLikeCnt+1 : reviewLikeCnt-1)
     }
     const CheckReviewLike = () => {
         const Like = reviewLike ? Icon_like : Icon_notLike;

@@ -67,10 +67,10 @@ function BookmarkList({props}){
         navigate('/CafeDetail')
     }
     return (  
-        <div className={style.flexLine} onClick={func}>
-            <img className={style.cafeImg} src={props.cafePhotoUrl}></img>
+        <div className={style.flexLine}>
+            <img className={style.cafeImg} src={props.cafePhotoUrl} style={{cursor:'pointer'}} onClick={func}></img>
             <div className={style.CafeTextContainer}>
-                <div>
+                <div  onClick={func} style={{cursor:'pointer'}}>
                     <span className={style.cafeTitle}>{props.cafeName}</span>
                     <span className={style.cafeTheme}>{props.cafeTheme}</span>
                     <div className={style.starRatingReview}>
@@ -78,7 +78,7 @@ function BookmarkList({props}){
                         <span className={style.cafeRating}>{props.cafeRating} ({props.cafeReviewNum})</span>
                     </div>
                 </div>
-                <div className={styles.likeContainer}>
+                <div className={styles.likeContainer} style={{cursor:'pointer'}}>
                     {likeColor()}
                 </div>
             </div>

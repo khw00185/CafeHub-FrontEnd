@@ -50,7 +50,7 @@ function CafeListList({props}){
     }
 
     return (
-        <div className={style.flexLine} onClick={func}>
+        <div className={style.flexLine} onClick={func} style={{cursor:'pointer'}}>
                 <img className={style.cafeImg} src={props.cafePhotoUrl}></img>
                 <div className={style.CafeTextContainer}>
                     <div>
