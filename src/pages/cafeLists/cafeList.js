@@ -6,11 +6,25 @@ import img_star from "../../asset/img/img_star.png"
 import { ReactComponent as Icon_cafe } from "../../asset/icon/icon_cafe.svg"
 import SortedType from "../../components/sortedType"
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from 'axios';
+import { useState } from "react";
 
 
 function CafeList() {
     const location = useLocation();
     const type = location.state.type;
+
+    const [dataList, setDataList] = useState([]);
+    useEffect(() => {
+        axios.get('http://localhost:8080/')
+            .then(response => {
+                setDataList(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching data: ', error);
+            });
+    }, []);
+
 
     const findTheme = cafeThemeDataList.find(item => item.themeId === type)
 
@@ -30,17 +44,6 @@ function CafeList() {
 }
 
 export default CafeList;
-
-const dataList = [
-    {cafeId:1, cafePhotoUrl:img_deerSweetLab, cafeName:"디어스윗랩", cafeRating:"4.4", cafeTheme:"디저트", cafeReviewNum:31},
-    {cafeId:2, cafePhotoUrl:img_deerSweetLab, cafeName:"디어스윗랩", cafeRating:"4.4", cafeTheme:"디저트", cafeReviewNum:32},
-    {cafeId:3, cafePhotoUrl:img_deerSweetLab, cafeName:"디어스윗랩", cafeRating:"4.4", cafeTheme:"디저트", cafeReviewNum:33},
-    {cafeId:4, cafePhotoUrl:img_deerSweetLab, cafeName:"디어스윗랩", cafeRating:"4.4", cafeTheme:"디저트", cafeReviewNum:34},
-    {cafeId:5, cafePhotoUrl:img_deerSweetLab, cafeName:"디어스윗랩", cafeRating:"4.4", cafeTheme:"디저트", cafeReviewNum:31},
-    {cafeId:6, cafePhotoUrl:img_deerSweetLab, cafeName:"디어스윗랩", cafeRating:"4.4", cafeTheme:"디저트", cafeReviewNum:32},
-    {cafeId:7, cafePhotoUrl:img_deerSweetLab, cafeName:"디어스윗랩", cafeRating:"4.4", cafeTheme:"디저트", cafeReviewNum:33},
-    {cafeId:8, cafePhotoUrl:img_deerSweetLab, cafeName:"디어스윗랩", cafeRating:"4.4", cafeTheme:"디저트", cafeReviewNum:34}
-    ];
 
 function CafeListList({props}){
     const navigate = useNavigate();

@@ -10,7 +10,6 @@ import { ReactComponent as Icon_notLike } from "../../asset/icon/icon_notLike.sv
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 function Bookmark(){
     return (
         <>
