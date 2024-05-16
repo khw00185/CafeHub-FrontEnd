@@ -12,6 +12,7 @@ import WriteReview from './pages/WriteReviews/writeReview';
 import Menu from './pages/menus/menu';
 import Review from './pages/reviews/review';
 import Comment from './pages/comments/comment';
+import ScrollUp from './components/scrollUp';
 
 
 
@@ -21,24 +22,20 @@ function App() {
 
   return (
     <div className="App">
-      <BrowserRouter>
+      
         <Title setSelectedId={setSelectedId}/>
           <Routes>
             <Route path='/' element={<MainPage/>}/>
             <Route path='/MyPage' element={<MyPage/>}/>
             <Route path='/Bookmark' element={<Bookmark/>} />
-            <Route path='/CafeList' element={<CafeList/>}/>
+            <Route path='/CafeList' element={<CafeList />}/>
             <Route path='/CafeDetail' element={<CafeDetail/>}/>
             <Route path='/Menu' element={<Menu/>}/>
             <Route path='/Review' element={<Review/>}/>
             <Route path='/WriteReview' element={<WriteReview/>}/>
             <Route path='/Comment' element={<Comment/>}/>
-
-
-
           </Routes>
           <NavBar selectedId={selectedId} setSelectedId={setSelectedId}/>
-      </BrowserRouter>
     </div>
   );
 }

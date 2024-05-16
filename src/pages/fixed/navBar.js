@@ -39,7 +39,7 @@ function NavList({props, setSelectedId, isSelected}){
     const func = () => {
         setSelectedId(props.id);
         if(props.id === 2){
-            navigate(props.url, {state: {type: 5}});
+            navigate(props.url, {state: {type: "All"}});
         } else {
             navigate(props.url);
         }

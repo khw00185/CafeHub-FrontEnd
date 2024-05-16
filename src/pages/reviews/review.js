@@ -7,6 +7,7 @@ function Review(){
             <div className={styled.page_wrapper}>
                 <main className={styled.main_container}>
                     
+                    
                 </main>
             </div>
         </>

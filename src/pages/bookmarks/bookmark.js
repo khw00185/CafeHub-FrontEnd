@@ -7,10 +7,30 @@ import img_star from "../../asset/img/img_star.png"
 import { ReactComponent as Icon_bookmark } from "../../asset/icon/icon_bookmark.svg"
 import { ReactComponent as Icon_like } from "../../asset/icon/icon_like.svg"
 import { ReactComponent as Icon_notLike } from "../../asset/icon/icon_notLike.svg"
-import { useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Loading from "../../components/loading";
+import axios from "axios";
 
 function Bookmark(){
+    
+    const [dataList, setDataList] = useState([]);
+
+
+    const pageLoad = () => {        
+        axios.get(`http://localhost:8080/bookmark`)
+        .then(response => {
+            setDataList(response.data.cafeList);
+        })
+        .catch(error => {
+            console.error('Error fetching data: ', error);
+        });
+    }
+
+    useEffect(()=>{
+        pageLoad();
+    }, [])
+
     return (
         <>
             <div className={styled.page_wrapper}>
@@ -23,9 +43,13 @@ function Bookmark(){
                         </article>
                     </article>
 
-                    <ul>
-                        {dataList.map((data) => (<BookmarkList key={data.cafeId} props={data}/>))}
-                    </ul>
+                    {dataList?.length !== 0 ?
+                    <>
+                        <ul>
+                            {dataList?.map((data, index) => (<BookmarkList key={index} props={data}/>))}
+                        </ul>
+                     </> : <Loading />}
+
                 </main>
             </div>
         </>
@@ -34,42 +58,49 @@ function Bookmark(){
 export default Bookmark;
 
 
-const dataList = [
-    {cafeId:1, cafePhotoUrl:img_deerSweetLab, cafeName:"디어스윗랩", cafeRating:"4.4", cafeTheme:"디저트", cafeReviewNum:31, like:true},
-    {cafeId:2, cafePhotoUrl:img_deerSweetLab, cafeName:"디어스윗랩", cafeRating:"4.4", cafeTheme:"디저트", cafeReviewNum:32, like:true},
-    {cafeId:3, cafePhotoUrl:img_deerSweetLab, cafeName:"디어스윗랩", cafeRating:"4.4", cafeTheme:"디저트", cafeReviewNum:33, like:true},
-    {cafeId:4, cafePhotoUrl:img_deerSweetLab, cafeName:"디어스윗랩", cafeRating:"4.4", cafeTheme:"디저트", cafeReviewNum:34, like:true},
-    {cafeId:5, cafePhotoUrl:img_deerSweetLab, cafeName:"디어스윗랩", cafeRating:"4.4", cafeTheme:"디저트", cafeReviewNum:31, like:true},
-    {cafeId:6, cafePhotoUrl:img_deerSweetLab, cafeName:"디어스윗랩", cafeRating:"4.4", cafeTheme:"디저트", cafeReviewNum:32, like:true},
-    {cafeId:7, cafePhotoUrl:img_deerSweetLab, cafeName:"디어스윗랩", cafeRating:"4.4", cafeTheme:"디저트", cafeReviewNum:33, like:true},
-    {cafeId:8, cafePhotoUrl:img_deerSweetLab, cafeName:"디어스윗랩", cafeRating:"4.4", cafeTheme:"디저트", cafeReviewNum:34, like:true}
-    ];
 
 function BookmarkList({props}){
-    const [like, setLike] = useState(props.like);
+    const [like, setLike] = useState(true);
+    const [initialized, setInitialized] = useState(false);
+    useEffect(() => {
+        if (initialized) {
+        const data = {
+            cafeId: props.cafeId,
+            bookmarkChecked: like
+        };
+
+        console.log("Sending data to server:", data); // 콘솔에 데이터를 출력하여 확인
+        axios.post(`http://localhost:8080/bookmark`, data)
+            .then(res => {
+                console.log(res);
+            })
+            .catch(error => {
+                console.error('Error updating data: ', error);
+            });
+        } else {
+            setInitialized(true);
+        }
+    }, [like]);
+        
 
     const changeColor = () => {
         setLike(!like);
     }
 
-    const likeColor =() => {
-        const Like = like ? Icon_like : Icon_notLike;
-        return (
-            <div className={style.like} onClick={changeColor}>
-                <Like fill={like ? "#FF4F4F" : "#FFF"} />
-            </div>
-        )
-    }
-    const navigate = useNavigate();
+    const LikeIcon = () => {
+        return like ? <Icon_like fill="#FF4F4F" /> : <Icon_notLike fill="#FFF" />;
+    };
 
-    const func = () => {
-        navigate('/CafeDetail')
-    }
+    const navigate = useNavigate();
+    const handleNavigation = () => {
+        navigate('/CafeDetail');
+    };
+
     return (  
         <div className={style.flexLine}>
-            <img className={style.cafeImg} src={props.cafePhotoUrl} style={{cursor:'pointer'}} onClick={func}></img>
+            <img className={style.cafeImg} src={props.cafePhotoUrl} style={{cursor:'pointer'}} onClick={handleNavigation}/>
             <div className={style.CafeTextContainer}>
-                <div  onClick={func} style={{cursor:'pointer'}}>
+                <div  onClick={handleNavigation} style={{cursor:'pointer'}}>
                     <span className={style.cafeTitle}>{props.cafeName}</span>
                     <span className={style.cafeTheme}>{props.cafeTheme}</span>
                     <div className={style.starRatingReview}>
@@ -77,8 +108,8 @@ function BookmarkList({props}){
                         <span className={style.cafeRating}>{props.cafeRating} ({props.cafeReviewNum})</span>
                     </div>
                 </div>
-                <div className={styles.likeContainer} style={{cursor:'pointer'}}>
-                    {likeColor()}
+                <div className={styles.likeContainer} style={{ cursor: 'pointer' }} onClick={changeColor}>
+                    <LikeIcon />
                 </div>
             </div>
         </div>

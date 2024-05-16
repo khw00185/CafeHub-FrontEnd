@@ -7,36 +7,80 @@ import { ReactComponent as Icon_cafe } from "../../asset/icon/icon_cafe.svg"
 import SortedType from "../../components/sortedType"
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from 'axios';
-import { useState } from "react";
+import { useEffect, useState, useMemo } from "react";
+import { useInView } from "react-intersection-observer"
+import Loading from "../../components/loading";
 
 
 function CafeList() {
     const location = useLocation();
     const type = location.state.type;
+    const [sortedType, setSortedType] = useState('name');
+    const [currentPage, setCurrentPage] = useState(0);
+    
+    const [ref, inView] = useInView();
 
     const [dataList, setDataList] = useState([]);
-    useEffect(() => {
-        axios.get('http://localhost:8080/')
-            .then(response => {
-                setDataList(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching data: ', error);
-            });
-    }, []);
+    const [isLast, setIsLast] = useState(false);
+    
 
 
-    const findTheme = cafeThemeDataList.find(item => item.themeId === type)
+    const pageLoad = (currentPage) => {        
+        axios.get(`http://localhost:8080/cafeList/${type}/${sortedType}/${currentPage}`)
+        .then(response => {
+            setIsLast(response.data.isLast);
+            if (currentPage === 0) {
+                scrollToTop();
+                setDataList(response.data.cafeList);
+            } else{
+                setDataList(prevDataList => [...prevDataList, ...response.data.cafeList]);
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching data: ', error);
+        });
+    }
 
+    useEffect(()=>{
+        pageLoad(currentPage);
+    }, [currentPage])
+
+
+    const scrollToTop = () => {
+        window.scrollTo(0, 0);
+        console.log('asd')
+    }
+
+    useMemo(()=>{
+        if(inView){
+            setCurrentPage(prevCurrentPage => prevCurrentPage + 1);
+        }
+    },[inView])
+    
+
+    useMemo(()=>{
+        setCurrentPage(0);
+        pageLoad(currentPage);
+    }, [sortedType, type])
+
+
+    const findTheme = cafeThemeDataList.find(item => item.theme === type);
+
+    
     return (
         <>
             <div className={styled.page_wrapper}>
                 <main className={styled.main_container}>
                 <CafeThemeList props = {findTheme}/>
-                    <SortedType/>
-                    <ul>
-                        {dataList.map((data) => (<CafeListList key={data.cafeId} props={data}/>))}
-                    </ul>
+                    <SortedType setSortedType = {setSortedType}/>
+                    {dataList?.length !== 0 ?
+                    <>
+                        <ul>
+                            {dataList?.map((data, index) => (<CafeListList key={index} props={data}/>))}
+                        </ul>
+                        {isLast ? null : <div ref={ref}></div>}
+                     </> : <Loading />}
+                    
                 </main>
             </div>
         </>
@@ -70,14 +114,15 @@ function CafeListList({props}){
 }
 
 const cafeThemeDataList = [
-    {themeId:1, image:img_cafeList_bg, themeIcon:Icon_cafe, themeText:"데이트 카페 리스트"},
-    {themeId:2, image:img_cafeList_bg, themeIcon:Icon_cafe, themeText:"디저트 카페 리스트"},
-    {themeId:3, image:img_cafeList_bg, themeIcon:Icon_cafe, themeText:"회의 카페 리스트"},
-    {themeId:4, image:img_cafeList_bg, themeIcon:Icon_cafe, themeText:"공부 카페 리스트"},
-    {themeId:5, image:img_cafeList_bg, themeIcon:Icon_cafe, themeText:"전체 카페 리스트"}
+    {theme: "Date", image:img_cafeList_bg, themeIcon:Icon_cafe, themeText:"데이트 카페 리스트"},
+    {theme: "Dessert", image:img_cafeList_bg, themeIcon:Icon_cafe, themeText:"디저트 카페 리스트"},
+    {theme: "Meet", image:img_cafeList_bg, themeIcon:Icon_cafe, themeText:"회의 카페 리스트"},
+    {theme: "Study", image:img_cafeList_bg, themeIcon:Icon_cafe, themeText:"공부 카페 리스트"},
+    {theme: "All", image:img_cafeList_bg, themeIcon:Icon_cafe, themeText:"전체 카페 리스트"}
 ]
 
 function CafeThemeList({props}) {
+    
 
     return(
         <article className={style.containerWrapper}>
