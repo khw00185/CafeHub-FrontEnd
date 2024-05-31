@@ -1,7 +1,7 @@
 import style from "../../styles/CafeListStyle.module.css"
 import styled from "../../styles/GlobalStyle.module.css"
+import styles from "./cafeList.module.css"
 import img_cafeList_bg from "../../asset/img/img_cafeList.png"
-import img_deerSweetLab from "../../asset/img/img_deerSweetLab.png";
 import img_star from "../../asset/img/img_star.png"
 import { ReactComponent as Icon_cafe } from "../../asset/icon/icon_cafe.svg"
 import SortedType from "../../components/sortedType"
@@ -48,7 +48,7 @@ function CafeList() {
 
     const scrollToTop = () => {
         window.scrollTo(0, 0);
-        console.log('asd')
+        console.log('scroll 맨 위로 왜 안돼!!!!')
     }
 
     useMemo(()=>{
@@ -66,21 +66,31 @@ function CafeList() {
 
     const findTheme = cafeThemeDataList.find(item => item.theme === type);
 
-    
+    const loadList = () => {
+        if (dataList?.length !== 0) {
+            return (
+                <>
+                    <ul>
+                        {dataList?.map((data, index) => (<CafeListList key={index} props={data}/>))}
+                    </ul>
+                    {isLast ? null : <div ref={ref} className={styles.refContainer}><Loading ref={ref}/></div>}
+                </>
+            );
+        } else {
+            return <Loading />;
+        }
+    };
+
+
     return (
         <>
             <div className={styled.page_wrapper}>
                 <main className={styled.main_container}>
-                <CafeThemeList props = {findTheme}/>
+                    <CafeThemeList props = {findTheme}/>
                     <SortedType setSortedType = {setSortedType}/>
-                    {dataList?.length !== 0 ?
-                    <>
-                        <ul>
-                            {dataList?.map((data, index) => (<CafeListList key={index} props={data}/>))}
-                        </ul>
-                        {isLast ? null : <div ref={ref}></div>}
-                     </> : <Loading />}
-                    
+                    <div style={{width: '100%'}}>
+                        {loadList()}
+                    </div>
                 </main>
             </div>
         </>
@@ -93,7 +103,7 @@ function CafeListList({props}){
     const navigate = useNavigate();
 
     const func = () => {
-        navigate('/CafeDetail')
+        navigate('/CafeDetail', {state: {cafeId: props.cafeId}})
     }
 
     return (

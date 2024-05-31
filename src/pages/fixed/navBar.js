@@ -14,7 +14,7 @@ const navList = [
     {id:4, src: MyPage, title:"마이페이지", url:"/MyPage"}
 ]
 
-function NavBar({selectedId, setSelectedId}){
+function NavBar({selectedId, setSelectedId, token, setToken, setModalIsOpen}){
     return (
         <>
             <nav className={style.wrapper}>
@@ -24,6 +24,9 @@ function NavBar({selectedId, setSelectedId}){
                         props={data}
                         setSelectedId={setSelectedId}
                         isSelected = {selectedId === data.id}
+                        setModalIsOpen = {setModalIsOpen}
+                        token ={token}
+                        setToken={setToken}
                     />
                 ))}
             </nav>
@@ -32,15 +35,26 @@ function NavBar({selectedId, setSelectedId}){
 }
 export default NavBar;
 
-function NavList({props, setSelectedId, isSelected}){
+function NavList({props, setSelectedId, isSelected, token, setToken, setModalIsOpen}){
     const navigate = useNavigate();
 
     const color = isSelected ? "#492228" : "#ACABB0";
+
     const func = () => {
         setSelectedId(props.id);
         if(props.id === 2){
             navigate(props.url, {state: {type: "All"}});
-        } else {
+        }
+        else if(props.id === 4 && token){
+            navigate(props.url, {state: {token: token, setToken: setToken}});
+        }
+        else if((props.id === 3 || props.id === 4) && !token){
+            navigate("/");
+            setModalIsOpen(true);
+            setSelectedId(1)
+        }
+        
+        else {
             navigate(props.url);
         }
     }

@@ -7,7 +7,7 @@ import img_star from "../../asset/img/img_star.png"
 import { ReactComponent as Icon_bookmark } from "../../asset/icon/icon_bookmark.svg"
 import { ReactComponent as Icon_like } from "../../asset/icon/icon_like.svg"
 import { ReactComponent as Icon_notLike } from "../../asset/icon/icon_notLike.svg"
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../components/loading";
 import axios from "axios";
@@ -21,6 +21,7 @@ function Bookmark(){
         axios.get(`http://localhost:8080/bookmark`)
         .then(response => {
             setDataList(response.data.cafeList);
+            console.log(response)
         })
         .catch(error => {
             console.error('Error fetching data: ', error);
@@ -48,7 +49,7 @@ function Bookmark(){
                         <ul>
                             {dataList?.map((data, index) => (<BookmarkList key={index} props={data}/>))}
                         </ul>
-                     </> : <Loading />}
+                     </> : <Loading/>}
 
                 </main>
             </div>
@@ -93,7 +94,7 @@ function BookmarkList({props}){
 
     const navigate = useNavigate();
     const handleNavigation = () => {
-        navigate('/CafeDetail');
+        navigate('/CafeDetail', {state: {cafeId: props.cafeId}});
     };
 
     return (  

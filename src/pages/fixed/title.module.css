@@ -8,7 +8,6 @@
     line-height: 12px; /* 44.444% */
     letter-spacing: -0.6px;
     margin-bottom: 5px;
-    
 }
 .loginBtn {
     display: flex;
@@ -18,7 +17,7 @@
     background: #FFE812;
     justify-content: center;
     margin-bottom: 5px;
-
+    cursor: pointer;
     align-items: center;
 }
 .kakao{
@@ -51,5 +50,5 @@
     border-right: 1px solid #D5D5D7; 
     position: fixed;    
     top: 0;
-    z-index: 50;
+    z-index: 3;
 }

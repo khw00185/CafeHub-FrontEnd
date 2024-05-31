@@ -6,9 +6,10 @@ import axios from "axios"
 import { useLocation } from "react-router-dom"
 import Rating from "../../components/Rating"
 
-function WriteReview(){
+function UpdateReview(){
     const location = useLocation();
-    const cafeId = location.state?.cafeId;
+    const { cafeId, prevReviewRating, prevPhotoUrls, prevreviewContent } = location.state || {};
+
     const options = [
         { value: 1, label: 1 },
         { value: 2, label: 2 },
@@ -17,13 +18,12 @@ function WriteReview(){
         { value: 5, label: 5 }
       ]
 
-    const [reviewContent, setReviewContent] = useState('');
-    const [reviewRating, setReviewRating] = useState(null);
-    const [photoUrls, setPhotoUrls] = useState([]);
-    const [rating, setRating] = useState(false);
+    const [reviewContent, setReviewContent] = useState(prevreviewContent);
+    const [reviewRating, setReviewRating] = useState(prevReviewRating);
+    const [photoUrls, setPhotoUrls] = useState(prevPhotoUrls);
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
+
+    const handleSubmit = () => {
         if (reviewContent.trim() !== '') {
             console.log('reviewContent submitted:', reviewContent);
             const formData = new FormData();
@@ -51,7 +51,6 @@ function WriteReview(){
     };
     const handleChange = (event) => {
         setReviewContent(event.target.value);
-        
     };
     return (
         <> 
@@ -64,12 +63,13 @@ function WriteReview(){
                         placeholder="별점..."  
                         onChange={(selectedOption) => {
                             setReviewRating(selectedOption.value);
-                            setRating(true)
                         }} />
-                        {rating && <Rating rating= {reviewRating} />}
+                        <Rating rating= {reviewRating} />
+
                         <input
                             type="file"
                             multiple
+                            value={photoUrls}
                             onChange={handleFileChange}
                             className={style.fileInput}
                         />
@@ -85,12 +85,12 @@ function WriteReview(){
                         </button> : <button onClick={handleSubmit} className={style.submitButton} disabled={true}>
                             등록
                         </button>}
-                        
                     </form>
+                    
                 </main>
             </div>
         </>
     )
 }
 
-export default WriteReview;
+export default UpdateReview;

@@ -1,20 +1,43 @@
 import styled from '../../styles/GlobalStyle.module.css';
 import style from "./myPage.module.css"
-import Login from "../../asset/img/Login.svg"
 import Photo from '../../asset/img/img_photo.png';
-import CameraAlt from '../../asset/img/img_cameraAlt.png';
-import Nickname from '../../asset/img/img_nickname.png';
 import NicknameArti from '../../asset/icon/icon_nicknameAlt.png';
-import MailOutline from '../../asset/img/img_mailOutline.png';
 import MyReview from '../../asset/icon/icon_myReview.png';
 import MyComment from '../../asset/icon/icon_myComment.png';
 import GoodBye from '../../asset/icon/icon_goodBye.png';
 import MyAsk from '../../asset/icon/icon_myAsk.png';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { ReactComponent as Icon_logout } from "../../asset/icon/icon_logout.svg"
+import { ReactComponent as Icon_camera } from "../../asset/icon/icon_camera.svg"
+import { ReactComponent as Icon_mail } from "../../asset/icon/icon_mail.svg"
+import { ReactComponent as Icon_nickname } from "../../asset/icon/icon_myPage.svg"
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
-function MyPage(){
+
+
+function MyPage({ token, setToken }){
+    const [userData, setUserData] = useState();
+    const navigate = useNavigate();
+
+    {/*useEffect(()=>{
+        axios.get(`http://localhost:8080/api/auth/mypage`)
+    }, [userData])*/}
+
+    const handleLogout=()=>{
+        axios.post(`http://localhost:8080/api/auth/logout`)
+        .then(res => {
+            navigate("/")
+            setToken(false);
+        })
+        .catch(error => {
+            console.error('Error updating data: ', error);
+        });
+    }
+
     return (
         <>
             <div className={styled.page_wrapper}>
@@ -22,28 +45,30 @@ function MyPage(){
                     <article className={style.profile}>
                         <article className={style.profileInfoLogout}>
                             <span className={style.profileInfo}>프로필 정보</span>
-                            <button type="button" className={style.logoutBtn}>
+                            <button type="button" className={style.logoutBtn} onClick={handleLogout}>
                                 <span>로그아웃</span>
-                                <img src={Login} className={style.logout}></img>
+                                <Icon_logout className={style.logout}/>
                             </button>
                         </article>
 
                         <article className={style.photoArti}>
                             <img src={Photo} className={style.photo}></img>
-                            <img src={CameraAlt} className={style.photoAlt}></img>
+                            <div className={style.photoAltWrapper}>
+                                <Icon_camera className={style.photoAlt}/>
+                            </div>
                         </article>
 
                         <article className={style.container}>
                             <article className={style.nicknameArti}>
                                 <div className={style.nickDiv}>
-                                <img src={Nickname} className={style.nicknameIcon}></img>
+                                <Icon_nickname className={style.nicknameIcon}/>
                                 <input type="text" placeholder="닉네임" className={style.nickText}></input>
                                 </div>
                                 <img src={NicknameArti} className={style.nicknameArtiIcon}></img>
                             </article>
 
                             <article className={style.emailArti}>
-                                <img src={MailOutline} className={style.nicknameIcon}></img>
+                                <Icon_mail className={style.nicknameIcon}/>
                                 <input type="text" placeholder="ksng0185@naver.com" className={style.emailText}></input>
                             </article>
                         </article>

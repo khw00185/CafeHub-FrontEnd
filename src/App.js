@@ -11,19 +11,23 @@ import CafeDetail from './pages/cafeDetails/cafeDetail';
 import WriteReview from './pages/WriteReviews/writeReview';
 import Menu from './pages/menus/menu';
 import Review from './pages/reviews/review';
-import Comment from './pages/comments/comment';
 import ScrollUp from './components/scrollUp';
+import UpdateReview from './pages/WriteReviews/updateReview';
+import ModalComponent from './components/modalComponent';
 
 
 
 
 function App() {
   const [selectedId, setSelectedId] = useState(1);
+  const [token, setToken] = useState(true);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
 
   return (
     <div className="App">
       
-        <Title setSelectedId={setSelectedId}/>
+        <Title setSelectedId={setSelectedId} token={token} setToken={setToken}/>
           <Routes>
             <Route path='/' element={<MainPage/>}/>
             <Route path='/MyPage' element={<MyPage/>}/>
@@ -33,11 +37,16 @@ function App() {
             <Route path='/Menu' element={<Menu/>}/>
             <Route path='/Review' element={<Review/>}/>
             <Route path='/WriteReview' element={<WriteReview/>}/>
-            <Route path='/Comment' element={<Comment/>}/>
+            <Route path='/UpdateReview' element={<UpdateReview/>}/>
           </Routes>
-          <NavBar selectedId={selectedId} setSelectedId={setSelectedId}/>
+          {modalIsOpen && <ModalComponent modalIsOpen ={modalIsOpen} setModalIsOpen={setModalIsOpen}></ModalComponent>}
+
+          <NavBar selectedId={selectedId} setSelectedId={setSelectedId} token={token} setToken={setToken} setModalIsOpen={setModalIsOpen}/>
+
+          
     </div>
   );
 }
 
 export default App;
+

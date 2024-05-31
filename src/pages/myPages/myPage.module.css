@@ -33,8 +33,17 @@
     font-size: 1em;
 
 }
+
+.logoutBtn:hover{
+    color: #FFF;
+    fill: #FFF;
+    background-color: #FF4F4F;
+}
 .logout{
+    margin-left: 3px;
     -webkit-user-drag: none;
+    width: 12px;
+    height: 12px;
 }
 .profileInfo{
     color: #492228;
@@ -65,20 +74,33 @@
     border-radius: 76.5px;
     
 }
-.photoAlt{
+.photoAltWrapper{
+    width: 25px;
+    height: 25px;
     cursor: pointer;
     -webkit-user-drag: none;
     position: absolute;
-    width: 20.093px;
-    height: 20.093px;
-    flex-shrink: 0;
-    left: 60%;
-    top: 75%;
+    
+    left: 57%;
+    top: 73%;
     z-index: 1;
-    background-color: #D5D5D7;
-    border-radius: 20%;
+    border-radius: 50%;
+    background-color: #D9D9D9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.photoAltWrapper:hover{
+    background-color: #A9A9A9;
 
 }
+.photoAlt{
+    
+    fill: #FFF;
+    width: 16px;
+    height: 16px;
+}
+
 
 .container {
     display: flex;
@@ -111,7 +133,7 @@
     margin-left: 8px;
     width: 27.588px;
     height: 28px;
-    flex-shrink: 0;
+    fill: #ACABB0;
 }
 .nicknameArtiIcon{
     -webkit-user-drag: none;
@@ -154,6 +176,9 @@
     align-items: center;
 
 
+}
+.flexLine:hover{
+    background-color: #eaeaea;
 }
 .imgTitleBox {
     display: flex;
