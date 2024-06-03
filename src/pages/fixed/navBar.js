@@ -46,7 +46,7 @@ function NavList({props, setSelectedId, isSelected, token, setToken, setModalIsO
             navigate(props.url, {state: {type: "All"}});
         }
         else if(props.id === 4 && token){
-            navigate(props.url, {state: {token: token, setToken: setToken}});
+            navigate(props.url, {state: {token: token}});
         }
         else if((props.id === 3 || props.id === 4) && !token){
             navigate("/");

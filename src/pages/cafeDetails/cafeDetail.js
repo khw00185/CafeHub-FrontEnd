@@ -36,10 +36,10 @@ function CafeDetail(){
     });
 
     const pageLoad = () => {        
-        axios.get(`http://localhost:8080/cafe/${cafeId}`)
+        axios.get(`http://localhost:8080/api/cafe/${cafeId}`)
         .then(response => {
-            setCafeData(response.data);
-            console.log(response.data)
+            setCafeData(response.data.data);
+            console.log(response.data.data)
         })
         .catch(error => {
             console.error('Error fetching data: ', error);
@@ -74,7 +74,7 @@ function CafeDetail(){
         };
 
         console.log("Sending data to server:", data); // 콘솔에 데이터를 출력하여 확인
-        axios.post(`http://localhost:8080/bookmark`, data)
+        axios.post(`http://localhost:8080/api/auth/bookmark`, data)
             .then(res => {
                 console.log(res);
             })
@@ -88,7 +88,7 @@ function CafeDetail(){
 
 
     const moveWriteReview = () => {
-        navigate('/WriteReview')
+        navigate('/WriteReview', {state: {cafeId : cafeId}})
     }
 
     const moveMoreMenu = () => {

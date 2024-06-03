@@ -35,15 +35,15 @@ function Review() {
     }, [inView])
 
     const pageLoad = (currentPage) => {
-        axios.get(`http://localhost:8080/cafe/${cafeId}/reviews/${currentPage}`)
+        axios.get(`http://localhost:8080/api/cafe/${cafeId}/reviews/${currentPage}`)
             .then(response => {
                 console.log(response)
-                setIsLast(response.data.isLast);
+                setIsLast(response.data.data.isLast);
 
                 if (currentPage === 0) {
-                    setDataList(response.data.reviewList);
+                    setDataList(response.data.data.reviewList);
                 } else {
-                    setDataList(prevDataList => [...prevDataList, ...response.data.reviewList]);
+                    setDataList(prevDataList => [...prevDataList, ...response.data.data.reviewList]);
                 }
             })
             .catch(error => {

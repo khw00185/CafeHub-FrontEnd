@@ -40,7 +40,7 @@ const CommentInput = ({ reviewId, commentCnt, setCommentCnt, commentRegisterFlag
             const data = {
                 commentContent: comment
             }
-            axios.post(`http://localhost:8080/reviews/${reviewId}/comment`, data)
+            axios.post(`http://localhost:8080/api/auth/reviews/${reviewId}/comment`, data)
             .then(res => {
                 console.log(res);
                 setComment('');
@@ -80,16 +80,16 @@ const GetComment = ({ props, commentRegisterFlag, currentPage, setCurrentPage, p
 
     const pageLoad = (currentPage) => {        
         console.log("다시 get 요청!!")
-        axios.get(`http://localhost:8080/reviews/${props.reviewId}/comments/${currentPage}`)
+        axios.get(`http://localhost:8080/api/reviews/${props.reviewId}/comments/${currentPage}`)
         .then(response => {
             console.log(response.data); // 서버 응답 확인@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-            setIsLast(response.data.isLast);
+            setIsLast(response.data.data.isLast);
             
             if (currentPage === 0) {
-                setDataList(response.data.comments);
+                setDataList(response.data.data.comments);
             } else{
-                setDataList((prevDataList) => [...prevDataList, ...response.data.comments]);
+                setDataList((prevDataList) => [...prevDataList, ...response.data.data.comments]);
                 
             }
         })
@@ -160,7 +160,7 @@ const CommentList = ({ data, pageReLoad, setPageReLoad }) => {
     const deleteReview = () => {
         console.log(data.reviewId, "asd")
         const commentId = data.commentId
-        axios.post(`http://localhost:8080/reviews/${commentId}/delete`)
+        axios.post(`http://localhost:8080/api/auth/reviews/${commentId}/delete`)
         .then(res => {
             console.log(res);
             setPageReLoad(!pageReLoad)

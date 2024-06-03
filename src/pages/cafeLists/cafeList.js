@@ -26,14 +26,16 @@ function CafeList() {
 
 
     const pageLoad = (currentPage) => {        
-        axios.get(`http://localhost:8080/cafeList/${type}/${sortedType}/${currentPage}`)
+        axios.get(`http://localhost:8080/api/cafeList/${type}/${sortedType}/${currentPage}`)
         .then(response => {
-            setIsLast(response.data.isLast);
+            const cafeList = response.data.data.cafeList || [];
+            console.log(response)
+            setIsLast(response.data.data.isLast);
             if (currentPage === 0) {
                 scrollToTop();
-                setDataList(response.data.cafeList);
+                setDataList(cafeList);
             } else{
-                setDataList(prevDataList => [...prevDataList, ...response.data.cafeList]);
+                setDataList(prevDataList => Array.isArray(prevDataList) ? [...prevDataList, ...cafeList] : cafeList)
             }
         })
         .catch(error => {

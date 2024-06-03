@@ -23,9 +23,16 @@ function MyPage({ token, setToken }){
     const [userData, setUserData] = useState();
     const navigate = useNavigate();
 
-    {/*useEffect(()=>{
+    useEffect(()=>{
         axios.get(`http://localhost:8080/api/auth/mypage`)
-    }, [userData])*/}
+        .then(res => {
+            console.log(res)
+            setUserData(res.data.data)
+        })
+        .catch(error => {
+            console.error('Error updating data: ', error);
+        });
+    },)
 
     const handleLogout=()=>{
         axios.post(`http://localhost:8080/api/auth/logout`)
@@ -52,7 +59,7 @@ function MyPage({ token, setToken }){
                         </article>
 
                         <article className={style.photoArti}>
-                            <img src={Photo} className={style.photo}></img>
+                            <img src={userData.memberImgUrl} className={style.photo}></img>
                             <div className={style.photoAltWrapper}>
                                 <Icon_camera className={style.photoAlt}/>
                             </div>
@@ -62,14 +69,14 @@ function MyPage({ token, setToken }){
                             <article className={style.nicknameArti}>
                                 <div className={style.nickDiv}>
                                 <Icon_nickname className={style.nicknameIcon}/>
-                                <input type="text" placeholder="닉네임" className={style.nickText}></input>
+                                <input type="text" placeholder={userData.nickname} className={style.nickText}></input>
                                 </div>
                                 <img src={NicknameArti} className={style.nicknameArtiIcon}></img>
                             </article>
 
                             <article className={style.emailArti}>
                                 <Icon_mail className={style.nicknameIcon}/>
-                                <input type="text" placeholder="ksng0185@naver.com" className={style.emailText}></input>
+                                <input type="text" placeholder={userData.email} className={style.emailText}></input>
                             </article>
                         </article>
                     </article>

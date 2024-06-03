@@ -18,7 +18,7 @@ function Bookmark(){
 
 
     const pageLoad = () => {        
-        axios.get(`http://localhost:8080/bookmark`)
+        axios.get(`http://localhost:8080/api/auth/bookmark`)
         .then(response => {
             setDataList(response.data.cafeList);
             console.log(response)
@@ -71,7 +71,7 @@ function BookmarkList({props}){
         };
 
         console.log("Sending data to server:", data); // 콘솔에 데이터를 출력하여 확인
-        axios.post(`http://localhost:8080/bookmark`, data)
+        axios.post(`http://localhost:8080/api/auth/bookmark`, data)
             .then(res => {
                 console.log(res);
             })

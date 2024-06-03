@@ -1,37 +1,54 @@
 import style from "./title.module.css"
 
 import Kakao from "../../asset/img/img_kakaotalk.png"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
 
 
 function Title({setSelectedId, token, setToken}){
+    const navigate = useNavigate();
+    
 
-    function TokenChecked(){
+    const redirect = () => {
+        const loginUrl = `http://localhost:8080/api/oauth`;
+        console.log("Redirecting to:", loginUrl);
+        window.location.href = loginUrl;
+    };
+
+    const SocialKakao = ()=> {
+        const Rest_api_key='0ee2193a048d38e5d783af58eac76e36' //REST API KEY
+        const redirect_uri = 'http://localhost:3000/OAuthCallback'
+        // oauth 요청 URL
+        const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`
+        const handleLogin = ()=>{
+            window.location.href = kakaoURL
+        }
+
         return !token && 
         <div className={style.loginBtn} onClick={handleLogin}>
             <img src={Kakao} className={style.kakao}></img>
             <span className={style.loginText}>로그인</span>
         </div>
     }
-
-    const redirect = (redirectUrl) => {
-        window.location.href = `${redirectUrl}`;
-
-    }
-
-
-    const handleLogin = () => {
+    {/*const handleLogin = () => {
         axios.get(`http://localhost:8080/api/member/login`)
-        .then(response => {
-            redirect(response.data)
-            console.log(response.data)
-            setToken(true)
+        .then(() => {
+            navigate("/OauthCallBack")
         })
         .catch(error => {
             console.error('Error fetching data: ', error);
         });
+    }*/}
+    const handleLogin = () => {
+        axios.get(`http://localhost:8080/api/member/login`)
+            .then(response => {
+                // Redirect to the URI specified by the backend
+                window.location.href = response.headers.location;
+            })
+            .catch(error => {
+                console.error('Error fetching data: ', error);
+            });
     }
 
     const handleClick = () => {
@@ -41,7 +58,7 @@ function Title({setSelectedId, token, setToken}){
         <>
             <header className={style.topBar}>
                 <Link to="/" onClick={handleClick}><span className={style.cafeHub}>CafeHub</span></Link>
-                <TokenChecked/>
+                <SocialKakao/>
             </header>
 
         </>
