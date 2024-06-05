@@ -19,7 +19,7 @@ function WriteReview() {
     const navigate = useNavigate();
     const token = sessionStorage.getItem('accessToken')
 
-    useEffect(()=>{
+    useEffect(() => {
         if (sessionStorage.getItem('accessToken') === null) {
             KakaoLogin();
         }
@@ -58,19 +58,25 @@ function WriteReview() {
             console.log('reviewContent submitted:', reviewRating);
             console.log('reviewContent submitted:', photos);
             console.log('reviewContent submitted:', cafeId);
-            const data = {
-                reviewRating: reviewRating,
-                reviewContent: reviewContent,
-                photos: detailImgs
-            };
 
-            
+
+            const formData = new FormData();
+
+            // JSON 데이터 추가
+            formData.append('reviewRating', JSON.stringify(reviewRating));
+            formData.append('reviewContent', JSON.stringify(reviewContent));
+
+            // 각 파일을 FormData에 추가
+            photos.forEach((file, index) => {
+                formData.append(`reviewPhoto${index}`, file);
+            });
+
             console.log('reviewContent submitted:', data);
 
-            axios.post(`http://localhost:8080/api/auth/cafe/${cafeId}/review`, data, {
+            axios.post(`http://localhost:8080/api/auth/cafe/${cafeId}/review`, formData, {
                 headers: {
-                    "Content-Type": "multipart/form-data",
-                    'Authorization': token
+                    'Authorization': token,
+                    'Content-Type': 'multipart/form-data'
                 },
             })
                 .then(res => {
@@ -85,7 +91,7 @@ function WriteReview() {
     };
 
     const handleFileChange = (event) => {
-        setphotos(Array.from(event.target.files));
+        setphotos(event.target.files);
         const fileArr = event.target.files;
 
         let fileURLs = [];
@@ -127,7 +133,7 @@ function WriteReview() {
                         <span className={style.AskReivewText}>"<span style={{ color: "#FF4F4F" }}>{cafeName}</span>"  어떠셨나요?</span>
 
                     </article>
-                    <form className={style.contentInputContainer} encType="multipart/form-data" onSubmit={handleSubmit}>
+                    <article className={style.contentInputContainer}>
                         <article className={style.starWrapper}>
                             {ARRAY.map((el, idx) => {
                                 return (
@@ -171,13 +177,14 @@ function WriteReview() {
 
                         <button
                             type="submit"
-                            className={(!(reviewContent.length > 4) || !reviewRating) ? style.cantsubmitButton : style.submitButton }
+                            className={(!(reviewContent.length > 4) || !reviewRating) ? style.cantsubmitButton : style.submitButton}
                             disabled={!(reviewContent.length > 4) || !reviewRating}
+                            onClick={handleSubmit}
                         >
                             등록
                         </button>
 
-                    </form>
+                    </article>
                 </main>
             </div>
         </>
