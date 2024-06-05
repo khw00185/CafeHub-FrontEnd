@@ -1,12 +1,13 @@
 import styles from "../../styles/GlobalStyle.module.css"
 import style from "./writeReview.module.css"
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import Select from 'react-select'
 import axios from "axios"
 import { useLocation, useNavigate } from "react-router-dom"
 import { ReactComponent as Icon_writeReview } from "../../asset/icon/icon_write.svg"
 import img_writeReview from "../../asset/img/img_wrtiteReview.png"
 import img_star from "../../asset/img/img_star.png"
+import { KakaoLogin } from "../../components/kakaoLogins/kakaoLogin"
 
 function WriteReview() {
     const location = useLocation();
@@ -16,6 +17,13 @@ function WriteReview() {
     const ARRAY = [0, 1, 2, 3, 4];
     const [clicked, setClicked] = useState([false, false, false, false, false]);
     const navigate = useNavigate();
+    const token = sessionStorage.getItem('accessToken')
+
+    useEffect(()=>{
+        if (sessionStorage.getItem('accessToken') === null) {
+            KakaoLogin();
+        }
+    }, []);
 
     const handleStarClick = index => {
         let clickStates = [...clicked];
@@ -39,7 +47,7 @@ function WriteReview() {
 
     const [reviewContent, setReviewContent] = useState('');
     const [reviewRating, setReviewRating] = useState(null);
-    const [photoUrls, setPhotoUrls] = useState([]);
+    const [photos, setphotos] = useState([]);
     const [detailImgs, setDetailImgs] = useState([]);
 
 
@@ -48,19 +56,21 @@ function WriteReview() {
         if (reviewContent.trim() !== '') {
             console.log('reviewContent submitted:', reviewContent);
             console.log('reviewContent submitted:', reviewRating);
-            console.log('reviewContent submitted:', photoUrls);
+            console.log('reviewContent submitted:', photos);
+            console.log('reviewContent submitted:', cafeId);
+            const data = {
+                reviewRating: reviewRating,
+                reviewContent: reviewContent,
+                photos: detailImgs
+            };
 
-            const formData = new FormData();
-            formData.append('reviewRating', reviewRating);
-            formData.append('reviewContent', reviewContent);
+            
+            console.log('reviewContent submitted:', data);
 
-            photoUrls.forEach((file) => {
-                formData.append('photoUrls', file);
-            });
-
-            axios.post(`http://localhost:8080/cafe/${cafeId}/review`, formData, {
+            axios.post(`http://localhost:8080/api/auth/cafe/${cafeId}/review`, data, {
                 headers: {
                     "Content-Type": "multipart/form-data",
+                    'Authorization': token
                 },
             })
                 .then(res => {
@@ -75,7 +85,7 @@ function WriteReview() {
     };
 
     const handleFileChange = (event) => {
-        setPhotoUrls(Array.from(event.target.files));
+        setphotos(Array.from(event.target.files));
         const fileArr = event.target.files;
 
         let fileURLs = [];

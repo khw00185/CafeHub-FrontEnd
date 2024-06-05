@@ -33,7 +33,7 @@ function MyPage(){
         }
         axios.get(`http://localhost:8080/api/auth/mypage`, {
             headers: {
-                Authorization: token
+                'Authorization': token
             }
         })
         .then(res => {
