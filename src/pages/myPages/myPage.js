@@ -15,35 +15,48 @@ import { ReactComponent as Icon_nickname } from "../../asset/icon/icon_myPage.sv
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import BasicImg from "../../asset/img/img_basicUserPhoto.png"
+import Loading from '../../components/loading';
+import { KakaoLogin } from '../../components/kakaoLogins/kakaoLogin';
 
 
 
 
-function MyPage({ token, setToken }){
+function MyPage(){
     const [userData, setUserData] = useState();
     const navigate = useNavigate();
+    const token = sessionStorage.getItem('accessToken')
 
     useEffect(()=>{
-        axios.get(`http://localhost:8080/api/auth/mypage`)
+        if (sessionStorage.getItem('accessToken') === null) {
+            KakaoLogin();
+        }
+        axios.get(`http://localhost:8080/api/auth/mypage`, {
+            headers: {
+                Authorization: token
+            }
+        })
         .then(res => {
-            console.log(res)
             setUserData(res.data.data)
+            console.log(res)
         })
         .catch(error => {
             console.error('Error updating data: ', error);
         });
-    },)
+    }, [])
 
     const handleLogout=()=>{
         axios.post(`http://localhost:8080/api/auth/logout`)
         .then(res => {
             navigate("/")
-            setToken(false);
         })
         .catch(error => {
             console.error('Error updating data: ', error);
         });
     }
+    if (!userData) {
+        return <Loading />
+     }
 
     return (
         <>
@@ -59,7 +72,7 @@ function MyPage({ token, setToken }){
                         </article>
 
                         <article className={style.photoArti}>
-                            <img src={userData.memberImgUrl} className={style.photo}></img>
+                            <img src={userData.profileImg || BasicImg} className={style.photo}></img>
                             <div className={style.photoAltWrapper}>
                                 <Icon_camera className={style.photoAlt}/>
                             </div>
@@ -76,7 +89,7 @@ function MyPage({ token, setToken }){
 
                             <article className={style.emailArti}>
                                 <Icon_mail className={style.nicknameIcon}/>
-                                <input type="text" placeholder={userData.email} className={style.emailText}></input>
+                                <input type="text" value={userData.email} className={style.emailText} readOnly></input>
                             </article>
                         </article>
                     </article>

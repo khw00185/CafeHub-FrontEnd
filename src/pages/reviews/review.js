@@ -15,7 +15,7 @@ import { ReactComponent as Icon_writeReview } from "../../asset/icon/icon_write.
 function Review() {
     const location = useLocation();
     const cafeId = location.state?.cafeId;
-    const [dataList, setDataList] = useState([])
+    const [dataList, setDataList] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [pageReLoad, setPageReLoad] = useState(false);
 
@@ -38,12 +38,12 @@ function Review() {
         axios.get(`http://localhost:8080/api/cafe/${cafeId}/reviews/${currentPage}`)
             .then(response => {
                 console.log(response)
-                setIsLast(response.data.data.isLast);
+                setIsLast(response.data.isLast);
 
                 if (currentPage === 0) {
-                    setDataList(response.data.data.reviewList);
+                    setDataList(response.data.reviewList);
                 } else {
-                    setDataList(prevDataList => [...prevDataList, ...response.data.data.reviewList]);
+                    setDataList(prevDataList => [...prevDataList, ...response.data.reviewList]);
                 }
             })
             .catch(error => {

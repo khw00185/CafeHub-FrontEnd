@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import style from "./ReviewList.module.css"
 import { ReactComponent as Icon_like } from "../asset/icon/icon_like.svg"
-import { ReactComponent as Icon_notLike } from "../asset/icon/icon_notLike.svg"
 import Rating from "../components/Rating"
 import { ReactComponent as Icon_comment } from "../asset/icon/icon_comment.svg"
 import { ReactComponent as Icon_setting } from "../asset/icon/icon_setting.svg"
@@ -41,7 +40,7 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId}) {
             };
 
             console.log("Sending data to server:", data); // 콘솔에 데이터를 출력하여 확인
-            axios.post(`http://localhost:8080/cafe/${reviewId}/like`, data)
+            axios.post(`http://localhost:8080/api/auth/cafe/${reviewId}/like`, data)
                 .then(res => {
                     console.log(res);
                 })
@@ -60,8 +59,7 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId}) {
         setReviewLikeCnt(!reviewLike ? reviewLikeCnt + 1 : reviewLikeCnt - 1)
     }
     const CheckReviewLike = () => {
-        const Like = reviewLike ? Icon_like : Icon_notLike;
-        return (<Like fill={reviewLike ? "#FF4F4F" : "#FFF"} style={{ width: '14px', height: '12px', marginRight: '5px', cursor: 'pointer' }} onClick={changeReviewLikeColor} />)
+        return (<Icon_like fill={reviewLike ? "#FF4F4F" : "#FFF"} style={{ width: '14px', height: '12px', marginRight: '5px', cursor: 'pointer' }} onClick={changeReviewLikeColor} />)
     }
 
     const [commentOpen, setCommentOpen] = useState(false)
@@ -93,7 +91,7 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId}) {
     const deleteReview = () => {
         console.log(props.reviewId, "asd")
         const reviewId = props.reviewId
-        axios.post(`http://localhost:8080/cafe/${reviewId}/delete`)
+        axios.post(`http://localhost:8080/api/authcafe/${reviewId}/delete`)
         .then(res => {
             console.log(res);
             setPageReLoad(!pageReLoad)

@@ -22,17 +22,16 @@ import Login from './pages/loginPages/login';
 
 function App() {
   const [selectedId, setSelectedId] = useState(1);
-  const [token, setToken] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-
+  const [isLogin, setIsLogin] = useState();
 
   return (
     <div className="App">
       
-        <Title setSelectedId={setSelectedId} token={token} setToken={setToken}/>
+        <Title setSelectedId={setSelectedId} isLogin={isLogin} setIsLogin={setIsLogin}/>
           <Routes>
             <Route path='/' element={<MainPage/>}/>
-            <Route path='/MyPage' element={<MyPage/>} setToken={setToken}/>
+            <Route path='/MyPage' element={<MyPage/>}/>
             <Route path='/Bookmark' element={<Bookmark/>} />
             <Route path='/CafeList' element={<CafeList />}/>
             <Route path='/CafeDetail' element={<CafeDetail/>}/>
@@ -40,12 +39,12 @@ function App() {
             <Route path='/Review' element={<Review/>}/>
             <Route path='/WriteReview' element={<WriteReview/>}/>
             <Route path='/UpdateReview' element={<UpdateReview/>}/>
-            <Route path='/OAuthCallback' element={<OAuthCallback/>}/>
+            <Route path='/OAuthCallback' element={<OAuthCallback setIsLogin={setIsLogin}/>}/>
             <Route path='/Login' element={<Login/>}/>
           </Routes>
           {modalIsOpen && <ModalComponent modalIsOpen ={modalIsOpen} setModalIsOpen={setModalIsOpen}></ModalComponent>}
 
-          <NavBar selectedId={selectedId} setSelectedId={setSelectedId} token={token} setToken={setToken} setModalIsOpen={setModalIsOpen}/>
+          <NavBar selectedId={selectedId} setSelectedId={setSelectedId} setModalIsOpen={setModalIsOpen}/>
 
           
     </div>

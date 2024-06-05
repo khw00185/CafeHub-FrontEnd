@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Loading from '../../components/loading';
 import { Cookies, useCookies } from 'react-cookie';
 
-const OAuthCallback = () => {
+const OAuthCallback = ({ setIsLogin }) => {
     const code = new URL(window.location.href).searchParams.get('code');
     const navigate = useNavigate();
 
@@ -24,9 +24,9 @@ const OAuthCallback = () => {
 
 
                         if (authorizationToken) {
-                            // JWT 토큰을 로컬 스토리지에 저장
-                            axios.defaults.headers.common['Authorization'] = authorizationToken;
-                            console.log('설정된 Authorization 헤더:', axios.defaults.headers.common['Authorization']);
+                            // JWT 토큰을 세션 스토리지에 저장
+                            sessionStorage.setItem('accessToken', authorizationToken);
+                            setIsLogin(sessionStorage.getItem('accessToken'))
 
                             navigate('/');
                         } else {

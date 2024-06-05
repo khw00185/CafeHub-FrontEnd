@@ -157,6 +157,14 @@
 .emailText{
     margin-left: 17px;
     width: 275px;
+
+    color: #492228;
+    font-family: NanumSquare;
+    font-style: normal;
+    letter-spacing: -0.6px;
+    margin-left: 15px;
+
+    cursor:default;
 }
 
 .ulList{

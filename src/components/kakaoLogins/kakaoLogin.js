@@ -1,21 +1,7 @@
+export const KakaoLogin = () => {
+  const Rest_api_key = '0ee2193a048d38e5d783af58eac76e36'; // REST API KEY
+  const redirect_uri = 'http://localhost:3000/OAuthCallback'; // Redirect URI
+  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`;
 
-
-
-function KakaoLogin(){
-
-    return (
-        <button type='button' onClick={Login}>
-          로그인 하기
-        </button>
-      );
-}
-
-  export default KakaoLogin;
-function Login() {
-    const REST_API_KEY = '6fdc45e2ed6b06ea66e7558cc28560a9';
-    const REDIRECT_URI = 'http://localhost:3000';
-    const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-    return(
-        window.location.href = link
-    )
+  window.location.href = kakaoURL;
 };

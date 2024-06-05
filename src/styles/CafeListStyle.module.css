@@ -32,6 +32,8 @@
     display: flex;
     position:absolute;
     width: 100%;
+    -webkit-user-drag: none;
+
     height: 91px;
 }
 .flexLine {

@@ -5,51 +5,25 @@ import { Link, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
 
-
-function Title({setSelectedId, token, setToken}){
-    const navigate = useNavigate();
+function Title({setSelectedId}){
     
-
-    const redirect = () => {
-        const loginUrl = `http://localhost:8080/api/oauth`;
-        console.log("Redirecting to:", loginUrl);
-        window.location.href = loginUrl;
-    };
-
     const SocialKakao = ()=> {
         const Rest_api_key='0ee2193a048d38e5d783af58eac76e36' //REST API KEY
         const redirect_uri = 'http://localhost:3000/OAuthCallback'
         // oauth 요청 URL
         const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`
-        const handleLogin = ()=>{
+        const HandleLogin = ()=>{
             window.location.href = kakaoURL
         }
-
+        const token = sessionStorage.getItem('accessToken')
         return !token && 
-        <div className={style.loginBtn} onClick={handleLogin}>
+        <div className={style.loginBtn} onClick={HandleLogin}>
             <img src={Kakao} className={style.kakao}></img>
             <span className={style.loginText}>로그인</span>
         </div>
     }
-    {/*const handleLogin = () => {
-        axios.get(`http://localhost:8080/api/member/login`)
-        .then(() => {
-            navigate("/OauthCallBack")
-        })
-        .catch(error => {
-            console.error('Error fetching data: ', error);
-        });
-    }*/}
-    const handleLogin = () => {
-        axios.get(`http://localhost:8080/api/member/login`)
-            .then(response => {
-                // Redirect to the URI specified by the backend
-                window.location.href = response.headers.location;
-            })
-            .catch(error => {
-                console.error('Error fetching data: ', error);
-            });
-    }
+
+
 
     const handleClick = () => {
         setSelectedId(1);

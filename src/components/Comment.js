@@ -82,9 +82,9 @@ const GetComment = ({ props, commentRegisterFlag, currentPage, setCurrentPage, p
         console.log("다시 get 요청!!")
         axios.get(`http://localhost:8080/api/reviews/${props.reviewId}/comments/${currentPage}`)
         .then(response => {
-            console.log(response.data); // 서버 응답 확인@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            console.log(response.data.data); // 서버 응답 확인@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-            setIsLast(response.data.data.isLast);
+            setIsLast(response.data.dataisLast);
             
             if (currentPage === 0) {
                 setDataList(response.data.data.comments);
