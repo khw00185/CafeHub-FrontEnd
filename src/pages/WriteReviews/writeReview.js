@@ -12,8 +12,8 @@ import { KakaoLogin } from "../../components/kakaoLogins/kakaoLogin"
 function WriteReview() {
     const location = useLocation();
     const cafeId = location.state?.cafeId;
-    const cafePhotoUrl = location.state?.cafePhotoUrl;
-    const cafeName = location.state?.cafeName;
+    const cafeData = location.state?.cafeData;
+
     const ARRAY = [0, 1, 2, 3, 4];
     const [clicked, setClicked] = useState([false, false, false, false, false]);
     const navigate = useNavigate();
@@ -36,7 +36,6 @@ function WriteReview() {
 
 
 
-    console.log(cafeName)
 
     const [reviewContent, setReviewContent] = useState('');
     const [reviewRating, setReviewRating] = useState(null);
@@ -114,9 +113,9 @@ function WriteReview() {
                 <main className={`${styled.main_container} ${style.mainWrapper}`}>
                     <Top />
                     <article className={style.cafePhotoWrapper}>
-                        <img src={cafePhotoUrl} className={style.cafeImg} />
+                        <img src={cafeData.cafePhotoUrl} className={style.cafeImg} />
                         <span className={style.AskReivewText}>
-                            <p style={{ color: "#FF4F4F", fontWeight:"700" }}>"{cafeName}"</p>
+                            <p style={{ color: "#FF4F4F", fontWeight:"700" }}>"{cafeData.cafeName}"</p>
                             <p style={{marginLeft: "0px"}}>어떠셨나요?</p>
                         </span>
 

@@ -10,7 +10,7 @@ import { KakaoLogin } from "../../components/kakaoLogins/kakaoLogin"
 
 function UpdateReview() {
     const location = useLocation();
-    const { cafeId, reviewId, prevReviewRating, prevPhotoUrls, prevreviewContent, cafeName, cafePhotoUrl} = location.state || {};
+    const { cafeId, reviewId, prevReviewRating, prevPhotoUrls, prevreviewContent, cafeData} = location.state || {};
     const ARRAY = [0, 1, 2, 3, 4];
     const [clicked, setClicked] = useState([false, false, false, false, false]);
     const navigate = useNavigate();
@@ -28,15 +28,13 @@ function UpdateReview() {
         }
         const updatedClicked = ARRAY.map((_, index) => index < reviewRating);
         setClicked(updatedClicked);
+        setPhotos(prevPhotoUrls);
     }, [reviewRating]);
 
 
     const handleStarClick = index => {
-        let clickStates = [...clicked];
-        for (let i = 0; i < 5; i++) {
-            clickStates[i] = i <= index;
-        }
-        setClicked(clickStates);
+        const updatedClicked = ARRAY.map((_, i) => i <= index);
+        setClicked(updatedClicked);
         setReviewRating(index + 1);
     };
 
@@ -110,8 +108,8 @@ function UpdateReview() {
                 <main className={styled.main_container}>
                     <Top />
                     <article className={style.cafePhotoWrapper}>
-                        <img src={cafePhotoUrl} className={style.cafeImg} />
-                        <span className={style.AskReivewText}>"<span style={{ color: "#FF4F4F" }}>{cafeName}</span>"  어떠셨나요?</span>
+                        <img src={cafeData.cafePhotoUrl} className={style.cafeImg} />
+                        <span className={style.AskReivewText}>"<span style={{ color: "#FF4F4F" }}> {cafeData.cafeName} </span>"  어떠셨나요?</span>
                     </article>
 
                     <article className={style.contentInputContainer}>

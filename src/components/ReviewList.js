@@ -13,7 +13,7 @@ import ReactModal from "react-modal";
 import { KakaoLogin } from "./kakaoLogins/kakaoLogin";
 import ModalComponent from "./modalComponent";
 
-function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafePhotoUrl, cafeName}) {
+function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafeData}) {
     console.log(props)
     //리뷰가 3줄이 넘어가면 더보기 띄우기
     const navigate = useNavigate();
@@ -26,6 +26,7 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafePhotoUrl, ca
     const reviewContent = props.reviewContent;
     const reviewContentLines = reviewContent.match(/.{1,27}/g);
     const displayContentLines = showMore ? reviewContentLines : reviewContentLines.slice(0, 3);
+    const photoUrls = props.photoUrls.map(photo => photo.photoUrl);
 
     //
     const [reviewLike, setReviewLike] = useState(props.reviewChecked);
@@ -118,8 +119,7 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafePhotoUrl, ca
             prevReviewRating : props.reviewRating,
             prevPhotoUrls : photoUrls,
             prevreviewContent : props.reviewContent,
-            cafeName : cafeName,
-            cafePhotoUrl : cafePhotoUrl
+            cafeData : cafeData
             }})
     }
 
@@ -133,7 +133,6 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafePhotoUrl, ca
 
     }
     const closeModal = () => setModalIsOpen(false);
-    const photoUrls = props.photoUrls.map(photo => photo.photoUrl);
 
 
     const images = photoUrls.map((url) => ({
