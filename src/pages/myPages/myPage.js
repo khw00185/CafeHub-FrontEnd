@@ -45,7 +45,7 @@ function MyPage() {
             .catch(error => {
                 console.error('Error updating data: ', error);
             });
-    }, [change]);
+    }, []);
 
     const handleLogout = () => {
         axios.post(`${process.env.REACT_APP_APIURL}/api/auth/logout`, {
