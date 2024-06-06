@@ -64,9 +64,10 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeName, cafeId, cafePh
     const changeReviewLikeColor = () => {
         if(!token){
             setLoginModalOpen(true);
-        }
+        } else{
         setReviewLike(!reviewLike);
         setReviewLikeCnt(!reviewLike ? reviewLikeCnt + 1 : reviewLikeCnt - 1)
+        }
     }
     const CheckReviewLike = () => {
         return (<Icon_like fill={reviewLike ? "#FF4F4F" : "#FFF"} stroke={reviewLike ? "#FF4F4F" : "#828282"}style={{ width: '14px', height: '12px', marginRight: '5px', cursor: 'pointer' }} onClick={changeReviewLikeColor} />)

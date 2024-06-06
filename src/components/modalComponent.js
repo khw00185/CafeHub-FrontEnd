@@ -1,5 +1,6 @@
 import ReactModal from "react-modal";
 import { useNavigate } from "react-router-dom";
+import { KakaoLogin } from "./kakaoLogins/kakaoLogin";
 import style from "./modalComponent.module.css"
 
 function ModalComponent({modalIsOpen, setModalIsOpen}) {
@@ -18,7 +19,7 @@ function ModalComponent({modalIsOpen, setModalIsOpen}) {
                     <span className={style.cafeHub}>CafeHub</span>
                     <span className={style.modalContent}>로그인 후 이용 가능한</span>
                     <span className={style.modalContent}>서비스 입니다.</span>
-                    <button className={style.modalBtn} onClick={()=>navigate(`/`)}>로그인</button>
+                    <button className={style.modalBtn} onClick={KakaoLogin}>로그인</button>
                     <button className={style.modalBtn} onClick={() => setModalIsOpen(false)}>닫기</button>
                 </div>
         </ReactModal>
