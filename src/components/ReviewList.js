@@ -11,12 +11,12 @@ import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import ReactModal from "react-modal";
 import { KakaoLogin } from "./kakaoLogins/kakaoLogin";
-const token = sessionStorage.getItem('accessToken')
 
 function ReviewList({ props, pageReLoad, setPageReLoad, cafeName, cafeId}) {
     console.log(props)
     //리뷰가 3줄이 넘어가면 더보기 띄우기
     const navigate = useNavigate();
+    const token = sessionStorage.getItem('accessToken')
 
     const [showMore, setShowMore] = useState(false);
     const toggleShowMore = () => {
@@ -35,9 +35,6 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeName, cafeId}) {
     const [commentCnt, setCommentCnt] = useState(props.commentCnt);
 
     useEffect(() => {
-        if (sessionStorage.getItem('accessToken') === null) {
-            KakaoLogin();
-        }
         if (initialized) {
             const reviewId = props.reviewId;
             const data = {
@@ -221,7 +218,7 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeName, cafeId}) {
                             (<span className={style.comment} >댓글 <span style={{ color: `${commentCntColor}` }}>({commentCnt})</span></span>)}
                     </div>
                     <div style={{ display: 'flex' }}>
-                        {<CheckReviewLike />}
+                        {token && <CheckReviewLike />}
                         <span>{reviewLikeCnt}</span>
                     </div>
                 </div>

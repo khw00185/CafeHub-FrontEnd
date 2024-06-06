@@ -7,9 +7,6 @@ import { ReactComponent as Icon_setting } from "../asset/icon/icon_setting.svg"
 import { KakaoLogin } from "./kakaoLogins/kakaoLogin";
 
 
-const token = sessionStorage.getItem('accessToken')
-
-
 
 function Comment({ props, commentCnt, setCommentCnt, pageReLoad, setPageReLoad }){
     console.log(props, "이거 이거이거")
@@ -41,6 +38,9 @@ const CommentInput = ({ reviewId, commentCnt, setCommentCnt, commentRegisterFlag
         if (sessionStorage.getItem('accessToken') === null) {
             KakaoLogin();
         }
+
+        const token = sessionStorage.getItem('accessToken')
+
         if (comment.trim() !== '') {
             console.log('Comment submitted:', comment);
             const data = {
@@ -85,8 +85,10 @@ const GetComment = ({ props, commentRegisterFlag, currentPage, setCurrentPage, p
     const [ref, inView] = useInView();
     const [isLast, setIsLast] = useState(false);
     const [dataList, setDataList] = useState([]);
+    const token = sessionStorage.getItem('accessToken')
 
     const pageLoad = (currentPage) => {        
+        
         console.log("다시 get 요청!!")
         axios.get(`http://localhost:8080/api/reviews/${props.reviewId}/comments/${currentPage}`, {headers: {
             'Authorization': token,

@@ -20,6 +20,7 @@ function CafeDetail() {
     const navigate = useNavigate();
     const location = useLocation();
     const cafeId = location.state?.cafeId;
+    const token = sessionStorage.getItem('accessToken')
 
     const [cafeData, setCafeData] = useState({
         cafePhotoUrl: "",
@@ -36,14 +37,13 @@ function CafeDetail() {
     });
 
     const pageLoad = () => {
-        const initialToken = sessionStorage.getItem("accessToken")
-        console.log(initialToken)
 
         axios.get(`http://localhost:8080/api/cafe/${cafeId}`, {
+            
             headers: {
-                'Authorization': initialToken
+                'Authorization': token
             }
-        }) 
+        })
             .then(response => {
                 setCafeData(response.data.data);
                 console.log(response.data.data)
@@ -82,14 +82,12 @@ function CafeDetail() {
             cafeId: cafeId,
             bookmarkChecked: newCafeLike
         };
-        const initialToken = sessionStorage.getItem("accessToken")
-        console.log(initialToken)
 
         console.log("Sending data to server:", data); // 콘솔에 데이터를 출력하여 확인
         axios.post(`http://localhost:8080/api/auth/bookmark`, data, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': initialToken
+                'Authorization': token
             }
         })
         .then(res => {
@@ -126,7 +124,7 @@ function CafeDetail() {
                     <img className={style.cafeInfoBg} src={cafeData.cafePhotoUrl}></img>
 
                     <div className={style.cafeInfoTitleContainer}>
-                        {cafeLikeColor()}
+                        {token && cafeLikeColor()}
                         <div className={style.cafeInfoTitleLike}>
                             <span className={style.cafeInfoTitle}>{cafeData.cafeName}</span>
                         </div>
