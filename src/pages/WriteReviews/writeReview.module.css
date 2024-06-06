@@ -60,13 +60,14 @@
 }
 
 .AskReivewText {
-    margin-left: 40px;
+    margin-left: 25px;
 
     font-family: NanumSquareOTF;
     font-size: 20px;
     font-weight: 400;
-    line-height: 12px;
+    line-height: 30px;
     letter-spacing: -0.6px;
+    
 }
 
 .cafeImg {

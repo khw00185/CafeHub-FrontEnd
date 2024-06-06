@@ -115,7 +115,10 @@ function WriteReview() {
                     <Top />
                     <article className={style.cafePhotoWrapper}>
                         <img src={cafePhotoUrl} className={style.cafeImg} />
-                        <span className={style.AskReivewText}>"<span style={{ color: "#FF4F4F" }}>{cafeName}</span>"  어떠셨나요?</span>
+                        <span className={style.AskReivewText}>
+                            <p style={{ color: "#FF4F4F", fontWeight:"700" }}>"{cafeName}"</p>
+                            <p style={{marginLeft: "0px"}}>어떠셨나요?</p>
+                        </span>
 
                     </article>
                     <article className={style.contentInputContainer}>
