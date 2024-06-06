@@ -69,7 +69,7 @@ function MyPage() {
 
         
         formData.append("profileImg", userProfileImg);
-        
+        console.log(formData)
         
         axios.post(`${process.env.REACT_APP_APIURL}/api/auth/mypage`, formData, {
             headers: {
