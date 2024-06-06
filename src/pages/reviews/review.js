@@ -24,6 +24,7 @@ function Review() {
     const navigate = useNavigate();
     const token = sessionStorage.getItem('accessToken')
     const [cafeReviewCnt, setCafeReviewCnt] = useState(0);
+    const [cafeRating, setCafeRating] = useState(0);
 
     useEffect(() => {
         pageLoad(currentPage);
@@ -47,7 +48,7 @@ function Review() {
                 console.log(response)
                 setIsLast(response.data.isLast);
                 setCafeReviewCnt(response.data.cafeReviewCnt)
-
+                setCafeRating(response.data.cafeRating)
                 if (currentPage === 0) {
                     setDataList(response.data.reviewList);
                 } else {
@@ -101,7 +102,7 @@ function Review() {
                         </div>
                         <div className={style.cafeBestReviewRatingContainer}>
                             <span className={style.cafeRatingFontSize}>{dataList.cafeRating}</span>
-                            <Rating rating={dataList.cafeRating} />
+                            <Rating rating={cafeRating} />
                             <div className={style.writeReview} onClick={moveWriteReview}>
                                 <Icon_writeReview className={style.reviewWriteBtn} />
                                 <span style={{ marginLeft: '2px' }}>리뷰작성</span>
