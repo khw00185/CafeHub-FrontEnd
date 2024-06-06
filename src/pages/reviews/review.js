@@ -5,7 +5,7 @@ import img_review from "../../asset/img/img_review.png"
 import { useEffect, useMemo, useState } from "react"
 import axios from "axios"
 import { useInView } from "react-intersection-observer"
-import { Navigate, useLocation, useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import Rating from "../../components/Rating"
 import Loading from "../../components/loading"
 import ReviewList from "../../components/ReviewList"
@@ -23,6 +23,7 @@ function Review() {
     const [isLast, setIsLast] = useState(false);
     const navigate = useNavigate();
     const token = sessionStorage.getItem('accessToken')
+    const [cafeReviewCnt, setCafeReviewCnt] = useState(0);
 
     useEffect(() => {
         pageLoad(currentPage);
@@ -40,11 +41,12 @@ function Review() {
             headers: {
                 'Authorization': token
             }
-        } : {}; 
+        } : {};
         axios.get(`http://localhost:8080/api/cafe/${cafeId}/reviews/${currentPage}`, config)
             .then(response => {
                 console.log(response)
                 setIsLast(response.data.isLast);
+                setCafeReviewCnt(response.data.cafeReviewCnt)
 
                 if (currentPage === 0) {
                     setDataList(response.data.reviewList);
@@ -63,7 +65,7 @@ function Review() {
             return (
                 <>
                     <ul>
-                        {dataList?.map((data, index) => (<ReviewList key={index} props={data} pageReLoad={pageReLoad} setPageReLoad={setPageReLoad} cafeId={cafeId} cafeName={dataList.cafeName}/>))}
+                        {dataList?.map((data, index) => (<ReviewList key={index} props={data} pageReLoad={pageReLoad} setPageReLoad={setPageReLoad} cafeId={cafeId} cafeName={dataList.cafeName} cafePhotoUrl={dataList.cafePhotoUrl} />))}
                     </ul>
                     {isLast ? null : <div ref={ref} className={style.refContainer}><Loading ref={ref} /></div>}
                 </>
@@ -74,11 +76,18 @@ function Review() {
     };
 
     const moveWriteReview = () => {
-        navigate('/WriteReview', { state: { 
-            cafeId: cafeId, 
-            cafePhotoUrl: dataList.cafePhotoUrl, 
-            cafeName: dataList.cafeName
-        }})    }
+        navigate('/WriteReview', {
+            state: {
+                cafeId: cafeId,
+                cafePhotoUrl: dataList.cafePhotoUrl,
+                cafeName: dataList.cafeName
+            }
+        })
+    }
+
+    if (!dataList) {
+        return <Loading />
+    }
 
     return (
         <>
@@ -88,13 +97,13 @@ function Review() {
                     <article className={style.cafeBestReviewContainer}>
                         <div className={style.cafeBestReviewReviewCnt}>
                             <span>리뷰</span>
-                            <span style={{ color: 'red', marginLeft: '3px' }}>{dataList.cafeReviewCnt}</span>
+                            <span style={{ color: 'red', marginLeft: '3px' }}>{cafeReviewCnt}</span>
                         </div>
                         <div className={style.cafeBestReviewRatingContainer}>
                             <span className={style.cafeRatingFontSize}>{dataList.cafeRating}</span>
                             <Rating rating={dataList.cafeRating} />
                             <div className={style.writeReview} onClick={moveWriteReview}>
-                                <Icon_writeReview className={style.reviewWriteBtn}/>
+                                <Icon_writeReview className={style.reviewWriteBtn} />
                                 <span style={{ marginLeft: '2px' }}>리뷰작성</span>
                             </div>
                         </div>

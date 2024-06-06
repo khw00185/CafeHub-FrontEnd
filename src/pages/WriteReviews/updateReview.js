@@ -69,7 +69,6 @@ function UpdateReview() {
         wrapperRef.current.scrollLeft += event.deltaY;
     };
 
-
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (reviewContent.trim() !== '') {

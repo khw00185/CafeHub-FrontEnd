@@ -12,7 +12,7 @@ import "react-image-gallery/styles/css/image-gallery.css";
 import ReactModal from "react-modal";
 import { KakaoLogin } from "./kakaoLogins/kakaoLogin";
 
-function ReviewList({ props, pageReLoad, setPageReLoad, cafeName, cafeId}) {
+function ReviewList({ props, pageReLoad, setPageReLoad, cafeName, cafeId, cafePhotoUrl}) {
     console.log(props)
     //리뷰가 3줄이 넘어가면 더보기 띄우기
     const navigate = useNavigate();
@@ -114,7 +114,8 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeName, cafeId}) {
             prevReviewRating : props.reviewRating,
             prevPhotoUrls : photoUrls,
             prevreviewContent : props.reviewContent,
-            cafeName : cafeName
+            cafeName : cafeName,
+            cafePhotoUrl : cafePhotoUrl
             }})
     }
 
