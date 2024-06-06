@@ -20,7 +20,7 @@ import { KakaoLogin } from '../../components/kakaoLogins/kakaoLogin';
 
 
 
-function MyPage({setSelectedId}) {
+function MyPage({setSelectedId, setIsLogin}) {
     const [userData, setUserData] = useState();
     const navigate = useNavigate();
     const token = sessionStorage.getItem('accessToken')
