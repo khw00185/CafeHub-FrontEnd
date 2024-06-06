@@ -21,6 +21,7 @@ function CafeDetail() {
     const cafeId = location.state?.cafeId;
     const token = sessionStorage.getItem('accessToken')
     const [loginModalOpen, setLoginModalOpen] = useState(false);
+    const [pageReLoad, setPageReLoad] = useState(false);
 
     const [cafeData, setCafeData] = useState({
         cafePhotoUrl: "",
@@ -195,7 +196,7 @@ function CafeDetail() {
                     </div>
                     <div className={style.reviewHRContainer}><hr className={style.reviewHR} /></div>
                     <ul>
-                        {cafeData.bestReviewList.map((data) => (<ReviewList key={data.reviewId} props={data} />))}
+                        {cafeData.bestReviewList.map((data) => (<ReviewList key={data.reviewId} props={data} pageReLoad={pageReLoad} setPageReLoad={setPageReLoad}/>))}
                     </ul>
                     <div className={style.reviewPlus}>
                         <span onClick={moveMoreReview}>리뷰 더보기</span>
