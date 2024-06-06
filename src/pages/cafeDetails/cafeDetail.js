@@ -41,7 +41,7 @@ function CafeDetail() {
 
     const pageLoad = () => {
 
-        axios.get(`${APIURL}/api/cafe/${cafeId}`, {
+        axios.get(`${process.env.REACT_APP_APIURL}/api/cafe/${cafeId}`, {
 
             headers: {
                 'Authorization': token
@@ -92,7 +92,7 @@ function CafeDetail() {
         };
 
         console.log("Sending data to server:", data); // 콘솔에 데이터를 출력하여 확인
-        axios.post(`${APIURL}/api/auth/bookmark`, data, {
+        axios.post(`${process.env.REACT_APP_APIURL}/api/auth/bookmark`, data, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': token

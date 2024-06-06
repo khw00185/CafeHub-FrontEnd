@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../../components/loading';
 import { Cookies, useCookies } from 'react-cookie';
-const APIURL = `https://master.d18slmijdq6uhn.amplifyapp.com/`
 
 const OAuthCallback = ({ setIsLogin }) => {
     const code = new URL(window.location.href).searchParams.get('code');
@@ -14,7 +13,7 @@ const OAuthCallback = ({ setIsLogin }) => {
             try {
                 const response = await axios
                     .get(
-                        `${APIURL}/api/member/login/kakao?code=${code}`,
+                        `${process.env.REACT_APP_APIURL}/api/member/login/kakao?code=${code}`,
                     )
                     .then(res => {
 

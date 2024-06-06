@@ -21,7 +21,6 @@ import { KakaoLogin } from '../../components/kakaoLogins/kakaoLogin';
 
 
 
-
 function MyPage(){
     const [userData, setUserData] = useState();
     const navigate = useNavigate();
@@ -31,7 +30,7 @@ function MyPage(){
         if (sessionStorage.getItem('accessToken') === null) {
             KakaoLogin();
         }
-        axios.get(`http://localhost:8080/api/auth/mypage`, {
+        axios.get(`${process.env.REACT_APP_APIURL}/api/auth/mypage`, {
             headers: {
                 'Authorization': token
             }
@@ -46,7 +45,7 @@ function MyPage(){
     }, [])
 
     const handleLogout=()=>{
-        axios.post(`http://localhost:8080/api/auth/logout`)
+        axios.post(`${process.env.REACT_APP_APIURL}/api/auth/logout`)
         .then(res => {
             navigate("/")
         })

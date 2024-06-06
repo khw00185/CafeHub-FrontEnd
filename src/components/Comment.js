@@ -5,7 +5,6 @@ import style from "./Comment.module.css"
 import Loading from "./loading";
 import { ReactComponent as Icon_setting } from "../asset/icon/icon_setting.svg"
 import { KakaoLogin } from "./kakaoLogins/kakaoLogin";
-const APIURL = `https://master.d18slmijdq6uhn.amplifyapp.com/`
 
 
 
@@ -47,7 +46,7 @@ const CommentInput = ({ reviewId, commentCnt, setCommentCnt, commentRegisterFlag
             const data = {
                 commentContent: comment
             }
-            axios.post(`${APIURL}/api/auth/reviews/${reviewId}/comment`, data, {headers: {
+            axios.post(`${process.env.REACT_APP_APIURL}/api/auth/reviews/${reviewId}/comment`, data, {headers: {
                 'Authorization': token,
             }})
             .then(res => {
@@ -96,7 +95,7 @@ const GetComment = ({ props, commentRegisterFlag, currentPage, setCurrentPage, p
         } : {}; 
         
         console.log("다시 get 요청!!")
-        axios.get(`${APIURL}/api/reviews/${props.reviewId}/comments/${currentPage}`, config)
+        axios.get(`${process.env.REACT_APP_APIURL}/api/reviews/${props.reviewId}/comments/${currentPage}`, config)
         .then(response => {
             console.log(response.data.data); // 서버 응답 확인@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
@@ -176,7 +175,7 @@ const CommentList = ({ data, pageReLoad, setPageReLoad }) => {
     const deleteReview = () => {
         console.log(data.reviewId, "asd")
         const commentId = data.commentId
-        axios.post(`${APIURL}/api/auth/reviews/${commentId}/delete`)
+        axios.post(`${process.env.REACT_APP_APIURL}/api/auth/reviews/${commentId}/delete`)
         .then(res => {
             console.log(res);
             setPageReLoad(!pageReLoad)

@@ -11,7 +11,6 @@ import Loading from "../../components/loading"
 import ReviewList from "../../components/ReviewList"
 import { ReactComponent as Icon_writeReview } from "../../asset/icon/icon_write.svg"
 import ModalComponent from "../../components/modalComponent"
-const APIURL = `https://master.d18slmijdq6uhn.amplifyapp.com/`
 
 
 function Review() {
@@ -46,7 +45,7 @@ function Review() {
                 'Authorization': token
             }
         } : {};
-        axios.get(`${APIURL}/api/cafe/${cafeId}/reviews/${currentPage}`, config)
+        axios.get(`${process.env.REACT_APP_APIURL}/api/cafe/${cafeId}/reviews/${currentPage}`, config)
             .then(response => {
                 console.log(response)
                 setIsLast(response.data.isLast);
