@@ -11,6 +11,7 @@ import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import ReactModal from "react-modal";
 import { KakaoLogin } from "./kakaoLogins/kakaoLogin";
+import ModalComponent from "./modalComponent";
 
 function ReviewList({ props, pageReLoad, setPageReLoad, cafeName, cafeId, cafePhotoUrl}) {
     console.log(props)
@@ -62,6 +63,9 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeName, cafeId, cafePh
 
 
     const changeReviewLikeColor = () => {
+        if(!token){
+            return <ModalComponent />
+        }
         setReviewLike(!reviewLike);
         setReviewLikeCnt(!reviewLike ? reviewLikeCnt + 1 : reviewLikeCnt - 1)
     }
@@ -221,7 +225,7 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeName, cafeId, cafePh
                             (<span className={style.comment} >댓글 <span style={{ color: `${commentCntColor}` }}>({commentCnt})</span></span>)}
                     </div>
                     <div style={{ display: 'flex' }}>
-                        {token && <CheckReviewLike />}
+                        {<CheckReviewLike />}
                         <span>{reviewLikeCnt}</span>
                     </div>
                 </div>

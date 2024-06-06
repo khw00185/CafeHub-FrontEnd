@@ -1,8 +1,10 @@
 import ReactModal from "react-modal";
+import { useNavigate } from "react-router-dom";
 import style from "./modalComponent.module.css"
 
 function ModalComponent({modalIsOpen, setModalIsOpen}) {
     const modalStyles = getModalStyles();
+    const navigate = useNavigate();
 
     return(
         <ReactModal
@@ -14,8 +16,9 @@ function ModalComponent({modalIsOpen, setModalIsOpen}) {
             style={modalStyles}>
                 <div className={style.modalWrapper}>
                     <span className={style.cafeHub}>CafeHub</span>
-                    <span className={style.modalContent}>로그인 좀 해주십사하고</span>
-                    <span className={style.modalContent}>모달창 띄웠습니다.</span>
+                    <span className={style.modalContent}>로그인 후 이용 가능한</span>
+                    <span className={style.modalContent}>서비스 입니다.</span>
+                    <button className={style.modalBtn} onClick={()=>navigate(`/`)}>로그인</button>
                     <button className={style.modalBtn} onClick={() => setModalIsOpen(false)}>닫기</button>
                 </div>
         </ReactModal>
