@@ -20,6 +20,8 @@ table {border-collapse:collapse;border-spacing:0}
   width: 100%;
 
   max-width: 43rem;
+  min-width: 430px;
+  min-height: 100dvh; 
   -ms-overflow-style: none; /* 인터넷 익스플로러 */
   scrollbar-width: none; /* 파이어폭스 */
   height: 100dvh;

@@ -40,7 +40,6 @@ function CafeList() {
         })
         .catch(error => {
             console.error('Error fetching data: ', error);
-            console.log(process.env.REACT_APP_APIURL)
         });
     }
 
