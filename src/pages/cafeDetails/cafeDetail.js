@@ -14,6 +14,7 @@ import axios from "axios"
 import Rating from "../../components/Rating"
 import ReviewList from "../../components/ReviewList"
 import Loading from "../../components/loading"
+import ModalComponent from "../../components/modalComponent"
 
 
 function CafeDetail() {
@@ -21,6 +22,7 @@ function CafeDetail() {
     const location = useLocation();
     const cafeId = location.state?.cafeId;
     const token = sessionStorage.getItem('accessToken')
+    const [loginModalOpen, setLoginModalOpen] = useState(false);
 
     const [cafeData, setCafeData] = useState({
         cafePhotoUrl: "",
@@ -39,7 +41,7 @@ function CafeDetail() {
     const pageLoad = () => {
 
         axios.get(`http://localhost:8080/api/cafe/${cafeId}`, {
-            
+
             headers: {
                 'Authorization': token
             }
@@ -62,17 +64,22 @@ function CafeDetail() {
 
     const [cafeLike, setCafeLike] = useState();
     const changeCafeLikeColor = () => {
-        setCafeLike(prevCafeLike => {
-            const newCafeLike = !prevCafeLike;
-            updateBookmark(newCafeLike); // 변경된 상태를 전달
-            return newCafeLike; // 변경된 상태 반환
-        });
+        if (!token) {
+            setLoginModalOpen(true);
+        }
+        else {
+            setCafeLike(prevCafeLike => {
+                const newCafeLike = !prevCafeLike;
+                updateBookmark(newCafeLike); // 변경된 상태를 전달
+                return newCafeLike; // 변경된 상태 반환
+            });
+        }
     }
     const cafeLikeColor = () => {
 
         return (
             <div className={style.likeContainer} onClick={changeCafeLikeColor}>
-                <Icon_like fill={cafeLike ? "#FF4F4F" : "#FFF"} className={style.like} stroke={cafeLike ? "#FF4F4F" : "#828282"}/>
+                <Icon_like fill={cafeLike ? "#FF4F4F" : "#FFF"} className={style.like} stroke={cafeLike ? "#FF4F4F" : "#828282"} />
             </div>
         )
     }
@@ -90,29 +97,31 @@ function CafeDetail() {
                 'Authorization': token
             }
         })
-        .then(res => {
-            console.log(res);
-        })
-        .catch(error => {
-            console.error('Error updating data: ', error);
-        });
+            .then(res => {
+                console.log(res);
+            })
+            .catch(error => {
+                console.error('Error updating data: ', error);
+            });
     };
 
 
     const moveWriteReview = () => {
         console.log(cafeData)
-        navigate('/WriteReview', { state: { 
-            cafeId: cafeId, 
-            cafePhotoUrl: cafeData.cafePhotoUrl, 
-            cafeName: cafeData.cafeName
-        }})
+        navigate('/WriteReview', {
+            state: {
+                cafeId: cafeId,
+                cafePhotoUrl: cafeData.cafePhotoUrl,
+                cafeName: cafeData.cafeName
+            }
+        })
     }
 
     const moveMoreMenu = () => {
         navigate('/Menu', { state: { cafeId: cafeId } });
     }
     const moveMoreReview = () => {
-        navigate('/Review', { state: { cafeId: cafeId } })
+        navigate('/Review', { state: { cafeId: cafeId, cafePhotoUrl: cafeData.cafePhotoUrl } })
     }
 
 
@@ -124,7 +133,7 @@ function CafeDetail() {
                     <img className={style.cafeInfoBg} src={cafeData.cafePhotoUrl}></img>
 
                     <div className={style.cafeInfoTitleContainer}>
-                        {token && cafeLikeColor()}
+                        {cafeLikeColor()}
                         <div className={style.cafeInfoTitleLike}>
                             <span className={style.cafeInfoTitle}>{cafeData.cafeName}</span>
                         </div>
@@ -177,9 +186,11 @@ function CafeDetail() {
                         <span style={{ color: 'red', marginLeft: '3px' }}>{cafeData.cafeReviewCnt}</span>
                     </div>
                     <div className={style.cafeBestReviewRatingContainer}>
-                        <span className={style.cafeRatingFontSize}>{cafeData.cafeRating}점</span>
-                        <Rating rating={cafeData.cafeRating} />
-                        <div className={style.writeReview} onClick={moveWriteReview}>
+                        <div className={style.ratingWrapper}>
+                            <span className={style.cafeRatingFontSize}>{cafeData.cafeRating}점</span>
+                            <Rating rating={cafeData.cafeRating} />
+                        </div>
+                        <div className={style.writeReview} onClick={token ? moveWriteReview : () => setLoginModalOpen(true)}>
                             <img src={WriteReview} className={style.reviewWriteBtn} style={{ width: '10px', height: '10px' }}></img>
                             <span style={{ marginLeft: '2px' }}>리뷰작성</span>
                         </div>
@@ -194,6 +205,7 @@ function CafeDetail() {
                     </div>
 
                 </article>
+                {loginModalOpen && <ModalComponent modalIsOpen={loginModalOpen} setModalIsOpen={setLoginModalOpen}></ModalComponent>}
 
 
             </main>

@@ -41,7 +41,7 @@
     width: 320px;
     justify-content: center;
     height: auto;
-    margin-top: 15px;
+    margin-top: 10px;
 }
 .likeContainer{
     cursor: pointer;
@@ -209,10 +209,15 @@ hr{
     display: flex;
     margin-left: 45px;
     margin-top: 20px;
+    width: 350px;
     align-items: center;
+    justify-content: space-between;
+
 
 }
-
+.ratingWrapper{
+    display: flex;
+}
 .cafeRatingFontSize{
     font-family: NanumSquareOTF;
     font-size: 22px;
@@ -236,7 +241,7 @@ hr{
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: 80px;
+    margin-right: 5px;
 }
 .reviewWriteBtn{
     width:'10px';

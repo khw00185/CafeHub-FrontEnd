@@ -10,6 +10,7 @@ import Rating from "../../components/Rating"
 import Loading from "../../components/loading"
 import ReviewList from "../../components/ReviewList"
 import { ReactComponent as Icon_writeReview } from "../../asset/icon/icon_write.svg"
+import ModalComponent from "../../components/modalComponent"
 
 
 function Review() {
@@ -25,6 +26,7 @@ function Review() {
     const token = sessionStorage.getItem('accessToken')
     const [cafeReviewCnt, setCafeReviewCnt] = useState(0);
     const [cafeRating, setCafeRating] = useState(0);
+    const [loginModalOpen, setLoginModalOpen] = useState(false);
 
     useEffect(() => {
         pageLoad(currentPage);
@@ -103,7 +105,7 @@ function Review() {
                         <div className={style.cafeBestReviewRatingContainer}>
                             <span className={style.cafeRatingFontSize}>{dataList.cafeRating}</span>
                             <Rating rating={cafeRating} />
-                            <div className={style.writeReview} onClick={moveWriteReview}>
+                            <div className={style.writeReview} onClick={token ? moveWriteReview : () => setLoginModalOpen(true)}>
                                 <Icon_writeReview className={style.reviewWriteBtn} />
                                 <span style={{ marginLeft: '2px' }}>리뷰작성</span>
                             </div>
@@ -113,6 +115,8 @@ function Review() {
                             {loadList()}
                         </div>
                     </article>
+                    {loginModalOpen && <ModalComponent modalIsOpen={loginModalOpen} setModalIsOpen={setLoginModalOpen}></ModalComponent>}
+
                 </main>
             </div>
         </>
