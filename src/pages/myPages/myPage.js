@@ -29,7 +29,7 @@ function MyPage() {
     const [change, setChange] = useState(false);
     const [userUpdatePost, setUserUpdatePost] = useState(false);
     const [initialized, setInitialized] = useState(false);
-
+    const [reRender, setReRender] = useState(false);
 
     useEffect(() => {
         if (sessionStorage.getItem('accessToken') === null) {
@@ -49,7 +49,7 @@ function MyPage() {
             .catch(error => {
                 console.error('Error updating data: ', error);
             });
-    }, []);
+    }, [reRender]);
 
     const handleLogout = () => {
         axios.post(`${process.env.REACT_APP_APIURL}/api/auth/logout`, {
@@ -89,6 +89,7 @@ function MyPage() {
             .then(res => {
                 console.log("Update success");
                 setChange(!change)
+                setReRender(!reRender)
             })
             .catch(error => {
                 console.error('Error updating data: ', error);
