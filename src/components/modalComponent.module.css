@@ -34,6 +34,16 @@
 
 
 }
+.modalLoginBtn{
+    width: 50px;
+    height: 30px;
+    border-radius: 20px;
+    background-color: #FFE812 ;
+    color: #FFF;
+    position: absolute;
+    right: 70px;
+    bottom: 0px;
+}
 .modalBtn{
     width: 50px;
     height: 30px;
