@@ -11,7 +11,7 @@ import { ReactComponent as Icon_logout } from "../../asset/icon/icon_logout.svg"
 import { ReactComponent as Icon_camera } from "../../asset/icon/icon_camera.svg"
 import { ReactComponent as Icon_mail } from "../../asset/icon/icon_mail.svg"
 import { ReactComponent as Icon_nickname } from "../../asset/icon/icon_myPage.svg"
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import BasicImg from "../../asset/img/img_basicUserPhoto.png"
@@ -27,6 +27,10 @@ function MyPage() {
     const [userNickname, setUserNickname] = useState('');
     const [userProfileImg, setUserProfileImg] = useState('');
     const [change, setChange] = useState(false);
+    const [userUpdatePost, setUserUpdatePost] = useState(false);
+    const [initialized, setInitialized] = useState(false);
+
+
     useEffect(() => {
         if (sessionStorage.getItem('accessToken') === null) {
             KakaoLogin();
@@ -60,7 +64,8 @@ function MyPage() {
                 console.error('Error updating data: ', error);
             });
     }
-    const profileUpdate = async () => {
+    useEffect(() => {
+        if (initialized) {
         const formData = new FormData();
         const reviewData = {
             nickname : userNickname
@@ -88,17 +93,20 @@ function MyPage() {
             .catch(error => {
                 console.error('Error updating data: ', error);
             });
-    }
+        }else{
+            setInitialized(true);
+        }
+    }, [userUpdatePost])
 
     const handleChange = (event) => {
         setUserNickname(event.target.value);
     };
     const profileImgUpdate = (event) => {
         setUserProfileImg(event.target.files[0]);
-        profileUpdate();
+        setUserUpdatePost(!userUpdatePost);
     }
     const userNicknameUpdate = () => {
-        profileUpdate();
+        setUserUpdatePost(!userUpdatePost);
     }
 
     if (!userData) {
