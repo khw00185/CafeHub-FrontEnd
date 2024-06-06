@@ -1,6 +1,5 @@
 import styled from '../../styles/GlobalStyle.module.css';
-import style from "./myPage.module.css"
-import Photo from '../../asset/img/img_photo.png';
+import style from "./myPage.module.css";
 import NicknameArti from '../../asset/icon/icon_nicknameAlt.png';
 import MyReview from '../../asset/icon/icon_myReview.png';
 import MyComment from '../../asset/icon/icon_myComment.png';
@@ -8,98 +7,100 @@ import GoodBye from '../../asset/icon/icon_goodBye.png';
 import MyAsk from '../../asset/icon/icon_myAsk.png';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
-import { ReactComponent as Icon_logout } from "../../asset/icon/icon_logout.svg"
-import { ReactComponent as Icon_camera } from "../../asset/icon/icon_camera.svg"
-import { ReactComponent as Icon_mail } from "../../asset/icon/icon_mail.svg"
-import { ReactComponent as Icon_nickname } from "../../asset/icon/icon_myPage.svg"
+import { ReactComponent as Icon_logout } from "../../asset/icon/icon_logout.svg";
+import { ReactComponent as Icon_camera } from "../../asset/icon/icon_camera.svg";
+import { ReactComponent as Icon_mail } from "../../asset/icon/icon_mail.svg";
+import { ReactComponent as Icon_nickname } from "../../asset/icon/icon_myPage.svg";
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import BasicImg from "../../asset/img/img_basicUserPhoto.png"
+import BasicImg from "../../asset/img/img_basicUserPhoto.png";
 import Loading from '../../components/loading';
 import { KakaoLogin } from '../../components/kakaoLogins/kakaoLogin';
-
-
 
 function MyPage() {
     const [userData, setUserData] = useState();
     const navigate = useNavigate();
-    const token = sessionStorage.getItem('accessToken')
+    const token = sessionStorage.getItem('accessToken');
     const [userNickname, setUserNickname] = useState('');
-    const [userProfileImg, setUserProfileImg] = useState('');
+    const [userProfileImg, setUserProfileImg] = useState(null);
     const [change, setChange] = useState(false);
+
     useEffect(() => {
-        if (sessionStorage.getItem('accessToken') === null) {
+        if (!token) {
             KakaoLogin();
+            return;
         }
         axios.get(`${process.env.REACT_APP_APIURL}/api/auth/mypage`, {
             headers: {
                 'Authorization': token
             }
         })
-            .then(res => {
-                setUserData(res.data.data)
-                setUserNickname(res.data.data.nickname);
-                setUserProfileImg(res.data.data.profileImg ? res.data.data.profileImg : BasicImg);
-                console.log(res)
-            })
-            .catch(error => {
-                console.error('Error updating data: ', error);
-            });
-    }, [change]);
+        .then(res => {
+            const data = res.data.data;
+            setUserData(data);
+            setUserNickname(data.nickname);
+            setUserProfileImg(data.profileImg ? data.profileImg : BasicImg);
+        })
+        .catch(error => {
+            console.error('Error fetching data: ', error);
+        });
+    }, [change, token]);
 
     const handleLogout = () => {
-        axios.post(`${process.env.REACT_APP_APIURL}/api/auth/logout`, {
+        axios.post(`${process.env.REACT_APP_APIURL}/api/auth/logout`, {}, {
             headers: {
                 'Authorization': token
             }
         })
-            .then(res => {
-                navigate('/');
-            })
-            .catch(error => {
-                console.error('Error updating data: ', error);
-            });
+        .then(res => {
+            sessionStorage.removeItem('accessToken');
+            navigate('/');
+        })
+        .catch(error => {
+            console.error('Error logging out: ', error);
+        });
     }
+
     const profileUpdate = async () => {
         const formData = new FormData();
-        const reviewData = {
-            userNickname
-        };
-        formData.append("nickname", new Blob([JSON.stringify(reviewData)], { type: "application/json" }));
+        formData.append("nickname", new Blob([JSON.stringify({ nickname: userNickname })], { type: "application/json" }));
 
-        if (userProfileImg && userProfileImg instanceof File) {
-            formData.append("profileImg", userProfileImg)
+        if (userProfileImg instanceof File) {
+            formData.append("profileImg", userProfileImg);
         }
-        
-        axios.post(`${process.env.REACT_APP_APIURL}/api/auth/mypage`, formData, {
-            headers: {
-                'Authorization': token,
-                'Content-Type': 'multipart/form-data'
-            },
-        })
-            .then(res => {
-                console.log("Update success");
-                setChange(!change)
-            })
-            .catch(error => {
-                console.error('Error updating data: ', error);
+
+        try {
+            await axios.post(`${process.env.REACT_APP_APIURL}/api/auth/mypage`, formData, {
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'multipart/form-data'
+                }
             });
+            setChange(!change);
+        } catch (error) {
+            console.error('Error updating profile: ', error);
+        }
     }
 
     const handleChange = (event) => {
         setUserNickname(event.target.value);
     };
+
     const profileImgUpdate = (event) => {
-        setUserProfileImg(event.target.files[0]);
-        profileUpdate();
+        const file = event.target.files[0];
+        if (file) {
+            setUserProfileImg(file);
+            profileUpdate();  // 파일을 선택할 때마다 자동으로 업데이트
+        }
     }
+
     const userNicknameUpdate = () => {
         profileUpdate();
     }
 
     if (!userData) {
-        return <Loading />
+        return <Loading />;
     }
 
     return (
@@ -116,8 +117,8 @@ function MyPage() {
                         </article>
 
                         <article className={style.photoArti}>
-                            <img src={userProfileImg instanceof File ? URL.createObjectURL(userProfileImg) : userProfileImg} className={style.photo}></img>
-                            <label for="file" className={style.photoAltWrapper}>
+                            <img src={userProfileImg instanceof File ? URL.createObjectURL(userProfileImg) : userProfileImg} className={style.photo} alt="User Profile"/>
+                            <label htmlFor="file" className={style.photoAltWrapper}>
                                 <Icon_camera className={style.photoAlt} />
                             </label>
                             <input
@@ -127,21 +128,20 @@ function MyPage() {
                                 className={style.fileInput}
                                 accept="image/jpg,image/png,image/jpeg"
                             />
-
                         </article>
 
                         <article className={style.container}>
                             <article className={style.nicknameArti}>
                                 <div className={style.nickDiv}>
                                     <Icon_nickname className={style.nicknameIcon} />
-                                    <input type="text" value={userNickname} className={style.nickText} onChange={handleChange}></input>
+                                    <input type="text" value={userNickname} className={style.nickText} onChange={handleChange} />
                                 </div>
-                                <img src={NicknameArti} className={style.nicknameArtiIcon} onClick={userNickname.length > 1 ? userNicknameUpdate : undefined} />
+                                <img src={NicknameArti} className={style.nicknameArtiIcon} alt="Update Nickname" onClick={userNickname.length > 1 ? userNicknameUpdate : undefined} />
                             </article>
 
                             <article className={style.emailArti}>
                                 <Icon_mail className={style.nicknameIcon} />
-                                <input type="text" value={userData.email} className={style.emailText} readOnly></input>
+                                <input type="text" value={userData.email} className={style.emailText} readOnly />
                             </article>
                         </article>
                     </article>
@@ -149,32 +149,30 @@ function MyPage() {
                     <ul className={style.ulList}>
                         {myList.map((data) => (<MyPagelist key={data.id} props={data} />))}
                     </ul>
+                    <button onClick={profileUpdate} className={style.updateBtn}>프로필 업데이트</button>
                 </main>
             </div>
         </>
-    )
+    );
 }
 
 export default MyPage;
-
-
 
 const myList = [
     { id: 1, src: MyReview, title: "내 리뷰" },
     { id: 2, src: MyComment, title: "내 댓글" },
     { id: 5, src: GoodBye, title: "회원탈퇴" },
     { id: 6, src: MyAsk, title: "문의하기" }
-]
+];
 
 function MyPagelist({ props }) {
-    console.log(props.src)
     return (
         <li className={style.flexLine}>
             <div className={style.imgTitleBox}>
-                <img src={props.src} className={style.img}></img>
+                <img src={props.src} className={style.img} alt={props.title}/>
                 <span className={style.text}>{props.title}</span>
             </div>
             <FontAwesomeIcon className={style.imgV} icon={faChevronRight} />
         </li>
-    )
+    );
 }
