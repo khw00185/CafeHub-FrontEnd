@@ -13,8 +13,8 @@ import ReactModal from "react-modal";
 import { KakaoLogin } from "./kakaoLogins/kakaoLogin";
 import ModalComponent from "./modalComponent";
 
-function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafePhotoUrl, cafeName, bestReview }) {
-    console.log("리뷰리스트",props)
+function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafePhotoUrl, cafeName, displayCommentBtn }) {
+    console.log("리뷰리스트", props)
     //리뷰가 3줄이 넘어가면 더보기 띄우기
     const navigate = useNavigate();
     const token = sessionStorage.getItem('accessToken')
@@ -75,7 +75,7 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafePhotoUrl, ca
     const CheckReviewLike = () => {
         return (
             <div onClick={changeReviewLikeColor}>
-                <Icon_like fill={reviewLike ? "#FF4F4F" : "#FFF"} stroke={reviewLike ? "#FF4F4F" : "#828282"} className={style.like}/>
+                <Icon_like fill={reviewLike ? "#FF4F4F" : "#FFF"} stroke={reviewLike ? "#FF4F4F" : "#828282"} className={style.like} />
             </div>
         )
     }
@@ -110,7 +110,7 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafePhotoUrl, ca
     const deleteReview = () => {
         console.log(props.reviewId, "asd")
         const reviewId = props.reviewId
-        axios.post(`${process.env.REACT_APP_APIURL}/api/auth/cafe/${reviewId}/delete`, {
+        axios.post(`${process.env.REACT_APP_APIURL}/api/auth/cafe/${reviewId}/delete`, {}, {
             headers: {
                 'Authorization': token,
             }
@@ -232,12 +232,14 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafePhotoUrl, ca
                     )}
                 </div>
                 <div className={style.reviewCommentLikeContainer} style={{ marginTop: '20px' }}>
-                    {!bestReview && <div style={{ display: 'flex', cursor: 'pointer', color: `${commentBtnColor}` }} onClick={openComment}>
-                        <Icon_comment fill={commentBtnColor} style={{ width: '16px', height: '14px' }} />
-                        {props.commentCnt === 0 ? (<span className={style.comment} >댓글 달기</span>) :
-                            (<span className={style.comment} >댓글 <span style={{ color: `${commentCntColor}` }}>({commentCnt})</span></span>)}
-                    </div>}
-                    
+                    {!displayCommentBtn &&
+                        <div style={{ display: 'flex', cursor: 'pointer', color: `${commentBtnColor}` }} onClick={openComment}>
+                            <Icon_comment fill={commentBtnColor} style={{ width: '16px', height: '14px' }} />
+                            {props.commentCnt === 0 ? (<span className={style.comment} >댓글 달기</span>) :
+                                (<span className={style.comment} >댓글 <span style={{ color: `${commentCntColor}` }}>({commentCnt})</span></span>)}
+                        </div>
+                    }
+
                     <div style={{ display: 'flex' }}>
                         {<CheckReviewLike />}
                         <span>{reviewLikeCnt}</span>

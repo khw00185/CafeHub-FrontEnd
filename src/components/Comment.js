@@ -175,10 +175,14 @@ const CommentList = ({ data, pageReLoad, setPageReLoad }) => {
         )
     }
 
-    const deleteReview = () => {
+    const deleteComment = () => {
         console.log(data.reviewId, "asd")
         const commentId = data.commentId
-        axios.post(`${process.env.REACT_APP_APIURL}/api/auth/reviews/${commentId}/delete`)
+        axios.post(`${process.env.REACT_APP_APIURL}/api/auth/reviews/${commentId}/delete`, {}, {
+            headers: {
+                'Authorization': token
+            }
+        })
             .then(res => {
                 console.log(res);
                 setPageReLoad(!pageReLoad)
@@ -200,7 +204,7 @@ const CommentList = ({ data, pageReLoad, setPageReLoad }) => {
                     {commentManagementCheck()}
                     {isDropMenuOpen && (
                         <ul className={style.dropMenuContainer}>
-                            <li className={style.dropMenuWrapper} onClick={deleteReview}>
+                            <li className={style.dropMenuWrapper} onClick={deleteComment}>
                                 <span>삭제</span>
                             </li>
                         </ul>)}

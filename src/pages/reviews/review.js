@@ -30,7 +30,7 @@ function Review() {
     const [cafeReviewCnt, setCafeReviewCnt] = useState(0);
     const [cafeRating, setCafeRating] = useState(0);
     const [loginModalOpen, setLoginModalOpen] = useState(false);
-    const bestReview = false;
+
     useEffect(() => {
         pageLoad(currentPage);
     }, [currentPage, pageReLoad])
@@ -71,7 +71,7 @@ function Review() {
             return (
                 <>
                     <ul>
-                        {dataList?.map((data, index) => (<ReviewList key={index} props={data} pageReLoad={pageReLoad} setPageReLoad={setPageReLoad} cafeId={cafeId} cafePhotoUrl={cafePhotoUrl} cafeName={cafeName} bestReview={bestReview}/>))}
+                        {dataList?.map((data, index) => (<ReviewList key={index} props={data} pageReLoad={pageReLoad} setPageReLoad={setPageReLoad} cafeId={cafeId} cafePhotoUrl={cafePhotoUrl} cafeName={cafeName}/>))}
                     </ul>
                     {isLast ? null : <div ref={ref} className={style.refContainer}><Loading ref={ref} /></div>}
                 </>
