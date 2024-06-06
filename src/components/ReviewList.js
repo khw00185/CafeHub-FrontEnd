@@ -105,7 +105,6 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeName, cafeId}) {
         })
         .catch(error => {
             console.error('Error updating data: ', error);
-
         });
     }
     const updateReview = () => {
@@ -187,10 +186,10 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeName, cafeId}) {
 
                 {photoUrls && photoUrls?.length > 0 && (
                     <div className={style.photoContainer}>
-                        {photoUrls.slice(0, 2).map((url, index) => (
+                        {photoUrls.slice(0, 3).map((url, index) => (
                             <img key={index} src={url} alt={`Review photo ${index + 1}`} className={style.reviewPhoto} onClick={() => openModal(index)}/>
                         ))}
-                        {photoUrls.length > 2 && (
+                        {photoUrls.length > 3 && (
                             <div className={style.morePhotosContainer} onClick={() => openModal(2)}>
                                 <img src={photoUrls[2]} alt="More photos" className={style.reviewPhoto} style={{ opacity: 0.5 }} />
                                 <div className={style.morePhotosOverlay}>+{photoUrls.length - 3}</div>
