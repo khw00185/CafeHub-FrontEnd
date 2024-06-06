@@ -52,7 +52,7 @@ function MyPage() {
     }, [reRender]);
 
     const handleLogout = () => {
-        axios.post(`${process.env.REACT_APP_APIURL}/api/auth/logout`, {
+        axios.post(`${process.env.REACT_APP_APIURL}/api/auth/logout`, {}, {
             headers: {
                 'Authorization': token
             }
