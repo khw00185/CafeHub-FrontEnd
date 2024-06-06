@@ -22,6 +22,7 @@ function Review() {
     const [ref, inView] = useInView();
     const [isLast, setIsLast] = useState(false);
     const navigate = useNavigate();
+    const token = sessionStorage.getItem('accessToken')
 
     useEffect(() => {
         pageLoad(currentPage);
@@ -35,7 +36,12 @@ function Review() {
     }, [inView])
 
     const pageLoad = (currentPage) => {
-        axios.get(`http://localhost:8080/api/cafe/${cafeId}/reviews/${currentPage}`)
+        const config = token ? {
+            headers: {
+                'Authorization': token
+            }
+        } : {};
+        axios.get(`http://localhost:8080/api/cafe/${cafeId}/reviews/${currentPage}`, config)
             .then(response => {
                 console.log(response)
                 setIsLast(response.data.isLast);

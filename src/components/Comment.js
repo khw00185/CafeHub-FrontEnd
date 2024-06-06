@@ -88,11 +88,14 @@ const GetComment = ({ props, commentRegisterFlag, currentPage, setCurrentPage, p
     const token = sessionStorage.getItem('accessToken')
 
     const pageLoad = (currentPage) => {        
+        const config = token ? {
+            headers: {
+                'Authorization': token
+            }
+        } : {};
         
         console.log("다시 get 요청!!")
-        axios.get(`http://localhost:8080/api/reviews/${props.reviewId}/comments/${currentPage}`, {headers: {
-            'Authorization': token,
-        }})
+        axios.get(`http://localhost:8080/api/reviews/${props.reviewId}/comments/${currentPage}`, config)
         .then(response => {
             console.log(response.data.data); // 서버 응답 확인@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
