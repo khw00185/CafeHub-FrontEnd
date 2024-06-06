@@ -10,6 +10,8 @@ import { useNavigate } from "react-router-dom";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import ReactModal from "react-modal";
+import { KakaoLogin } from "./kakaoLogins/kakaoLogin";
+const token = sessionStorage.getItem('accessToken')
 
 function ReviewList({ props, pageReLoad, setPageReLoad, cafeName, cafeId}) {
     console.log(props)
@@ -33,6 +35,9 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeName, cafeId}) {
     const [commentCnt, setCommentCnt] = useState(props.commentCnt);
 
     useEffect(() => {
+        if (sessionStorage.getItem('accessToken') === null) {
+            KakaoLogin();
+        }
         if (initialized) {
             const reviewId = props.reviewId;
             const data = {
@@ -40,7 +45,9 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeName, cafeId}) {
             };
 
             console.log("Sending data to server:", data);
-            axios.post(`http://localhost:8080/api/auth/cafe/${reviewId}/like`, data)
+            axios.post(`http://localhost:8080/api/auth/cafe/${reviewId}/like`, data, {headers: {
+                'Authorization': token,
+            }})
                 .then(res => {
                     console.log(res);
                 })

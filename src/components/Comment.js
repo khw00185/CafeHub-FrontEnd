@@ -4,6 +4,7 @@ import { useInView } from "react-intersection-observer";
 import style from "./Comment.module.css"
 import Loading from "./loading";
 import { ReactComponent as Icon_setting } from "../asset/icon/icon_setting.svg"
+import { KakaoLogin } from "./kakaoLogins/kakaoLogin";
 
 
 const token = sessionStorage.getItem('accessToken')
@@ -37,6 +38,9 @@ const CommentInput = ({ reviewId, commentCnt, setCommentCnt, commentRegisterFlag
     };
 
     const handleSubmit = async () => {
+        if (sessionStorage.getItem('accessToken') === null) {
+            KakaoLogin();
+        }
         if (comment.trim() !== '') {
             console.log('Comment submitted:', comment);
             const data = {
@@ -84,7 +88,9 @@ const GetComment = ({ props, commentRegisterFlag, currentPage, setCurrentPage, p
 
     const pageLoad = (currentPage) => {        
         console.log("다시 get 요청!!")
-        axios.get(`http://localhost:8080/api/reviews/${props.reviewId}/comments/${currentPage}`)
+        axios.get(`http://localhost:8080/api/reviews/${props.reviewId}/comments/${currentPage}`, {headers: {
+            'Authorization': token,
+        }})
         .then(response => {
             console.log(response.data.data); // 서버 응답 확인@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
