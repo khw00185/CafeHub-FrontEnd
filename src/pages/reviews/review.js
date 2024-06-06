@@ -16,7 +16,6 @@ import ModalComponent from "../../components/modalComponent"
 function Review() {
     const location = useLocation();
     const cafeId = location.state?.cafeId;
-    const cafeData = location.state?.cafeData;
     const cafePhotoUrl = location.state?.cafePhotoUrl;
     const cafeName = location.state?.cafeName;
     
@@ -72,7 +71,7 @@ function Review() {
             return (
                 <>
                     <ul>
-                        {dataList?.map((data, index) => (<ReviewList key={index} props={data} pageReLoad={pageReLoad} setPageReLoad={setPageReLoad} cafeId={cafeId} cafeData={cafeData}/>))}
+                        {dataList?.map((data, index) => (<ReviewList key={index} props={data} pageReLoad={pageReLoad} setPageReLoad={setPageReLoad} cafeId={cafeId} cafePhotoUrl={cafePhotoUrl} cafeName={cafeName}/>))}
                     </ul>
                     {isLast ? null : <div ref={ref} className={style.refContainer}><Loading ref={ref} /></div>}
                 </>
@@ -86,8 +85,8 @@ function Review() {
         navigate('/WriteReview', {
             state: {
                 cafeId: cafeId,
-                cafeData: cafeData,
-
+                cafePhotoUrl:cafePhotoUrl,
+                cafeName:cafeName
             }
         })
     }

@@ -122,7 +122,7 @@ function CafeDetail() {
         navigate('/Menu', { state: { cafeId: cafeId } });
     }
     const moveMoreReview = () => {
-        navigate('/Review', { state: { cafeId: cafeId, cafePhotoUrl: cafeData.cafePhotoUrl } })
+        navigate('/Review', { state: { cafeId: cafeId, cafePhotoUrl: cafeData.cafePhotoUrl, cafeName: cafeData.cafeName } })
     }
 
 

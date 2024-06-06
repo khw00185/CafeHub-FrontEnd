@@ -217,3 +217,11 @@ hr{
   z-index: 5;
   cursor: pointer;
 }
+
+.like{
+  width: 14px;
+  height: 12px;
+  margin-right: 5px;
+  cursor: pointer;
+
+}

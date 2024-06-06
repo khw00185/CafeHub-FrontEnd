@@ -13,7 +13,7 @@ import ReactModal from "react-modal";
 import { KakaoLogin } from "./kakaoLogins/kakaoLogin";
 import ModalComponent from "./modalComponent";
 
-function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafeData}) {
+function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafePhotoUrl, cafeName }) {
     console.log(props)
     //리뷰가 3줄이 넘어가면 더보기 띄우기
     const navigate = useNavigate();
@@ -48,9 +48,11 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafeData}) {
             };
 
             console.log("Sending data to server:", data);
-            axios.post(`${process.env.REACT_APP_APIURL}/api/auth/cafe/${reviewId}/like`, data, {headers: {
-                'Authorization': token,
-            }})
+            axios.post(`${process.env.REACT_APP_APIURL}/api/auth/cafe/${reviewId}/like`, data, {
+                headers: {
+                    'Authorization': token,
+                }
+            })
                 .then(res => {
                     console.log(res);
                 })
@@ -64,16 +66,22 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafeData}) {
 
     const [loginModalOpen, setLoginModalOpen] = useState(false);
     const changeReviewLikeColor = () => {
-        if(!token){
+        if (!token) {
             setLoginModalOpen(true);
-        } else{
-        setReviewLike(!reviewLike);
-        setReviewLikeCnt(!reviewLike ? reviewLikeCnt + 1 : reviewLikeCnt - 1)
+        } else {
+            setReviewLike(!reviewLike);
+            setReviewLikeCnt(!reviewLike ? reviewLikeCnt + 1 : reviewLikeCnt - 1)
         }
     }
     const CheckReviewLike = () => {
-        return (<Icon_like fill={reviewLike ? "#FF4F4F" : "#FFF"} stroke={reviewLike ? "#FF4F4F" : "#828282"}style={{ width: '14px', height: '12px', marginRight: '5px', cursor: 'pointer' }} onClick={changeReviewLikeColor} />)
+        return (
+            <div onClick={changeReviewLikeColor}>
+                <Icon_like fill={reviewLike ? "#FF4F4F" : "#FFF"} stroke={reviewLike ? "#FF4F4F" : "#828282"} className={style.like} onClick={changeReviewLikeColor} />)
+            </div>
+        )
     }
+
+
 
     const [commentOpen, setCommentOpen] = useState(false)
     const commentBtnColor = commentOpen ? "#FF4F4F" : "#828282"
@@ -94,8 +102,8 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafeData}) {
     const reviewManagementCheck = () => {
         return (
             <>
-                {props.reviewManagement && <div className={style.settingIconWrapper} onClick={toggleDropMenu}> 
-                <Icon_setting fill="#828282" /></div>}
+                {props.reviewManagement && <div className={style.settingIconWrapper} onClick={toggleDropMenu}>
+                    <Icon_setting fill="#828282" /></div>}
             </>
         )
     }
@@ -104,23 +112,26 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafeData}) {
         console.log(props.reviewId, "asd")
         const reviewId = props.reviewId
         axios.post(`${process.env.REACT_APP_APIURL}/api/authcafe/${reviewId}/delete`)
-        .then(res => {
-            console.log(res);
-            setPageReLoad(!pageReLoad)
-        })
-        .catch(error => {
-            console.error('Error updating data: ', error);
-        });
+            .then(res => {
+                console.log(res);
+                setPageReLoad(!pageReLoad)
+            })
+            .catch(error => {
+                console.error('Error updating data: ', error);
+            });
     }
     const updateReview = () => {
-        navigate('/updateReview', {state: {
-            cafeId : cafeId,
-            reviewId : props.reviewId,
-            prevReviewRating : props.reviewRating,
-            prevPhotoUrls : photoUrls,
-            prevreviewContent : props.reviewContent,
-            cafeData : cafeData
-            }})
+        navigate('/updateReview', {
+            state: {
+                cafeId: cafeId,
+                reviewId: props.reviewId,
+                prevReviewRating: props.reviewRating,
+                prevPhotoUrls: photoUrls,
+                prevreviewContent: props.reviewContent,
+                cafePhotoUrl: cafePhotoUrl,
+                cafeName: cafeName
+            }
+        })
     }
 
 
@@ -191,7 +202,7 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafeData}) {
                 {photoUrls && photoUrls?.length > 0 && (
                     <div className={style.photoContainer}>
                         {photoUrls.slice(0, 3).map((url, index) => (
-                            <img key={index} src={url} alt={`Review photo ${index + 1}`} className={style.reviewPhoto} onClick={() => openModal(index)}/>
+                            <img key={index} src={url} alt={`Review photo ${index + 1}`} className={style.reviewPhoto} onClick={() => openModal(index)} />
                         ))}
                         {photoUrls.length > 3 && (
                             <div className={style.morePhotosContainer} onClick={() => openModal(2)}>
@@ -228,7 +239,7 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafeData}) {
                         <span>{reviewLikeCnt}</span>
                     </div>
                 </div>
-                {commentOpen && <Comment props={props} commentCnt={commentCnt} setCommentCnt={setCommentCnt} pageReLoad={pageReLoad} setPageReLoad={setPageReLoad}/>}
+                {commentOpen && <Comment props={props} commentCnt={commentCnt} setCommentCnt={setCommentCnt} pageReLoad={pageReLoad} setPageReLoad={setPageReLoad} />}
                 <div className={style.reviewHRContainer} style={{ marginTop: '6px' }}><hr className={style.reviewHR} /></div>
 
             </div>
@@ -243,12 +254,12 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafeData}) {
             >
                 <div className={style.modalExit} onClick={closeModal}>X</div>
                 <ImageGallery items={images} startIndex={indexOfClickedImage} showThumbnails={false}
-                showFullscreenButton={false} showPlayButton={false} style={{ WebkitUserDrag: 'none' }}
-                renderLeftNav={renderLeftNav}
-                renderRightNav={renderRightNav}/>
+                    showFullscreenButton={false} showPlayButton={false} style={{ WebkitUserDrag: 'none' }}
+                    renderLeftNav={renderLeftNav}
+                    renderRightNav={renderRightNav} />
             </ReactModal>
 
-            {loginModalOpen && <ModalComponent modalIsOpen ={loginModalOpen} setModalIsOpen={setLoginModalOpen}></ModalComponent>}
+            {loginModalOpen && <ModalComponent modalIsOpen={loginModalOpen} setModalIsOpen={setLoginModalOpen}></ModalComponent>}
         </li>
     )
 
