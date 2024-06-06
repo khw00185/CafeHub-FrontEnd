@@ -63,10 +63,12 @@ function MyPage() {
     }
     const profileUpdate = async () => {
         const formData = new FormData();
+        const reviewData = {
+            userNickname
+        };
+        formData.append("nickname", new Blob([JSON.stringify(reviewData)], { type: "application/json" }));
 
-        formData.append("nickname", new Blob([JSON.stringify(userNickname)], { type: "application/json" }));
-
-        if (userProfileImg.length > 0) {
+        if (userProfileImg) {
             formData.append("profileImg", userProfileImg)
         }
         
@@ -89,8 +91,7 @@ function MyPage() {
         setUserNickname(event.target.value);
     };
     const profileImgUpdate = (event) => {
-        const file = event.target.files[0];
-        setUserProfileImg(file);
+        setUserProfileImg(event.target.files[0]);
         profileUpdate();
     }
     const userNicknameUpdate = () => {
