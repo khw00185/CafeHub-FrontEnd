@@ -12,6 +12,7 @@ import "react-image-gallery/styles/css/image-gallery.css";
 import ReactModal from "react-modal";
 import { KakaoLogin } from "./kakaoLogins/kakaoLogin";
 import ModalComponent from "./modalComponent";
+const APIURL = `https://master.d18slmijdq6uhn.amplifyapp.com/`
 
 function ReviewList({ props, pageReLoad, setPageReLoad, cafeName, cafeId, cafePhotoUrl}) {
     console.log(props)
@@ -46,7 +47,7 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeName, cafeId, cafePh
             };
 
             console.log("Sending data to server:", data);
-            axios.post(`http://localhost:8080/api/auth/cafe/${reviewId}/like`, data, {headers: {
+            axios.post(`${APIURL}/api/auth/cafe/${reviewId}/like`, data, {headers: {
                 'Authorization': token,
             }})
                 .then(res => {
@@ -101,7 +102,7 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeName, cafeId, cafePh
     const deleteReview = () => {
         console.log(props.reviewId, "asd")
         const reviewId = props.reviewId
-        axios.post(`http://localhost:8080/api/authcafe/${reviewId}/delete`)
+        axios.post(`${APIURL}/api/authcafe/${reviewId}/delete`)
         .then(res => {
             console.log(res);
             setPageReLoad(!pageReLoad)

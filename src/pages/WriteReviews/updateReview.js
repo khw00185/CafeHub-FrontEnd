@@ -7,10 +7,11 @@ import { ReactComponent as Icon_writeReview } from "../../asset/icon/icon_write.
 import img_writeReview from "../../asset/img/img_wrtiteReview.png"
 import img_star from "../../asset/img/img_star.png"
 import { KakaoLogin } from "../../components/kakaoLogins/kakaoLogin"
+const APIURL = `https://master.d18slmijdq6uhn.amplifyapp.com/`
 
 function UpdateReview() {
     const location = useLocation();
-    const { cafeId, reviewId, prevReviewRating, prevPhotoUrls, prevreviewContent, cafeName} = location.state || {};
+    const { cafeId, reviewId, prevReviewRating, prevPhotoUrls, prevreviewContent, cafeName, cafePhotoUrl} = location.state || {};
     const ARRAY = [0, 1, 2, 3, 4];
     const [clicked, setClicked] = useState([false, false, false, false, false]);
     const navigate = useNavigate();
@@ -84,7 +85,7 @@ function UpdateReview() {
                 }
             }
 
-            axios.post(`http://localhost:8080/api/auth/cafe/${reviewId}/update`, formData, {
+            axios.post(`${APIURL}/api/auth/cafe/${reviewId}/update`, formData, {
                 headers: {
                     'Authorization': token,
                     'Content-Type': 'multipart/form-data'
@@ -111,7 +112,7 @@ function UpdateReview() {
                 <main className={styled.main_container}>
                     <Top />
                     <article className={style.cafePhotoWrapper}>
-                        <img src={photos} className={style.cafeImg} />
+                        <img src={cafePhotoUrl} className={style.cafeImg} />
                         <span className={style.AskReivewText}>"<span style={{ color: "#FF4F4F" }}>{cafeName}</span>"  어떠셨나요?</span>
 
                     </article>

@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import Loading from "../../components/loading";
 import axios from "axios";
 import { KakaoLogin } from "../../components/kakaoLogins/kakaoLogin";
+const APIURL = `https://master.d18slmijdq6uhn.amplifyapp.com/`
 
 function Bookmark() {
 
@@ -22,7 +23,7 @@ function Bookmark() {
         }
         const initialToken = sessionStorage.getItem("accessToken")
 
-        axios.get(`http://localhost:8080/api/auth/bookmarks`, {
+        axios.get(`${APIURL}/api/auth/bookmarks`, {
             headers: {
                 'Authorization': initialToken
             }
@@ -83,7 +84,7 @@ function BookmarkList({ props }) {
 
 
             console.log("Sending data to server:", data); // 콘솔에 데이터를 출력하여 확인
-            axios.post(`http://localhost:8080/api/auth/bookmark`, data, {
+            axios.post(`${APIURL}/api/auth/bookmark`, data, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': initialToken

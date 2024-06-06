@@ -15,6 +15,7 @@ import Rating from "../../components/Rating"
 import ReviewList from "../../components/ReviewList"
 import Loading from "../../components/loading"
 import ModalComponent from "../../components/modalComponent"
+const APIURL = `https://master.d18slmijdq6uhn.amplifyapp.com/`
 
 
 function CafeDetail() {
@@ -40,7 +41,7 @@ function CafeDetail() {
 
     const pageLoad = () => {
 
-        axios.get(`http://localhost:8080/api/cafe/${cafeId}`, {
+        axios.get(`${APIURL}/api/cafe/${cafeId}`, {
 
             headers: {
                 'Authorization': token
@@ -91,7 +92,7 @@ function CafeDetail() {
         };
 
         console.log("Sending data to server:", data); // 콘솔에 데이터를 출력하여 확인
-        axios.post(`http://localhost:8080/api/auth/bookmark`, data, {
+        axios.post(`${APIURL}/api/auth/bookmark`, data, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': token

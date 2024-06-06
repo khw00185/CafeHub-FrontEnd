@@ -10,6 +10,7 @@ import axios from 'axios';
 import { useEffect, useState, useMemo } from "react";
 import { useInView } from "react-intersection-observer"
 import Loading from "../../components/loading";
+const APIURL = `https://master.d18slmijdq6uhn.amplifyapp.com/`
 
 
 function CafeList() {
@@ -26,7 +27,7 @@ function CafeList() {
 
 
     const pageLoad = (currentPage) => {        
-        axios.get(`http://localhost:8080/api/cafeList/${type}/${sortedType}/${currentPage}`)
+        axios.get(`${APIURL}/api/cafeList/${type}/${sortedType}/${currentPage}`)
         .then(response => {
             const cafeList = response.data.data.cafeList || [];
             console.log(response)

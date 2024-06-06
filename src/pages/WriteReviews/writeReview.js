@@ -8,6 +8,7 @@ import { ReactComponent as Icon_writeReview } from "../../asset/icon/icon_write.
 import img_writeReview from "../../asset/img/img_wrtiteReview.png"
 import img_star from "../../asset/img/img_star.png"
 import { KakaoLogin } from "../../components/kakaoLogins/kakaoLogin"
+const APIURL = `https://master.d18slmijdq6uhn.amplifyapp.com/`
 
 function WriteReview() {
     const location = useLocation();
@@ -59,7 +60,7 @@ function WriteReview() {
                 }
             }
 
-            axios.post(`http://localhost:8080/api/auth/cafe/${cafeId}/review`, formData, {
+            axios.post(`${APIURL}/api/auth/cafe/${cafeId}/review`, formData, {
                 headers: {
                     'Authorization': token,
                     'Content-Type': 'multipart/form-data'

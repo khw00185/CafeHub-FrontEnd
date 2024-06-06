@@ -4,12 +4,13 @@ import Kakao from "../../asset/img/img_kakaotalk.png"
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
+const APIURL = `https://master.d18slmijdq6uhn.amplifyapp.com/`
 
 function Title({setSelectedId}){
     
     const SocialKakao = ()=> {
         const Rest_api_key='0ee2193a048d38e5d783af58eac76e36' //REST API KEY
-        const redirect_uri = 'http://localhost:3000/OAuthCallback'
+        const redirect_uri = `${APIURL}/OAuthCallback`
         // oauth 요청 URL
         const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`
         const HandleLogin = ()=>{

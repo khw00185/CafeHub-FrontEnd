@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
+const APIURL = `https://master.d18slmijdq6uhn.amplifyapp.com/`
 
 
 
@@ -12,7 +13,7 @@ function Login() {
                 return;
             }
             try {
-                const response = await axios.get('http://localhost:8080/protected-resource', {
+                const response = await axios.get(`${APIURL}/protected-resource`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
