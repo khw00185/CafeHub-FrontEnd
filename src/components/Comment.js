@@ -92,7 +92,7 @@ const GetComment = ({ props, commentRegisterFlag, currentPage, setCurrentPage, p
             headers: {
                 'Authorization': token
             }
-        } : {};
+        } : {}; 
         
         console.log("다시 get 요청!!")
         axios.get(`http://localhost:8080/api/reviews/${props.reviewId}/comments/${currentPage}`, config)

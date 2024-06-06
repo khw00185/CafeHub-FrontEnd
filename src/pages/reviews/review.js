@@ -40,7 +40,7 @@ function Review() {
             headers: {
                 'Authorization': token
             }
-        } : {};
+        } : {}; 
         axios.get(`http://localhost:8080/api/cafe/${cafeId}/reviews/${currentPage}`, config)
             .then(response => {
                 console.log(response)
