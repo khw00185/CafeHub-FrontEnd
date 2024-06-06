@@ -29,7 +29,7 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafePhotoUrl, ca
     const photoUrls = props.photoUrls.map(photo => photo.photoUrl);
 
     //
-    const [reviewLike, setReviewLike] = useState(props.reviewChecked);
+    const [reviewLike, setReviewLike] = useState(props.likeChecked);
     const [reviewLikeCnt, setReviewLikeCnt] = useState(props.likeCnt);
 
     const [initialized, setInitialized] = useState(false);
@@ -111,7 +111,7 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafePhotoUrl, ca
     const deleteReview = () => {
         console.log(props.reviewId, "asd")
         const reviewId = props.reviewId
-        axios.post(`${process.env.REACT_APP_APIURL}/api/authcafe/${reviewId}/delete`)
+        axios.post(`${process.env.REACT_APP_APIURL}/api/auth/cafe/${reviewId}/delete`)
             .then(res => {
                 console.log(res);
                 setPageReLoad(!pageReLoad)

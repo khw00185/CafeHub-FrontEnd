@@ -40,7 +40,7 @@ function MyPage() {
             .then(res => {
                 setUserData(res.data.data)
                 setUserNickname(res.data.data.nickname);
-                setUserProfileImg(res.data.data.profileImg || BasicImg);
+                setUserProfileImg(res.data.data.profileImg ? res.data.data.profileImg : BasicImg);
                 console.log(res)
             })
             .catch(error => {
@@ -63,14 +63,13 @@ function MyPage() {
     }
     const profileUpdate = async () => {
         const formData = new FormData();
-        formData.append("nickname", userNickname);
-        if (userProfileImg instanceof File) {
-            formData.append("profileImg", userProfileImg);
-        }
-        {/*formData.append("nickname", new Blob([JSON.stringify(userNickname)], { type: "application/json" }));
+
+        formData.append("nickname", new Blob([JSON.stringify(userNickname)], { type: "application/json" }));
+
         if (userProfileImg.length > 0) {
             formData.append("profileImg", userProfileImg)
-        }*/}
+        }
+        
         axios.post(`${process.env.REACT_APP_APIURL}/api/auth/mypage`, formData, {
             headers: {
                 'Authorization': token,
