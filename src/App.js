@@ -31,9 +31,9 @@ function App() {
         <Title setSelectedId={setSelectedId} isLogin={isLogin} setIsLogin={setIsLogin}/>
           <Routes>
             <Route path='/' element={<MainPage/>}/>
-            <Route path='/MyPage' element={<MyPage/>}/>
+            <Route path='/MyPage' element={<MyPage setSelectedId={setSelectedId}/>}/>
             <Route path='/Bookmark' element={<Bookmark/>} />
-            <Route path='/CafeList' element={<CafeList />}/>
+            <Route path='/CafeList' element={<CafeList/>}/>
             <Route path='/CafeDetail' element={<CafeDetail/>}/>
             <Route path='/Menu' element={<Menu/>}/>
             <Route path='/Review' element={<Review/>}/>
