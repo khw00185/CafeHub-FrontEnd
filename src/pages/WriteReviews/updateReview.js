@@ -26,10 +26,9 @@ function UpdateReview() {
         if (sessionStorage.getItem('accessToken') === null) {
             KakaoLogin();
         }
-        for (let i = 0; i < reviewRating.length; i++) {
-            setClicked[i] = i <= reviewRating.length;
-        }
-    }, []);
+        const updatedClicked = ARRAY.map((_, index) => index < reviewRating);
+        setClicked(updatedClicked);
+    }, [reviewRating]);
 
 
     const handleStarClick = index => {
@@ -77,7 +76,7 @@ function UpdateReview() {
                 reviewContent,
                 reviewRating
             };
-            formData.append("ReviewCreateRequest", new Blob([JSON.stringify(reviewData)], { type: "application/json" }));
+            formData.append("ReviewUpdateRequest", new Blob([JSON.stringify(reviewData)], { type: "application/json" }));
             if (photos.length > 0) {
                 for (let i = 0; i < photos.length; i++) {
                     formData.append("photos", photos[i]);
@@ -113,8 +112,8 @@ function UpdateReview() {
                     <article className={style.cafePhotoWrapper}>
                         <img src={cafePhotoUrl} className={style.cafeImg} />
                         <span className={style.AskReivewText}>"<span style={{ color: "#FF4F4F" }}>{cafeName}</span>"  어떠셨나요?</span>
-
                     </article>
+
                     <article className={style.contentInputContainer}>
                         <article className={style.starWrapper}>
                             {ARRAY.map((el, idx) => {

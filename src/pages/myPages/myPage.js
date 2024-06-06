@@ -25,7 +25,7 @@ function MyPage() {
     const [userData, setUserData] = useState();
     const navigate = useNavigate();
     const token = sessionStorage.getItem('accessToken')
-    const [userNickname, setUserNickname] = useState(userData.nickname);
+    const [userNickname, setUserNickname] = useState(userData.nickname || null);
     const [userProfileImg, setUserProfileImg] = useState(BasicImg);
     const [change, setChange] = useState(false);
     useEffect(() => {

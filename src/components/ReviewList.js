@@ -13,7 +13,7 @@ import ReactModal from "react-modal";
 import { KakaoLogin } from "./kakaoLogins/kakaoLogin";
 import ModalComponent from "./modalComponent";
 
-function ReviewList({ props, pageReLoad, setPageReLoad, cafeName, cafeId, cafePhotoUrl}) {
+function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafePhotoUrl, cafeName}) {
     console.log(props)
     //리뷰가 3줄이 넘어가면 더보기 띄우기
     const navigate = useNavigate();
@@ -46,7 +46,7 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeName, cafeId, cafePh
             };
 
             console.log("Sending data to server:", data);
-            axios.post(`${process.env.APIURL}/api/auth/cafe/${reviewId}/like`, data, {headers: {
+            axios.post(`${process.env.REACT_APP_APIURL}/api/auth/cafe/${reviewId}/like`, data, {headers: {
                 'Authorization': token,
             }})
                 .then(res => {
@@ -101,7 +101,7 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeName, cafeId, cafePh
     const deleteReview = () => {
         console.log(props.reviewId, "asd")
         const reviewId = props.reviewId
-        axios.post(`${process.env.APIURL}/api/authcafe/${reviewId}/delete`)
+        axios.post(`${process.env.REACT_APP_APIURL}/api/authcafe/${reviewId}/delete`)
         .then(res => {
             console.log(res);
             setPageReLoad(!pageReLoad)
