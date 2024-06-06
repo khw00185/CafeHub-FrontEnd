@@ -11,8 +11,10 @@ import { KakaoLogin } from "../../components/kakaoLogins/kakaoLogin"
 
 function WriteReview() {
     const location = useLocation();
-    const cafeId = location.state?.cafeId;
-    const cafeData = location.state?.cafeData;
+    const { cafeId, cafePhotoUrl, cafeName } = location.state || {};
+
+    const defaultCafePhotoUrl = 'defaultCafePhotoUrl';
+    const defaultCafeName = 'defaultCafeName';
 
     const ARRAY = [0, 1, 2, 3, 4];
     const [clicked, setClicked] = useState([false, false, false, false, false]);
@@ -113,9 +115,9 @@ function WriteReview() {
                 <main className={`${styled.main_container} ${style.mainWrapper}`}>
                     <Top />
                     <article className={style.cafePhotoWrapper}>
-                        <img src={cafeData.cafePhotoUrl} className={style.cafeImg} />
+                        <img src={cafePhotoUrl ? cafePhotoUrl : defaultCafePhotoUrl} className={style.cafeImg} />
                         <span className={style.AskReivewText}>
-                            <p style={{ color: "#FF4F4F", fontWeight:"700" }}>"{cafeData.cafeName}"</p>
+                            <p style={{ color: "#FF4F4F", fontWeight:"700" }}>"{cafeName ? cafeName : defaultCafeName}"</p>
                             <p style={{marginLeft: "0px"}}>어떠셨나요?</p>
                         </span>
 
@@ -149,7 +151,7 @@ function WriteReview() {
                                     ))}
                                 </div>
                             }
-                            <label for="file">
+                            <label htmlFor="file">
                                 <div class={style.imageUploadBtn}>+</div>
                             </label>
                             <input

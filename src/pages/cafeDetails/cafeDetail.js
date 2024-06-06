@@ -5,7 +5,6 @@ import { ReactComponent as Icon_clock } from "../../asset/icon/icon_clock.svg"
 import { ReactComponent as Icon_call } from "../../asset/icon/icon_call.svg"
 import { ReactComponent as Icon_like } from "../../asset/icon/icon_like.svg"
 import { ReactComponent as Icon_go } from "../../asset/icon/icon_go.svg"
-import { ReactComponent as Icon_comment } from "../../asset/icon/icon_comment.svg"
 import img_star from "../../asset/img/img_star.png"
 import { useEffect, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
@@ -13,9 +12,7 @@ import WriteReview from '../../asset/icon/icon_nicknameAlt.png';
 import axios from "axios"
 import Rating from "../../components/Rating"
 import ReviewList from "../../components/ReviewList"
-import Loading from "../../components/loading"
 import ModalComponent from "../../components/modalComponent"
-const APIURL = `https://master.d18slmijdq6uhn.amplifyapp.com/`
 
 
 function CafeDetail() {

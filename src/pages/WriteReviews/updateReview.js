@@ -16,6 +16,9 @@ function UpdateReview() {
     const navigate = useNavigate();
     const token = sessionStorage.getItem('accessToken')
 
+    const defaultCafePhotoUrl = 'defaultCafePhotoUrl';
+    const defaultCafeName = 'defaultCafeName';
+
 
     const [reviewContent, setReviewContent] = useState(prevreviewContent);
     const [reviewRating, setReviewRating] = useState(prevReviewRating);
@@ -108,8 +111,11 @@ function UpdateReview() {
                 <main className={styled.main_container}>
                     <Top />
                     <article className={style.cafePhotoWrapper}>
-                        <img src={cafePhotoUrl} className={style.cafeImg} />
-                        <span className={style.AskReivewText}><span style={{ color: "#FF4F4F" }}>"{cafeName}"</span>  어떠셨나요?</span>
+                        <img src={cafePhotoUrl ? cafePhotoUrl : defaultCafePhotoUrl} className={style.cafeImg} />
+                        <span className={style.AskReivewText}>
+                            <p style={{ color: "#FF4F4F", fontWeight:"700" }}>"{cafeName ? cafeName : defaultCafeName}"</p>
+                            <p style={{marginLeft: "0px"}}>어떠셨나요?</p>
+                        </span>
                     </article>
 
                     <article className={style.contentInputContainer}>
@@ -141,8 +147,8 @@ function UpdateReview() {
                                     ))}
                                 </div>
                             }
-                            <label for="file">
-                                <div class={style.imageUploadBtn}>+</div>
+                            <label htmlFor="file">
+                                <div className={style.imageUploadBtn}>+</div>
                             </label>
                             <input
                                 type="file"

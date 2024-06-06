@@ -26,7 +26,7 @@ function MyPage() {
     const navigate = useNavigate();
     const token = sessionStorage.getItem('accessToken')
     const [userNickname, setUserNickname] = useState('');
-    const [userProfileImg, setUserProfileImg] = useState(BasicImg);
+    const [userProfileImg, setUserProfileImg] = useState('');
     const [change, setChange] = useState(false);
     useEffect(() => {
         if (sessionStorage.getItem('accessToken') === null) {
