@@ -8,7 +8,7 @@ import { KakaoLogin } from "./kakaoLogins/kakaoLogin";
 
 
 
-function Comment({ props, commentCnt, setCommentCnt, pageReLoad, setPageReLoad }){
+function Comment({ props, commentCnt, setCommentCnt, pageReLoad, setPageReLoad }) {
     console.log(props, "이거 이거이거")
     const [commentRegisterFlag, setCommentRegisterFlag] = useState(false);
     const [currentPage, setCurrentPage] = useState(0);
@@ -17,17 +17,17 @@ function Comment({ props, commentCnt, setCommentCnt, pageReLoad, setPageReLoad }
     return (
         <>
             <CommentInput reviewId={props.reviewId} commentCnt={commentCnt} setCommentCnt={setCommentCnt}
-            commentRegisterFlag={commentRegisterFlag} setCommentRegisterFlag={setCommentRegisterFlag}
-            setCurrentPage={setCurrentPage}/>
+                commentRegisterFlag={commentRegisterFlag} setCommentRegisterFlag={setCommentRegisterFlag}
+                setCurrentPage={setCurrentPage} pageReLoad={pageReLoad} setPageReLoad={setPageReLoad}/>
             {props.commentCnt !== 0 && <GetComment props={props} commentRegisterFlag={commentRegisterFlag} currentPage={currentPage}
-            setCurrentPage={setCurrentPage} pageReLoad={pageReLoad} setPageReLoad={setPageReLoad}/>}
+                setCurrentPage={setCurrentPage} pageReLoad={pageReLoad} setPageReLoad={setPageReLoad} />}
         </>
     )
 }
 
 export default Comment;
 
-const CommentInput = ({ reviewId, commentCnt, setCommentCnt, commentRegisterFlag, setCommentRegisterFlag, setCurrentPage }) => {
+const CommentInput = ({ reviewId, commentCnt, setCommentCnt, commentRegisterFlag, setCommentRegisterFlag, setCurrentPage, pageReLoad, setPageReLoad }) => {
     const [comment, setComment] = useState('');
 
     const handleChange = (event) => {
@@ -46,30 +46,33 @@ const CommentInput = ({ reviewId, commentCnt, setCommentCnt, commentRegisterFlag
             const data = {
                 commentContent: comment
             }
-            axios.post(`${process.env.REACT_APP_APIURL}/api/auth/reviews/${reviewId}/comment`, data, {headers: {
-                'Authorization': token,
-            }})
-            .then(res => {
-                console.log(res);
-                setComment('');
-                setCommentCnt(commentCnt+1);
-                setCommentRegisterFlag(!commentRegisterFlag);
-                setCurrentPage(0)
+            axios.post(`${process.env.REACT_APP_APIURL}/api/auth/reviews/${reviewId}/comment`, data, {
+                headers: {
+                    'Authorization': token,
+                }
             })
-            .catch(error => {
-                console.error('Error updating data: ', error);
-            });
+                .then(res => {
+                    console.log(res);
+                    setComment('');
+                    setCommentCnt(commentCnt + 1);
+                    setCommentRegisterFlag(!commentRegisterFlag);
+                    setCurrentPage(0)
+                    setPageReLoad(!pageReLoad)
+                })
+                .catch(error => {
+                    console.error('Error updating data: ', error);
+                });
         }
     };
 
     return (
-        <div className= {style.commentInputContainer}>
+        <div className={style.commentInputContainer}>
             <input
                 type="text"
                 value={comment}
                 onChange={handleChange}
                 placeholder="댓글 추가..."
-                className= {style.commentInput}
+                className={style.commentInput}
             />
             <button onClick={handleSubmit} className={style.submitButton}>
                 등록
@@ -81,48 +84,48 @@ const CommentInput = ({ reviewId, commentCnt, setCommentCnt, commentRegisterFlag
 const GetComment = ({ props, commentRegisterFlag, currentPage, setCurrentPage, pageReLoad, setPageReLoad }) => {
     console.log(commentRegisterFlag)
 
-    
+
     const [ref, inView] = useInView();
     const [isLast, setIsLast] = useState(false);
     const [dataList, setDataList] = useState([]);
     const token = sessionStorage.getItem('accessToken')
 
-    const pageLoad = (currentPage) => {        
+    const pageLoad = (currentPage) => {
         const config = token ? {
             headers: {
                 'Authorization': token
             }
-        } : {}; 
-        
+        } : {};
+
         console.log("다시 get 요청!!")
         axios.get(`${process.env.REACT_APP_APIURL}/api/reviews/${props.reviewId}/comments/${currentPage}`, config)
-        .then(response => {
-            console.log(response.data.data); // 서버 응답 확인@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            .then(response => {
+                console.log(response.data.data); // 서버 응답 확인@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-            setIsLast(response.data.data.isLast);
-            
-            if (currentPage === 0) {
-                setDataList(response.data.data.comments);
-            } else{
-                setDataList((prevDataList) => [...prevDataList, ...response.data.data.comments]);
-                
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching data: ', error);
-        });
+                setIsLast(response.data.data.isLast);
+
+                if (currentPage === 0) {
+                    setDataList(response.data.data.comments);
+                } else {
+                    setDataList((prevDataList) => [...prevDataList, ...response.data.data.comments]);
+
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching data: ', error);
+            });
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         pageLoad(currentPage);
     }, [currentPage, commentRegisterFlag])
 
 
-    useMemo(()=>{
-        if(inView){
+    useMemo(() => {
+        if (inView) {
             setCurrentPage(prevCurrentPage => prevCurrentPage + 1);
         }
-    },[inView])
+    }, [inView])
 
 
     const loadList = () => {
@@ -130,9 +133,9 @@ const GetComment = ({ props, commentRegisterFlag, currentPage, setCurrentPage, p
             return (
                 <>
                     <ul>
-                        {dataList?.map((data, index) => (<CommentList key={index} data={data} pageReLoad={pageReLoad} setPageReLoad={setPageReLoad}/>))}
+                        {dataList?.map((data, index) => (<CommentList key={index} data={data} pageReLoad={pageReLoad} setPageReLoad={setPageReLoad} />))}
                     </ul>
-                    {isLast ? null : <div ref={ref} className={style.refContainer}><Loading/></div>}
+                    {isLast ? null : <div ref={ref} className={style.refContainer}><Loading /></div>}
                 </>
             );
         } else {
@@ -140,11 +143,11 @@ const GetComment = ({ props, commentRegisterFlag, currentPage, setCurrentPage, p
         }
     };
 
-    return(
+    return (
 
-        <div style={{width: '100%'}}>
-                        {loadList()}
-                    </div>
+        <div style={{ width: '100%' }}>
+            {loadList()}
+        </div>
     )
 
 }
@@ -154,7 +157,7 @@ const GetComment = ({ props, commentRegisterFlag, currentPage, setCurrentPage, p
 const CommentList = ({ data, pageReLoad, setPageReLoad }) => {
     console.log(data)
     const [isDropMenuOpen, setIsDropMenuOpen] = useState(false)
-    
+
     const toggleDropMenu = (e) => {
         e.stopPropagation(); // 이벤트 캡처링 방지
         setIsDropMenuOpen(prevState => !prevState);
@@ -167,7 +170,7 @@ const CommentList = ({ data, pageReLoad, setPageReLoad }) => {
         return (
             <>
                 {data.commentManagement && <span className={style.settingIconWrapper} onClick={toggleDropMenu}>
-                <Icon_setting fill="#828282" /></span>}
+                    <Icon_setting fill="#828282" /></span>}
             </>
         )
     }
@@ -176,35 +179,37 @@ const CommentList = ({ data, pageReLoad, setPageReLoad }) => {
         console.log(data.reviewId, "asd")
         const commentId = data.commentId
         axios.post(`${process.env.REACT_APP_APIURL}/api/auth/reviews/${commentId}/delete`)
-        .then(res => {
-            console.log(res);
-            setPageReLoad(!pageReLoad)
-        })
-        .catch(error => {
-            console.error('Error updating data: ', error);
+            .then(res => {
+                console.log(res);
+                setPageReLoad(!pageReLoad)
+            })
+            .catch(error => {
+                console.error('Error updating data: ', error);
 
-        });
+            });
     }
 
-    return(
+    return (
         <>
             <li className={style.flexLine} onClick={toggleDropMenuDown}>
                 <article className={style.nicknameAndDateWrapper}>
-                    <span className={style.nickname}>{data.nickname}</span>
-                    <span className={style.commentDate}>{data.commentDate}</span>
+                    <div>
+                        <span className={style.nickname}>{data.nickname}</span>
+                        <span className={style.commentDate}>{data.commentDate}</span>
+                    </div>
                     {commentManagementCheck()}
                     {isDropMenuOpen && (
-                    <ul className={style.dropMenuContainer}>
-                        <li className={style.dropMenuWrapper} onClick={deleteReview}>
-                            <span>삭제</span>
-                        </li>
-                    </ul>)}
+                        <ul className={style.dropMenuContainer}>
+                            <li className={style.dropMenuWrapper} onClick={deleteReview}>
+                                <span>삭제</span>
+                            </li>
+                        </ul>)}
                 </article>
-                
+
                 <article className={style.contentWrapper}>
                     <span className={style.content}>{data.commentContent}</span>
                 </article>
-                
+
             </li>
         </>
 
