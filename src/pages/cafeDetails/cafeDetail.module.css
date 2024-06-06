@@ -11,7 +11,8 @@
 .cafeInfoTitleContainer{
     position: absolute;
     top: 135px;
-    left: 52px;
+    left: 50%;
+    transform: translateX(-50%);
     background-color: white;
     width: 325px;
     height: auto;
