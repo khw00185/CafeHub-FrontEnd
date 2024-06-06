@@ -44,15 +44,6 @@ function NavList({props, setSelectedId, isSelected, setModalIsOpen}){
         if(props.id === 2){
             navigate(props.url, {state: {type: "All"}});
         }
-        // else if(props.id === 4 && token){
-        //     navigate(props.url, {state: {token: token}});
-        // }
-        // else if((props.id === 3 || props.id === 4) && !token){
-        //     navigate("/");
-        //     setModalIsOpen(true);
-        //     setSelectedId(1)
-        // }
-        
         else {
             navigate(props.url);
         }

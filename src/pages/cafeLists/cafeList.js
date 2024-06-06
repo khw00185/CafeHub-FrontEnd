@@ -2,6 +2,11 @@ import style from "../../styles/CafeListStyle.module.css"
 import styled from "../../styles/GlobalStyle.module.css"
 import styles from "./cafeList.module.css"
 import img_cafeList_bg from "../../asset/img/img_cafeList.png"
+import img_dateTitle from "../../asset/img/img_dateTitle.png"
+import img_dessertTitle from "../../asset/img/img_dessertTitle.png"
+import img_studyTitle from "../../asset/img/img_studyTitle.png"
+import img_meetingTitle from "../../asset/img/img_meetingTitle.png"
+
 import img_star from "../../asset/img/img_star.png"
 import { ReactComponent as Icon_cafe } from "../../asset/icon/icon_cafe.svg"
 import SortedType from "../../components/sortedType"
@@ -126,10 +131,10 @@ function CafeListList({props}){
 }
 
 const cafeThemeDataList = [
-    {theme: "Date", image:img_cafeList_bg, themeIcon:Icon_cafe, themeText:"데이트 카페 리스트"},
-    {theme: "Dessert", image:img_cafeList_bg, themeIcon:Icon_cafe, themeText:"디저트 카페 리스트"},
-    {theme: "Meet", image:img_cafeList_bg, themeIcon:Icon_cafe, themeText:"회의 카페 리스트"},
-    {theme: "Study", image:img_cafeList_bg, themeIcon:Icon_cafe, themeText:"공부 카페 리스트"},
+    {theme: "Date", image:img_dateTitle, themeIcon:Icon_cafe, themeText:"데이트 카페 리스트"},
+    {theme: "Dessert", image:img_dessertTitle, themeIcon:Icon_cafe, themeText:"디저트 카페 리스트"},
+    {theme: "Meet", image:img_meetingTitle, themeIcon:Icon_cafe, themeText:"회의 카페 리스트"},
+    {theme: "Study", image:img_studyTitle, themeIcon:Icon_cafe, themeText:"공부 카페 리스트"},
     {theme: "All", image:img_cafeList_bg, themeIcon:Icon_cafe, themeText:"전체 카페 리스트"}
 ]
 
