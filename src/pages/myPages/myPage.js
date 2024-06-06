@@ -25,7 +25,7 @@ function MyPage() {
     const [userData, setUserData] = useState();
     const navigate = useNavigate();
     const token = sessionStorage.getItem('accessToken')
-    const [userNickname, setUserNickname] = useState(userData.nickname || null);
+    const [userNickname, setUserNickname] = useState('');
     const [userProfileImg, setUserProfileImg] = useState(BasicImg);
     const [change, setChange] = useState(false);
     useEffect(() => {
@@ -90,7 +90,8 @@ function MyPage() {
         setUserNickname(event.target.value);
     };
     const profileImgUpdate = (event) => {
-        setUserProfileImg(event.target.file);
+        const file = event.target.files[0];
+        setUserProfileImg(file);
         profileUpdate();
     }
     const userNicknameUpdate = () => {
@@ -115,7 +116,7 @@ function MyPage() {
                         </article>
 
                         <article className={style.photoArti}>
-                            <img src={userProfileImg} className={style.photo}></img>
+                            <img src={userProfileImg instanceof File ? URL.createObjectURL(userProfileImg) : userProfileImg} className={style.photo}></img>
                             <label for="file" className={style.photoAltWrapper}>
                                 <Icon_camera className={style.photoAlt} />
                             </label>
@@ -135,7 +136,7 @@ function MyPage() {
                                     <Icon_nickname className={style.nicknameIcon} />
                                     <input type="text" value={userNickname} className={style.nickText} onChange={handleChange}></input>
                                 </div>
-                                <img src={NicknameArti} className={style.nicknameArtiIcon} onClick={userNickname.length > 1 ? userNicknameUpdate : {}} />
+                                <img src={NicknameArti} className={style.nicknameArtiIcon} onClick={userNickname.length > 1 ? userNicknameUpdate : undefined} />
                             </article>
 
                             <article className={style.emailArti}>

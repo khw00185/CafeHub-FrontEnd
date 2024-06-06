@@ -9,7 +9,7 @@ function Title({setSelectedId}){
     
     const SocialKakao = ()=> {
         const Rest_api_key= process.env.REACT_APP_Rest_api_key
-        const redirect_uri = `${process.env.REACT_APP_APIURL}/OAuthCallback`
+        const redirect_uri = `http://13.209.177.1:3000/OAuthCallback`
         // oauth 요청 URL
         const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`
         const HandleLogin = ()=>{
