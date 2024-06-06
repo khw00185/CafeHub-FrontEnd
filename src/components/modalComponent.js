@@ -19,7 +19,7 @@ function ModalComponent({modalIsOpen, setModalIsOpen}) {
                     <span className={style.cafeHub}>CafeHub</span>
                     <span className={style.modalContent}>로그인 후 이용 가능한</span>
                     <span className={style.modalContent}>서비스 입니다.</span>
-                    <button className={style.modalLoginBtn} onClick={KakaoLogin}>로그인</button>
+                    <button className={style.modalLoginBtn} onClick={() => { setModalIsOpen(false); KakaoLogin(); }}>로그인</button>
                     <button className={style.modalBtn} onClick={() => setModalIsOpen(false)}>닫기</button>
                 </div>
         </ReactModal>
