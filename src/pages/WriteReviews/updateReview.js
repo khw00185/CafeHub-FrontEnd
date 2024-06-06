@@ -1,92 +1,173 @@
 import styled from "../../styles/GlobalStyle.module.css"
 import style from "./writeReview.module.css"
-import React, { useState } from 'react'
-import Select from 'react-select'
+import React, { useState, useRef, useEffect } from 'react'
 import axios from "axios"
-import { useLocation } from "react-router-dom"
-import Rating from "../../components/Rating"
+import { useLocation, useNavigate } from "react-router-dom"
+import { ReactComponent as Icon_writeReview } from "../../asset/icon/icon_write.svg"
+import img_writeReview from "../../asset/img/img_wrtiteReview.png"
+import img_star from "../../asset/img/img_star.png"
+import { KakaoLogin } from "../../components/kakaoLogins/kakaoLogin"
 
-function UpdateReview(){
+function UpdateReview() {
     const location = useLocation();
-    const { cafeId, prevReviewRating, prevPhotoUrls, prevreviewContent } = location.state || {};
+    const { cafeId, reviewId, prevReviewRating, prevPhotoUrls, prevreviewContent, cafeName} = location.state || {};
+    const ARRAY = [0, 1, 2, 3, 4];
+    const [clicked, setClicked] = useState([false, false, false, false, false]);
+    const navigate = useNavigate();
+    const token = sessionStorage.getItem('accessToken')
 
-    const options = [
-        { value: 1, label: 1 },
-        { value: 2, label: 2 },
-        { value: 3, label: 3 },
-        { value: 4, label: 4 },
-        { value: 5, label: 5 }
-      ]
 
     const [reviewContent, setReviewContent] = useState(prevreviewContent);
     const [reviewRating, setReviewRating] = useState(prevReviewRating);
-    const [photoUrls, setPhotoUrls] = useState(prevPhotoUrls);
+    const [photos, setPhotos] = useState(prevPhotoUrls);
+    const [detailImgs, setDetailImgs] = useState([]);
+
+    useEffect(() => {
+        if (sessionStorage.getItem('accessToken') === null) {
+            KakaoLogin();
+        }
+        for (let i = 0; i < reviewRating.length(); i++) {
+            setClicked[i] = i <= reviewRating.length();
+        }
+    }, []);
 
 
-    const handleSubmit = () => {
-        if (reviewContent.trim() !== '') {
-            console.log('reviewContent submitted:', reviewContent);
-            const formData = new FormData();
-            formData.append('reviewRating', reviewRating);
-            formData.append('reviewContent', reviewContent);
+    const handleStarClick = index => {
+        let clickStates = [...clicked];
+        for (let i = 0; i < 5; i++) {
+            clickStates[i] = i <= index;
+        }
+        setClicked(clickStates);
+        setReviewRating(index + 1);
+    };
 
-            photoUrls.forEach((file) => {
-                formData.append('photoUrls', file);  // Use 'photoUrls' to match the backend parameter name
-            });
+    const handleFileChange = (event) => {
+        setPhotos(event.target.files);
+        const fileArr = event.target.files;
 
-            axios.post(`http://localhost:8080/cafe/${cafeId}/review`, formData)
-            .then(res => {
-                console.log(res);
-                setReviewContent('');
-                setPhotoUrls([]);
-                setReviewRating(null);
-            })
-            .catch(error => {
-                console.error('Error updating data: ', error);
-            });
+        let fileURLs = [];
+
+        let file;
+        let filesLength = fileArr.length > 5 ? 5 : fileArr.length;
+
+        for (let i = 0; i < filesLength; i++) {
+            file = fileArr[i];
+
+            let reader = new FileReader();
+            reader.onload = () => {
+                console.log(reader.result);
+                fileURLs[i] = reader.result;
+                setDetailImgs([...fileURLs]);
+            };
+            reader.readAsDataURL(file);
         }
     };
-    const handleFileChange = (event) => {
-        setPhotoUrls(Array.from(event.target.files));
+
+    const wrapperRef = useRef(null);
+
+    const handleWheel = (event) => {
+        event.preventDefault();
+        wrapperRef.current.scrollLeft += event.deltaY;
     };
+
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        if (reviewContent.trim() !== '') {
+            const formData = new FormData();
+            const reviewData = {
+                reviewContent,
+                reviewRating
+            };
+            formData.append("ReviewCreateRequest", new Blob([JSON.stringify(reviewData)], { type: "application/json" }));
+            if (photos.length > 0) {
+                for (let i = 0; i < photos.length; i++) {
+                    formData.append("photos", photos[i]);
+                }
+            }
+
+            axios.post(`http://localhost:8080/api/auth/cafe/${reviewId}/update`, formData, {
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'multipart/form-data'
+                },
+            })
+                .then(res => {
+                    console.log("write success");
+                    navigate(`/CafeDetail`, { state: { cafeId: cafeId } });
+                })
+                .catch(error => {
+                    console.error('Error updating data: ', error);
+                });
+        }
+    };
+
+    
     const handleChange = (event) => {
         setReviewContent(event.target.value);
     };
+
     return (
-        <> 
+        <>
             <div className={styled.page_wrapper}>
                 <main className={styled.main_container}>
+                    <Top />
+                    <article className={style.cafePhotoWrapper}>
+                        <img src={photos} className={style.cafeImg} />
+                        <span className={style.AskReivewText}>"<span style={{ color: "#FF4F4F" }}>{cafeName}</span>"  어떠셨나요?</span>
 
-                    <form className= {style.contentInputContainer} encType="multipart/form-data">
-                        <Select options={options} 
-                        value={options.find(option => option.value === reviewRating)} 
-                        placeholder="별점..."  
-                        onChange={(selectedOption) => {
-                            setReviewRating(selectedOption.value);
-                        }} />
-                        <Rating rating= {reviewRating} />
-
-                        <input
-                            type="file"
-                            multiple
-                            value={photoUrls}
-                            onChange={handleFileChange}
-                            className={style.fileInput}
-                        />
-                        <input
+                    </article>
+                    <article className={style.contentInputContainer}>
+                        <article className={style.starWrapper}>
+                            {ARRAY.map((el, idx) => {
+                                return (
+                                    <img
+                                        key={idx}
+                                        src={img_star}
+                                        alt="star"
+                                        className={`${style.starSize} ${clicked[el] ? '' : style.grayStar}`}
+                                        onClick={() => handleStarClick(el)}
+                                    />
+                                );
+                            })}
+                        </article>
+                        <textarea
                             type="text"
                             value={reviewContent}
                             onChange={handleChange}
-                            placeholder="리뷰 작성..."
-                            className= {style.contentInput}
+                            placeholder="최소 5자 이상 작성해 주세요."
+                            className={style.contentInput}
                         />
-                        {reviewContent.length > 0 ? <button onClick={handleSubmit} className={style.submitButton} disabled={false}>
+                        <article className={style.imageUploadWrapper} onWheel={handleWheel} ref={wrapperRef}>
+                            {detailImgs?.length > 0 &&
+                                <div className={style.imagePreviewContainer}>
+                                    {detailImgs.map((img, index) => (
+                                        <img key={index} src={img} alt={`Preview ${index}`} className={style.imagePreview} />
+                                    ))}
+                                </div>
+                            }
+                            <label for="file">
+                                <div class={style.imageUploadBtn}>+</div>
+                            </label>
+                            <input
+                                type="file"
+                                id="file"
+                                multiple
+                                onChange={handleFileChange}
+                                className={style.fileInput}
+                                accept="image/jpg,image/png,image/jpeg"
+                            />
+                        </article>
+
+                        <button
+                            type="submit"
+                            className={(!(reviewContent.length > 4) || !reviewRating) ? style.cantsubmitButton : style.submitButton}
+                            disabled={!(reviewContent.length > 4) || !reviewRating}
+                            onClick={handleSubmit}
+                        >
                             등록
-                        </button> : <button onClick={handleSubmit} className={style.submitButton} disabled={true}>
-                            등록
-                        </button>}
-                    </form>
-                    
+                        </button>
+                    </article>
                 </main>
             </div>
         </>
@@ -94,3 +175,15 @@ function UpdateReview(){
 }
 
 export default UpdateReview;
+
+function Top() {
+    return (
+        <article className={style.containerWrapper}>
+            <img src={img_writeReview} className={style.imgBg} />
+            <article className={style.textContainer}>
+                <Icon_writeReview fill="white" className={style.icon} />
+                <span className={style.textOnBg}>전체 리뷰 목록</span>
+            </article>
+        </article>
+    )
+}

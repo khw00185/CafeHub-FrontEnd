@@ -57,7 +57,7 @@ function Review() {
             return (
                 <>
                     <ul>
-                        {dataList?.map((data, index) => (<ReviewList key={index} props={data} pageReLoad={pageReLoad} setPageReLoad={setPageReLoad} cafeId={cafeId}/>))}
+                        {dataList?.map((data, index) => (<ReviewList key={index} props={data} pageReLoad={pageReLoad} setPageReLoad={setPageReLoad} cafeId={cafeId} cafeName={dataList.cafeName}/>))}
                     </ul>
                     {isLast ? null : <div ref={ref} className={style.refContainer}><Loading ref={ref} /></div>}
                 </>
@@ -68,8 +68,11 @@ function Review() {
     };
 
     const moveWriteReview = () => {
-        navigate('/WriteReview', {state: {cafeId : cafeId}})
-    }
+        navigate('/WriteReview', { state: { 
+            cafeId: cafeId, 
+            cafePhotoUrl: dataList.cafePhotoUrl, 
+            cafeName: dataList.cafeName
+        }})    }
 
     return (
         <>
@@ -79,11 +82,11 @@ function Review() {
                     <article className={style.cafeBestReviewContainer}>
                         <div className={style.cafeBestReviewReviewCnt}>
                             <span>리뷰</span>
-                            <span style={{ color: 'red', marginLeft: '3px' }}>30{/*{dataList.cafeReviewCnt}*/}</span>
+                            <span style={{ color: 'red', marginLeft: '3px' }}>{dataList.cafeReviewCnt}</span>
                         </div>
                         <div className={style.cafeBestReviewRatingContainer}>
-                            <span className={style.cafeRatingFontSize}>{/*{dataList.cafeRating}*/}4점</span>
-                            <Rating rating={4} />{/*{dataList.cafeRating}*/}
+                            <span className={style.cafeRatingFontSize}>{dataList.cafeRating}</span>
+                            <Rating rating={dataList.cafeRating} />
                             <div className={style.writeReview} onClick={moveWriteReview}>
                                 <Icon_writeReview className={style.reviewWriteBtn}/>
                                 <span style={{ marginLeft: '2px' }}>리뷰작성</span>

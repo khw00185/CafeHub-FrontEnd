@@ -11,7 +11,7 @@ import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import ReactModal from "react-modal";
 
-function ReviewList({ props, pageReLoad, setPageReLoad, cafeId}) {
+function ReviewList({ props, pageReLoad, setPageReLoad, cafeName, cafeId}) {
     console.log(props)
     //리뷰가 3줄이 넘어가면 더보기 띄우기
     const navigate = useNavigate();
@@ -39,7 +39,7 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId}) {
                 reviewLike: reviewLike
             };
 
-            console.log("Sending data to server:", data); // 콘솔에 데이터를 출력하여 확인
+            console.log("Sending data to server:", data);
             axios.post(`http://localhost:8080/api/auth/cafe/${reviewId}/like`, data)
                 .then(res => {
                     console.log(res);
@@ -59,7 +59,7 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId}) {
         setReviewLikeCnt(!reviewLike ? reviewLikeCnt + 1 : reviewLikeCnt - 1)
     }
     const CheckReviewLike = () => {
-        return (<Icon_like fill={reviewLike ? "#FF4F4F" : "#FFF"} style={{ width: '14px', height: '12px', marginRight: '5px', cursor: 'pointer' }} onClick={changeReviewLikeColor} />)
+        return (<Icon_like fill={reviewLike ? "#FF4F4F" : "#FFF"} stroke={reviewLike ? "#FF4F4F" : "#828282"}style={{ width: '14px', height: '12px', marginRight: '5px', cursor: 'pointer' }} onClick={changeReviewLikeColor} />)
     }
 
     const [commentOpen, setCommentOpen] = useState(false)
@@ -104,9 +104,11 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId}) {
     const updateReview = () => {
         navigate('/updateReview', {state: {
             cafeId : cafeId,
+            reviewId : props.reviewId,
             prevReviewRating : props.reviewRating,
             prevPhotoUrls : photoUrls,
-            prevreviewContent : props.reviewContent
+            prevreviewContent : props.reviewContent,
+            cafeName : cafeName
             }})
     }
 

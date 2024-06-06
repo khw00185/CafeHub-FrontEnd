@@ -6,6 +6,9 @@ import Loading from "./loading";
 import { ReactComponent as Icon_setting } from "../asset/icon/icon_setting.svg"
 
 
+const token = sessionStorage.getItem('accessToken')
+
+
 
 function Comment({ props, commentCnt, setCommentCnt, pageReLoad, setPageReLoad }){
     console.log(props, "이거 이거이거")
@@ -33,14 +36,15 @@ const CommentInput = ({ reviewId, commentCnt, setCommentCnt, commentRegisterFlag
         setComment(event.target.value);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (comment.trim() !== '') {
             console.log('Comment submitted:', comment);
-            // 여기에 댓글 등록 로직을 추가하세요.
             const data = {
                 commentContent: comment
             }
-            axios.post(`http://localhost:8080/api/auth/reviews/${reviewId}/comment`, data)
+            axios.post(`http://localhost:8080/api/auth/reviews/${reviewId}/comment`, data, {headers: {
+                'Authorization': token,
+            }})
             .then(res => {
                 console.log(res);
                 setComment('');
@@ -84,7 +88,7 @@ const GetComment = ({ props, commentRegisterFlag, currentPage, setCurrentPage, p
         .then(response => {
             console.log(response.data.data); // 서버 응답 확인@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-            setIsLast(response.data.dataisLast);
+            setIsLast(response.data.data.isLast);
             
             if (currentPage === 0) {
                 setDataList(response.data.data.comments);

@@ -1,4 +1,4 @@
-import styles from "../../styles/GlobalStyle.module.css"
+import styled from "../../styles/GlobalStyle.module.css"
 import style from "./writeReview.module.css"
 import React, { useState, useRef, useEffect } from 'react'
 import Select from 'react-select'
@@ -37,41 +37,27 @@ function WriteReview() {
 
 
     console.log(cafeName)
-    const options = [
-        { value: 1, label: 1 },
-        { value: 2, label: 2 },
-        { value: 3, label: 3 },
-        { value: 4, label: 4 },
-        { value: 5, label: 5 }
-    ]
 
     const [reviewContent, setReviewContent] = useState('');
     const [reviewRating, setReviewRating] = useState(null);
-    const [photos, setphotos] = useState([]);
+    const [photos, setPhotos] = useState([]);
     const [detailImgs, setDetailImgs] = useState([]);
 
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (reviewContent.trim() !== '') {
-            console.log('reviewContent submitted:', reviewContent);
-            console.log('reviewContent submitted:', reviewRating);
-            console.log('reviewContent submitted:', photos);
-            console.log('reviewContent submitted:', cafeId);
-
-
             const formData = new FormData();
-
-            // JSON 데이터 추가
-            formData.append('reviewRating', JSON.stringify(reviewRating));
-            formData.append('reviewContent', JSON.stringify(reviewContent));
-
-            // 각 파일을 FormData에 추가
-            photos.forEach((file, index) => {
-                formData.append(`reviewPhoto${index}`, file);
-            });
-
-            console.log('reviewContent submitted:', data);
+            const reviewData = {
+                reviewContent,
+                reviewRating
+            };
+            formData.append("ReviewCreateRequest", new Blob([JSON.stringify(reviewData)], { type: "application/json" }));
+            if (photos.length > 0) {
+                for (let i = 0; i < photos.length; i++) {
+                    formData.append("photos", photos[i]);
+                }
+            }
 
             axios.post(`http://localhost:8080/api/auth/cafe/${cafeId}/review`, formData, {
                 headers: {
@@ -80,9 +66,8 @@ function WriteReview() {
                 },
             })
                 .then(res => {
-                    console.log(res);
-                    navigate(`/CafeDetail`, { state: { cafeId: cafeId } })
-
+                    console.log("write success");
+                    navigate(`/CafeDetail`, { state: { cafeId: cafeId } });
                 })
                 .catch(error => {
                     console.error('Error updating data: ', error);
@@ -90,8 +75,9 @@ function WriteReview() {
         }
     };
 
+
     const handleFileChange = (event) => {
-        setphotos(event.target.files);
+        setPhotos(event.target.files);
         const fileArr = event.target.files;
 
         let fileURLs = [];
@@ -114,7 +100,6 @@ function WriteReview() {
 
     const handleChange = (event) => {
         setReviewContent(event.target.value);
-
     };
 
     const wrapperRef = useRef(null);
@@ -125,8 +110,8 @@ function WriteReview() {
     };
     return (
         <>
-            <div className={styles.page_wrapper}>
-                <main className={`${styles.main_container} ${style.mainWrapper}`}>
+            <div className={styled.page_wrapper}>
+                <main className={`${styled.main_container} ${style.mainWrapper}`}>
                     <Top />
                     <article className={style.cafePhotoWrapper}>
                         <img src={cafePhotoUrl} className={style.cafeImg} />
@@ -204,6 +189,3 @@ function Top() {
         </article>
     )
 }
-
-
-
