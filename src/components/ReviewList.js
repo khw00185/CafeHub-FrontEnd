@@ -60,11 +60,10 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeName, cafeId, cafePh
         }
     }, [reviewLikeCnt]);
 
-
-
+    const [loginModalOpen, setLoginModalOpen] = useState(false);
     const changeReviewLikeColor = () => {
         if(!token){
-            return <ModalComponent />
+            return <ModalComponent modalIsOpen= {loginModalOpen} setmodalIsOpen = {setLoginModalOpen}/>
         }
         setReviewLike(!reviewLike);
         setReviewLikeCnt(!reviewLike ? reviewLikeCnt + 1 : reviewLikeCnt - 1)
@@ -79,7 +78,6 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeName, cafeId, cafePh
     const openComment = () => {
         setCommentOpen(!commentOpen);
     }
-
 
     const [isDropMenuOpen, setIsDropMenuOpen] = useState(false)
     const toggleDropMenu = (e) => {
