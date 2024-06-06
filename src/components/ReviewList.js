@@ -35,6 +35,9 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeName, cafeId}) {
     const [commentCnt, setCommentCnt] = useState(props.commentCnt);
 
     useEffect(() => {
+        if (sessionStorage.getItem('accessToken') === null) {
+            KakaoLogin();
+        }
         if (initialized) {
             const reviewId = props.reviewId;
             const data = {
