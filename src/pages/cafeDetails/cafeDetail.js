@@ -77,7 +77,7 @@ function CafeDetail() {
 
         return (
             <div className={style.likeContainer} onClick={changeCafeLikeColor}>
-                <Icon_like fill={cafeLike ? "#FF4F4F" : "#FFF"} className={style.like} stroke={cafeLike ? "#FF4F4F" : "#828282"} />
+                <Icon_like fill={cafeLike ? "#FF4F4F" : "#FFF"} stroke={cafeLike ? "#FF4F4F" : "#828282"} />
             </div>
         )
     }

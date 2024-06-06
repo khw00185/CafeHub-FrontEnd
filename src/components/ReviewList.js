@@ -14,7 +14,7 @@ import { KakaoLogin } from "./kakaoLogins/kakaoLogin";
 import ModalComponent from "./modalComponent";
 
 function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafePhotoUrl, cafeName }) {
-    console.log(props)
+    console.log("리뷰리스트",props)
     //리뷰가 3줄이 넘어가면 더보기 띄우기
     const navigate = useNavigate();
     const token = sessionStorage.getItem('accessToken')
@@ -37,7 +37,6 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafePhotoUrl, ca
     const [commentCnt, setCommentCnt] = useState(props.commentCnt);
 
     useEffect(() => {
-        setReviewLike(props.reviewChecked);
         if (initialized) {
             if (!token) {
                 KakaoLogin();
@@ -76,7 +75,7 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafePhotoUrl, ca
     const CheckReviewLike = () => {
         return (
             <div onClick={changeReviewLikeColor}>
-                <Icon_like fill={reviewLike ? "#FF4F4F" : "#FFF"} stroke={reviewLike ? "#FF4F4F" : "#828282"} className={style.like} onClick={changeReviewLikeColor} />
+                <Icon_like fill={reviewLike ? "#FF4F4F" : "#FFF"} stroke={reviewLike ? "#FF4F4F" : "#828282"}/>
             </div>
         )
     }
@@ -111,7 +110,11 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafePhotoUrl, ca
     const deleteReview = () => {
         console.log(props.reviewId, "asd")
         const reviewId = props.reviewId
-        axios.post(`${process.env.REACT_APP_APIURL}/api/auth/cafe/${reviewId}/delete`)
+        axios.post(`${process.env.REACT_APP_APIURL}/api/auth/cafe/${reviewId}/delete`, {
+            headers: {
+                'Authorization': token,
+            }
+        })
             .then(res => {
                 console.log(res);
                 setPageReLoad(!pageReLoad)
