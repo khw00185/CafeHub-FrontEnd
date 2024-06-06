@@ -36,6 +36,7 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafePhotoUrl, ca
     const [commentCnt, setCommentCnt] = useState(props.commentCnt);
 
     useEffect(() => {
+        setReviewLike(props.reviewChecked);
         if (initialized) {
             if (!token) {
                 KakaoLogin();
