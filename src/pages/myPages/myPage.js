@@ -1,6 +1,5 @@
 import styled from '../../styles/GlobalStyle.module.css';
 import style from "./myPage.module.css"
-import Photo from '../../asset/img/img_photo.png';
 import NicknameArti from '../../asset/icon/icon_nicknameAlt.png';
 import MyReview from '../../asset/icon/icon_myReview.png';
 import MyComment from '../../asset/icon/icon_myComment.png';
@@ -116,7 +115,7 @@ function MyPage() {
                         </article>
 
                         <article className={style.photoArti}>
-                            <img src={userProfileImg instanceof File ? URL.createObjectURL(userProfileImg) : userProfileImg} className={style.photo}></img>
+                            <img src={userProfileImg ? userProfileImg : BasicImg} className={style.photo}></img>
                             <label for="file" className={style.photoAltWrapper}>
                                 <Icon_camera className={style.photoAlt} />
                             </label>
