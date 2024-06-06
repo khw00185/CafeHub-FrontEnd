@@ -17,7 +17,7 @@ function Menu(){
     const [DESSERT, setDessert] = useState([]);
 
     useEffect(()=>{
-        axios.get(`http://localhost:8080/api/cafe/${cafeId}/menu`)
+        axios.get(`${process.env.REACT_APP_APIURL}/api/cafe/${cafeId}/menu`)
         .then(response => {
             console.log(response)
             setDataList(response.data.data.menuList);
