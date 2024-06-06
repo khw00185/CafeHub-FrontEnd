@@ -157,6 +157,8 @@ const GetComment = ({ props, commentRegisterFlag, currentPage, setCurrentPage, p
 const CommentList = ({ data, pageReLoad, setPageReLoad }) => {
     console.log(data)
     const [isDropMenuOpen, setIsDropMenuOpen] = useState(false)
+    const token = sessionStorage.getItem('accessToken')
+
 
     const toggleDropMenu = (e) => {
         e.stopPropagation(); // 이벤트 캡처링 방지
