@@ -19,7 +19,7 @@ function Comment({ props, commentCnt, setCommentCnt, pageReLoad, setPageReLoad }
             <CommentInput reviewId={props.reviewId} commentCnt={commentCnt} setCommentCnt={setCommentCnt}
                 commentRegisterFlag={commentRegisterFlag} setCommentRegisterFlag={setCommentRegisterFlag}
                 setCurrentPage={setCurrentPage} pageReLoad={pageReLoad} setPageReLoad={setPageReLoad}/>
-            {props.commentCnt !== 0 && <GetComment props={props} commentRegisterFlag={commentRegisterFlag} currentPage={currentPage}
+            {props.commentCnt !== 0 && <GetComment props={props} commentRegisterFlag={commentRegisterFlag} setCommentRegisterFlag={setCommentRegisterFlag} currentPage={currentPage}
                 setCurrentPage={setCurrentPage} pageReLoad={pageReLoad} setPageReLoad={setPageReLoad} />}
         </>
     )
@@ -81,7 +81,7 @@ const CommentInput = ({ reviewId, commentCnt, setCommentCnt, commentRegisterFlag
     )
 }
 
-const GetComment = ({ props, commentRegisterFlag, currentPage, setCurrentPage, pageReLoad, setPageReLoad }) => {
+const GetComment = ({ props,commentRegisterFlag, setCommentRegisterFlag, currentPage, setCurrentPage, pageReLoad, setPageReLoad }) => {
     console.log(commentRegisterFlag)
 
 
@@ -133,7 +133,7 @@ const GetComment = ({ props, commentRegisterFlag, currentPage, setCurrentPage, p
             return (
                 <>
                     <ul>
-                        {dataList?.map((data, index) => (<CommentList key={index} data={data} pageReLoad={pageReLoad} setPageReLoad={setPageReLoad} />))}
+                        {dataList?.map((data, index) => (<CommentList key={index} data={data} pageReLoad={pageReLoad} setPageReLoad={setPageReLoad} commentRegisterFlag={commentRegisterFlag} setCommentRegisterFlag={setCommentRegisterFlag}/>))}
                     </ul>
                     {isLast ? null : <div ref={ref} className={style.refContainer}><Loading /></div>}
                 </>
@@ -154,7 +154,7 @@ const GetComment = ({ props, commentRegisterFlag, currentPage, setCurrentPage, p
 
 
 
-const CommentList = ({ data, pageReLoad, setPageReLoad }) => {
+const CommentList = ({ data, pageReLoad, setPageReLoad, commentRegisterFlag, setCommentRegisterFlag }) => {
     console.log(data)
     const [isDropMenuOpen, setIsDropMenuOpen] = useState(false)
     const token = sessionStorage.getItem('accessToken')
@@ -188,6 +188,7 @@ const CommentList = ({ data, pageReLoad, setPageReLoad }) => {
             .then(res => {
                 console.log(res);
                 setPageReLoad(!pageReLoad)
+                setCommentRegisterFlag(!commentRegisterFlag)
             })
             .catch(error => {
                 console.error('Error updating data: ', error);
