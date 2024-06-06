@@ -13,7 +13,7 @@ import ReactModal from "react-modal";
 import { KakaoLogin } from "./kakaoLogins/kakaoLogin";
 import ModalComponent from "./modalComponent";
 
-function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafePhotoUrl, cafeName }) {
+function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafePhotoUrl, cafeName, displayComment }) {
     console.log("리뷰리스트", props)
     //리뷰가 3줄이 넘어가면 더보기 띄우기
     const navigate = useNavigate();
@@ -27,7 +27,7 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafePhotoUrl, ca
     const reviewContentLines = reviewContent.match(/.{1,27}/g);
     const displayContentLines = showMore ? reviewContentLines : reviewContentLines.slice(0, 3);
     const photoUrls = props.photoUrls.map(photo => photo.photoUrl);
-
+    const displyCommentBtn = displayComment;
     //
     const [reviewLike, setReviewLike] = useState(props.likeChecked);
     const [reviewLikeCnt, setReviewLikeCnt] = useState(props.likeCnt);
@@ -232,14 +232,13 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafePhotoUrl, ca
                     )}
                 </div>
                 <div className={style.reviewCommentLikeContainer} style={{ marginTop: '20px' }}>
-
+                    {displyCommentBtn && 
                     <div style={{ display: 'flex', cursor: 'pointer', color: `${commentBtnColor}` }} onClick={openComment}>
                         <Icon_comment fill={commentBtnColor} style={{ width: '16px', height: '14px' }} />
                         {props.commentCnt === 0 ? (<span className={style.comment} >댓글 달기</span>) :
                             (<span className={style.comment} >댓글 <span style={{ color: `${commentCntColor}` }}>({commentCnt})</span></span>)}
                     </div>
-
-
+                    }
                     <div style={{ display: 'flex' }}>
                         {<CheckReviewLike />}
                         <span>{reviewLikeCnt}</span>
