@@ -58,6 +58,7 @@ function MyPage() {
             }
         })
             .then(res => {
+                sessionStorage.removeItem('accessToken');
                 navigate('/');
             })
             .catch(error => {

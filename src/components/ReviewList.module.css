@@ -84,6 +84,10 @@
     font-weight: 400;
     letter-spacing: -0.6px;
   }
+  .checkReviewLikeWrapper{
+    display: flex;
+    margin-left: auto;
+  }
 
   .comment{
     
@@ -225,3 +229,4 @@ hr{
   cursor: pointer;
 
 }
+

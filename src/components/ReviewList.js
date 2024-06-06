@@ -185,7 +185,7 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafePhotoUrl, ca
                 <div className={style.authorNameDate}>
                     <div className={style.authorNameDateWrapper}>
                         <span className={style.authorName}>{props.author}</span>
-                        <span className={style.authorDate}>{props.reviewCreateDate}</span>
+                        <span className={style.authorDate}>{props.reviewCreateAt}</span>
                     </div>
                     {reviewManagementCheck()}
                 </div>
@@ -239,7 +239,7 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafePhotoUrl, ca
                             (<span className={style.comment} >댓글 <span style={{ color: `${commentCntColor}` }}>({commentCnt})</span></span>)}
                     </div>
                     }
-                    <div style={{ display: 'flex' }}>
+                    <div className={style.checkReviewLikeWrapper} style={{ display: 'flex' }}>
                         {<CheckReviewLike />}
                         <span>{reviewLikeCnt}</span>
                     </div>
