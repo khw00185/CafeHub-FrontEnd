@@ -63,8 +63,11 @@ function MyPage() {
     const profileUpdate = async () => {
         const formData = new FormData();
         const reviewData = {
-            userNickname
+            nickname : userNickname
         };
+        console.log(reviewData)
+        console.log(userProfileImg)
+        
         formData.append("nickname", new Blob([JSON.stringify(reviewData)], { type: "application/json" }));
 
         
