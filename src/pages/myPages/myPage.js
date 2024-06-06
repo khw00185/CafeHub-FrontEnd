@@ -68,7 +68,7 @@ function MyPage() {
         };
         formData.append("nickname", new Blob([JSON.stringify(reviewData)], { type: "application/json" }));
 
-        if (userProfileImg) {
+        if (userProfileImg && userProfileImg instanceof File) {
             formData.append("profileImg", userProfileImg)
         }
         
