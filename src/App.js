@@ -28,10 +28,10 @@ function App() {
   return (
     <div className="App">
       
-        <Title setSelectedId={setSelectedId} isLogin={isLogin} setIsLogin={setIsLogin}/>
+        <Title setSelectedId={setSelectedId} isLogin={isLogin}/>
           <Routes>
             <Route path='/' element={<MainPage/>}/>
-            <Route path='/MyPage' element={<MyPage setSelectedId={setSelectedId}/>}/>
+            <Route path='/MyPage' element={<MyPage setSelectedId={setSelectedId} setIsLogin={setIsLogin}/>}/>
             <Route path='/Bookmark' element={<Bookmark/>} />
             <Route path='/CafeList' element={<CafeList/>}/>
             <Route path='/CafeDetail' element={<CafeDetail/>}/>

@@ -60,6 +60,7 @@ function MyPage({setSelectedId}) {
             .then(res => {
                 sessionStorage.removeItem('accessToken');
                 setSelectedId(1);
+                setIsLogin("")
                 navigate('/');
             })
             .catch(error => {

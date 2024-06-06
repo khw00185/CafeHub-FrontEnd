@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
 
-function Title({setSelectedId}){
+function Title({setSelectedId, isLogin }){
     
     const SocialKakao = ()=> {
         const Rest_api_key= process.env.REACT_APP_Rest_api_key
@@ -16,7 +16,7 @@ function Title({setSelectedId}){
             window.location.href = kakaoURL
         }
         const token = sessionStorage.getItem('accessToken')
-        return !token && 
+        return !isLogin && 
         <div className={style.loginBtn} onClick={HandleLogin}>
             <img src={Kakao} className={style.kakao}></img>
             <span className={style.loginText}>로그인</span>
