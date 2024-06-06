@@ -20,7 +20,7 @@ function Menu(){
         axios.get(`http://localhost:8080/api/cafe/${cafeId}/menu`)
         .then(response => {
             console.log(response)
-            setDataList(response.data.menuList);
+            setDataList(response.data.data.menuList);
         })
         .catch(error => {
             console.error('Error fetching data: ', error);

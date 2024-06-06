@@ -26,8 +26,8 @@ function UpdateReview() {
         if (sessionStorage.getItem('accessToken') === null) {
             KakaoLogin();
         }
-        for (let i = 0; i < reviewRating.length(); i++) {
-            setClicked[i] = i <= reviewRating.length();
+        for (let i = 0; i < reviewRating.length; i++) {
+            setClicked[i] = i <= reviewRating.length;
         }
     }, []);
 
@@ -44,7 +44,6 @@ function UpdateReview() {
     const handleFileChange = (event) => {
         setPhotos(event.target.files);
         const fileArr = event.target.files;
-
         let fileURLs = [];
 
         let file;
