@@ -23,7 +23,7 @@ import Login from './pages/loginPages/login';
 function App() {
   const [selectedId, setSelectedId] = useState(1);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [isLogin, setIsLogin] = useState();
+  const [isLogin, setIsLogin] = useState(sessionStorage.getItem('accessToken')? sessionStorage.getItem('accessToken') : {});
 
   return (
     <div className="App">

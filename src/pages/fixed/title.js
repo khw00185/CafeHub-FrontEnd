@@ -16,7 +16,7 @@ function Title({setSelectedId, isLogin }){
             window.location.href = kakaoURL
         }
         const token = sessionStorage.getItem('accessToken')
-        return !isLogin && 
+        return !token && 
         <div className={style.loginBtn} onClick={HandleLogin}>
             <img src={Kakao} className={style.kakao}></img>
             <span className={style.loginText}>로그인</span>
