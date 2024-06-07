@@ -151,7 +151,9 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafePhotoUrl, ca
 
     const images = photoUrls.map((url) => ({
         original: url,
-        thumbnail: url
+        thumbnail: url,
+        originalHeight: 300,
+        originalWidth: 400
     }));
 
     const renderLeftNav = (onClick, disabled) => (
@@ -162,7 +164,7 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafePhotoUrl, ca
             onClick={onClick}
             aria-label="Previous Slide"
         >
-            &#9664; {/* 왼쪽 화살표 아이콘 */}
+            &#9664; 
         </button>
     );
 
@@ -174,7 +176,7 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafePhotoUrl, ca
             onClick={onClick}
             aria-label="Next Slide"
         >
-            &#9654; {/* 오른쪽 화살표 아이콘 */}
+            &#9654; 
         </button>
     );
 
@@ -232,12 +234,12 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafePhotoUrl, ca
                     )}
                 </div>
                 <div className={style.reviewCommentLikeContainer} style={{ marginTop: '20px' }}>
-                    {displyCommentBtn && 
-                    <div style={{ display: 'flex', cursor: 'pointer', color: `${commentBtnColor}` }} onClick={openComment}>
-                        <Icon_comment fill={commentBtnColor} style={{ width: '16px', height: '14px' }} />
-                        {props.commentCnt === 0 ? (<span className={style.comment} >댓글 달기</span>) :
-                            (<span className={style.comment} >댓글 <span style={{ color: `${commentCntColor}` }}>({commentCnt})</span></span>)}
-                    </div>
+                    {displyCommentBtn &&
+                        <div style={{ display: 'flex', cursor: 'pointer', color: `${commentBtnColor}` }} onClick={openComment}>
+                            <Icon_comment fill={commentBtnColor} style={{ width: '16px', height: '14px' }} />
+                            {props.commentCnt === 0 ? (<span className={style.comment} >댓글 달기</span>) :
+                                (<span className={style.comment} >댓글 <span style={{ color: `${commentCntColor}` }}>({commentCnt})</span></span>)}
+                        </div>
                     }
                     <div className={style.checkReviewLikeWrapper} style={{ display: 'flex' }}>
                         {<CheckReviewLike />}

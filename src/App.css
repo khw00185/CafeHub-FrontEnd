@@ -17,7 +17,7 @@ table {border-collapse:collapse;border-spacing:0}
 
 #root, body, html, .App {
   margin: 0 auto;
-  width: 100%;
+  width: 100vw;
 
   max-width: 43rem;
   min-width: 410px;
