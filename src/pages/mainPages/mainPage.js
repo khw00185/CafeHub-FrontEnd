@@ -18,6 +18,8 @@ function MainPage(){
                     </ul>
                 </main>
             </div>
+            {loginModalOpen && <ModalComponent modalIsOpen={loginModalOpen} setModalIsOpen={setLoginModalOpen}></ModalComponent>}
+
         </>
     )
 }
