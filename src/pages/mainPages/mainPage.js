@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 
 function MainPage(){
+
     return (
         <> 
             <div className={styled.page_wrapper}>
@@ -18,7 +19,6 @@ function MainPage(){
                     </ul>
                 </main>
             </div>
-            {loginModalOpen && <ModalComponent modalIsOpen={loginModalOpen} setModalIsOpen={setLoginModalOpen}></ModalComponent>}
 
         </>
     )

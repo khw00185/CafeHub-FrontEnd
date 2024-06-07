@@ -4,6 +4,8 @@ import { ReactComponent as Home } from "../../asset/icon/icon_home.svg"
 import { ReactComponent as CafeData } from "../../asset/icon/icon_cafe.svg"
 import { ReactComponent as Bookmark } from "../../asset/icon/icon_bookmark.svg"
 import { ReactComponent as MyPage } from "../../asset/icon/icon_myPage.svg"
+import { useState } from "react";
+import ModalComponent from "../../components/modalComponent";
 
 
 
@@ -37,6 +39,7 @@ export default NavBar;
 
 function NavList({ props, setSelectedId, isSelected, setModalIsOpen }) {
     const [loginModalOpen, setLoginModalOpen] = useState(false);
+    const token = sessionStorage.getItem('accessToken')
 
     const navigate = useNavigate();
 
