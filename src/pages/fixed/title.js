@@ -9,7 +9,7 @@ function Title({setSelectedId, isLogin }){
     
     const SocialKakao = ()=> {
         const Rest_api_key= process.env.REACT_APP_Rest_api_key
-        const redirect_uri = `http://13.209.177.1:3000/OAuthCallback`
+        const redirect_uri = `http://localhost:3000/OAuthCallback`
         // oauth 요청 URL
         const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`
         const HandleLogin = ()=>{
@@ -22,7 +22,6 @@ function Title({setSelectedId, isLogin }){
             <span className={style.loginText}>로그인</span>
         </div>
     }
-
 
 
     const handleClick = () => {

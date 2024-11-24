@@ -48,24 +48,36 @@ function WriteReview() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (reviewContent.trim() !== '') {
-            const formData = new FormData();
-            const reviewData = {
-                reviewContent,
-                reviewRating
+            let requestData;
+            let config = {
+                headers: {
+                    'Authorization': token,
+                },
             };
-            formData.append("ReviewCreateRequest", new Blob([JSON.stringify(reviewData)], { type: "application/json" }));
+    
             if (photos.length > 0) {
+                // 사진이 있는 경우 FormData 사용
+                const formData = new FormData();
+                const reviewData = {    
+                    reviewContent,
+                    reviewRating
+                };
+                formData.append("ReviewCreateRequest", new Blob([JSON.stringify(reviewData)], { type: "application/json" }));
                 for (let i = 0; i < photos.length; i++) {
                     formData.append("photos", photos[i]);
                 }
+                requestData = formData;
+            } else {
+                // 사진이 없는 경우 JSON 사용
+                requestData = {    
+                    reviewContent,
+                    reviewRating,
+                    photoUrls: []
+                };
+                config.headers['Content-Type'] = 'application/json';
             }
-
-            axios.post(`${process.env.REACT_APP_APIURL}/api/auth/cafe/${cafeId}/review`, formData, {
-                headers: {
-                    'Authorization': token,
-                    'Content-Type': 'multipart/form-data'
-                },
-            })
+    
+            axios.post(`${process.env.REACT_APP_APIURL}/api/auth/cafe/${cafeId}/review`, requestData, config)
                 .then(res => {
                     console.log("write success");
                     navigate(`/CafeDetail`, { state: { cafeId: cafeId } });
