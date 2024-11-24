@@ -33,6 +33,7 @@ function CafeDetail() {
         cafePhone: "",
         cafeOperationHour: "",
         bestMenuList: [],
+        //여기에 gpt요약 내용 들어와야 함.
         bestReviewList: [],
         bookmarkChecked: false
     });
@@ -194,6 +195,12 @@ function CafeDetail() {
                             <span style={{ marginLeft: '2px' }}>리뷰작성</span>
                         </div>
                     </div>
+
+                    <div className={style.chatGPTReviewContainer}>
+                        <span className={style.gptSumm}>리뷰 요약</span>
+
+                    </div>//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
                     <div className={style.reviewHRContainer}><hr className={style.reviewHR} /></div>
                     <ul>
                         {cafeData.bestReviewList.map((data) => (<ReviewList key={data.reviewId} props={data} displayComment={displayComment}/>))}

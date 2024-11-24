@@ -252,7 +252,7 @@ hr{
 }
 
 
-  .reviewPlus{
+.reviewPlus{
     cursor: pointer;
     display: flex;
     margin-left: 335px;
@@ -268,3 +268,10 @@ hr{
     letter-spacing: -0.6px;
   }
   
+  .chatGPTReviewContainer{
+
+
+  }
+  .gptSumm{
+    
+  }
