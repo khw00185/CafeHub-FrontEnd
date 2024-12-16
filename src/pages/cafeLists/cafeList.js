@@ -55,7 +55,6 @@ function CafeList() {
 
     const scrollToTop = () => {
         window.scrollTo(0, 0);
-        console.log('scroll 맨 위로 왜 안돼!!!!')
     }
 
     useMemo(()=>{

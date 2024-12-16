@@ -193,9 +193,10 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafePhotoUrl, ca
                 </div>
                 {isDropMenuOpen && (
                     <ul className={style.dropMenuContainer}>
+                        {cafeId &&
                         <li className={style.dropMenuWrapper} onClick={updateReview}>
                             <span>수정</span>
-                        </li>
+                        </li>}
                         <li className={style.dropMenuWrapper} onClick={deleteReview}>
                             <span>삭제</span>
                         </li>
@@ -234,7 +235,7 @@ function ReviewList({ props, pageReLoad, setPageReLoad, cafeId, cafePhotoUrl, ca
                     )}
                 </div>
                 <div className={style.reviewCommentLikeContainer} style={{ marginTop: '20px' }}>
-                    {displyCommentBtn &&
+                    {displyCommentBtn && cafeId &&
                         <div style={{ display: 'flex', cursor: 'pointer', color: `${commentBtnColor}` }} onClick={openComment}>
                             <Icon_comment fill={commentBtnColor} style={{ width: '16px', height: '14px' }} />
                             {props.commentCnt === 0 ? (<span className={style.comment} >댓글 달기</span>) :

@@ -177,14 +177,27 @@ export default MyPage;
 const myList = [
     { id: 1, src: MyReview, title: "내 리뷰" },
     { id: 2, src: MyComment, title: "내 댓글" },
-    { id: 5, src: GoodBye, title: "회원탈퇴" },
-    { id: 6, src: MyAsk, title: "문의하기" }
+    { id: 3, src: GoodBye, title: "회원탈퇴" },
+    { id: 4, src: MyAsk, title: "문의하기" }
 ]
+
+
 
 function MyPagelist({ props }) {
     console.log(props.src)
+    const navigate = useNavigate();
+
+
+    const handleMyPageList =() =>{
+        if(props.id === 1){
+            navigate('/MyReview');
+        }
+        else if(props.id === 2){
+            navigate('/MyComment');
+        }
+    }
     return (
-        <li className={style.flexLine}>
+        <li className={style.flexLine} onClick={handleMyPageList}>
             <div className={style.imgTitleBox}>
                 <img src={props.src} className={style.img}></img>
                 <span className={style.text}>{props.title}</span>

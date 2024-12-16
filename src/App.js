@@ -16,8 +16,8 @@ import UpdateReview from './pages/WriteReviews/updateReview';
 import ModalComponent from './components/modalComponent';
 import OAuthCallback from './pages/loginPages/OAuthCallback';
 import Login from './pages/loginPages/login';
-
-
+import MyReview from './pages/myPages/myReview';
+import MyComment from './pages/myPages/myComment';
 
 
 function App() {
@@ -41,6 +41,8 @@ function App() {
             <Route path='/UpdateReview' element={<UpdateReview/>}/>
             <Route path='/OAuthCallback' element={<OAuthCallback setIsLogin={setIsLogin}/>}/>
             <Route path='/Login' element={<Login/>}/>
+            <Route path='/MyReview' element={<MyReview/>}/>
+            <Route path='/MyComment' element={<MyComment/>}/>
           </Routes>
           {modalIsOpen && <ModalComponent modalIsOpen ={modalIsOpen} setModalIsOpen={setModalIsOpen}></ModalComponent>}
 
